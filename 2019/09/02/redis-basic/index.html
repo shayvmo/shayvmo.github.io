@@ -1,0 +1,253 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Redis基础入门 | 指尖改变世界</title><meta name="description" content="什么是RedisRedis是远程的，基于内存的，非关系型数据库  Redis 应用场景1、缓存缓存数据 2、队列list 实现队列 3、数据存储  Redis 安装1、服务器环境： Linux &#x2F; Centos  2、Redis 3、预装 gcc tclyum install gcc-c++ 【安装步骤】1、下载 Rediswget http:&#x2F;&#x2F;download.redis.io&#x2F;release"><meta name="keywords" content="Redis"><meta name="author" content="沙屿沫"><meta name="copyright" content="沙屿沫"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Redis基础入门"><meta name="twitter:description" content="什么是RedisRedis是远程的，基于内存的，非关系型数据库  Redis 应用场景1、缓存缓存数据 2、队列list 实现队列 3、数据存储  Redis 安装1、服务器环境： Linux &#x2F; Centos  2、Redis 3、预装 gcc tclyum install gcc-c++ 【安装步骤】1、下载 Rediswget http:&#x2F;&#x2F;download.redis.io&#x2F;release"><meta name="twitter:image" content="http://oss.shayvmo.cn/hexo/redis/redis.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Redis基础入门"><meta property="og:url" content="http://blog.shayvmo.top/2019/09/02/redis-basic/"><meta property="og:site_name" content="指尖改变世界"><meta property="og:description" content="什么是RedisRedis是远程的，基于内存的，非关系型数据库  Redis 应用场景1、缓存缓存数据 2、队列list 实现队列 3、数据存储  Redis 安装1、服务器环境： Linux &#x2F; Centos  2、Redis 3、预装 gcc tclyum install gcc-c++ 【安装步骤】1、下载 Rediswget http:&#x2F;&#x2F;download.redis.io&#x2F;release"><meta property="og:image" content="http://oss.shayvmo.cn/hexo/redis/redis.jpg"><meta property="article:published_time" content="2019-09-02T14:20:12.000Z"><meta property="article:modified_time" content="2020-09-21T10:43:54.321Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://blog.shayvmo.top/2019/09/02/redis-basic/"><link rel="prev" title="Hexo 迁移到另外一台电脑 【亲测】" href="http://blog.shayvmo.top/2019/09/09/migrate/"><link rel="next" title="Centos 配置 PHP memcached 缓存【踩坑】" href="http://blog.shayvmo.top/2019/08/30/memcache/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: 沙屿沫","link":"链接: ","source":"来源: 指尖改变世界","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: {"text":"富強,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善","fontSize":"15px"},
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="http://oss.shayvmo.cn/blog/upload/6d86cdc9b338679bce51a944bc3c716066.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">43</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">34</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是Redis"><span class="toc-number">1.</span> <span class="toc-text">什么是Redis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-应用场景"><span class="toc-number">2.</span> <span class="toc-text">Redis 应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-安装"><span class="toc-number">3.</span> <span class="toc-text">Redis 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-数据类型以及各数据类型的使用场景"><span class="toc-number">4.</span> <span class="toc-text">Redis 数据类型以及各数据类型的使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作-Redis"><span class="toc-number">5.</span> <span class="toc-text">操作 Redis</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(http://oss.shayvmo.cn/hexo/redis/redis.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">指尖改变世界</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Redis基础入门</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2019-09-02 22:20:12"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-09-02</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-09-21 18:43:54"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-09-21</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Redis/">Redis</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2019/09/02/redis-basic/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2019/09/02/redis-basic/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h3 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h3><p>Redis是远程的，基于内存的，非关系型数据库</p>
+<hr>
+<h3 id="Redis-应用场景"><a href="#Redis-应用场景" class="headerlink" title="Redis 应用场景"></a>Redis 应用场景</h3><p>1、缓存<br>缓存数据</p>
+<p>2、队列<br>list 实现队列</p>
+<p>3、数据存储</p>
+<hr>
+<h3 id="Redis-安装"><a href="#Redis-安装" class="headerlink" title="Redis 安装"></a>Redis 安装</h3><p>1、服务器环境： Linux / Centos </p>
+<p>2、Redis</p>
+<p>3、预装 gcc tcl<br><code>yum install gcc-c++</code></p>
+<p>【安装步骤】<br>1、下载 Redis<br><code>wget http://download.redis.io/releases/redis-5.0.5.tar.gz</code></p>
+<img src="http://oss.shayvmo.cn/hexo/redis/ff9223e900dd1c663d613e1f671e17f.png" class="" title="下载Redis">
+
+<p>2、解压 Redis<br><code>tar -xf redis-5.0.5.tar.gz</code><br>解压后，进入源码目录，执行 <code>make</code> 命令。<br>安装完后页面：</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/d138e2684b43882f924a5d17fef569e.png" class="" title="安装redis完成">
+
+<p>3、将 <code>src</code> 目录下二进制文件安装到 <code>/usr/local/bin</code> 下。<br>执行命令 <code>sudo make install</code></p>
+<img src="http://oss.shayvmo.cn/hexo/redis/730f11238c5853d6e64bde5a413ec77.png" class="">
+
+<p>4、配置项<br>一般 redis 参考的默认配置文件为解压目录下的 redis.conf ,先把该文件复制到其他目录下，并对其进行配置项修改。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">daemonize no &#x2F;&#x2F;改为yes ,配置redis server 后台进程启动 </span><br><span class="line"></span><br><span class="line">port 6379 &#x2F;&#x2F;默认端口 7200 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5、启动 Redis server</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;bin&#x2F;redis-server &#x2F;opt&#x2F;redis&#x2F;config&#x2F;redis.conf &#x2F;&#x2F;以配置项启动redis-server</span><br><span class="line">ps aux|grep redis-server &#x2F;&#x2F;查看进程是否开启成功</span><br><span class="line">kill -9 XX  &#x2F;&#x2F;杀死进程</span><br></pre></td></tr></table></figure>
+<img src="http://oss.shayvmo.cn/hexo/redis/a9d31d4e367272e802470ab81a35cb1.png" class="" title="启动服务">
+
+<hr>
+<p>Redis 客户端</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#redis-cli --help </span><br><span class="line">redis-cli -h 127.0.0.1 -p 7200</span><br><span class="line"></span><br><span class="line">[root@izwz94ryybsa2lcqvewvzqz redis-5.0.5]# redis-cli -h 127.0.0.1 -p 7200</span><br><span class="line">127.0.0.1:7200&gt; info</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Redis-数据类型以及各数据类型的使用场景"><a href="#Redis-数据类型以及各数据类型的使用场景" class="headerlink" title="Redis 数据类型以及各数据类型的使用场景"></a>Redis 数据类型以及各数据类型的使用场景</h3><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>存储的值</th>
+<th>读写能力</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>String</td>
+<td>字符串、整数或浮点，统称为元素</td>
+<td>对字符串操作<br>对整数类型加减</td>
+</tr>
+<tr>
+<td>List</td>
+<td>序列集合且每个节点包含一个元素</td>
+<td>序列两端推入、或弹出元素<br>修建、查找或移除元素</td>
+</tr>
+<tr>
+<td>Set</td>
+<td>各不相同的元素</td>
+<td>从集合中插入或删除元素</td>
+</tr>
+<tr>
+<td>Hash</td>
+<td>有key-value 的散列组<br>key 是字符串，value 是元素</td>
+<td>按照key 进行增加删除</td>
+</tr>
+<tr>
+<td>Sort Set</td>
+<td>带分数的score-value有序集合<br>score 为浮点，value 是元素</td>
+<td>集合插入，按照分数范围查找</td>
+</tr>
+</tbody></table>
+<p>【String】<br>key | value(string/int/float)</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/4c58fc89b8ed8e31c9a2b1ebe9ac0ce.png" class="" title="string 类型">
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">127.0.0.1:7200&gt; set string1 eric</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:7200&gt; get string1</span><br><span class="line">&quot;eric&quot;</span><br><span class="line">127.0.0.1:7200&gt; set string2 4</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:7200&gt; get string2</span><br><span class="line">&quot;4&quot;</span><br><span class="line">127.0.0.1:7200&gt; incr string2</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:7200&gt; get string2</span><br><span class="line">&quot;5&quot;</span><br><span class="line">127.0.0.1:7200&gt; decr string2</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:7200&gt; decrby string2 2</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+
+
+<p>【List】<br>列表，元素不唯一</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/2d2704b069f92c9f0e89596b271c9ad.png" class="" title="list 类型">
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">lpush list1 12 &#x2F;&#x2F; 12</span><br><span class="line">lpush list1 13 &#x2F;&#x2F; 13 12</span><br><span class="line"></span><br><span class="line">lindex list1 0 &#x2F;&#x2F; 13</span><br><span class="line"></span><br><span class="line">rpop list1 &#x2F;&#x2F;12</span><br><span class="line">#先进先出</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>【Set】<br>集合，元素唯一</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/632cac3d6180e19518df403091d6c89.png" class="" title="set 类型">
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sadd set1 redis</span><br><span class="line">sadd set1 memcached</span><br><span class="line">smembers set1</span><br></pre></td></tr></table></figure>
+
+
+<p>【Hash】<br>哈希</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/befd56703b38b25cc721c3438da93f0.png" class="" title="hash 类型">
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hset key field value # 将哈希表 key 中的字段 field 的值设为 value 。</span><br></pre></td></tr></table></figure>
+
+
+<p>【Sort Set】<br>有序集合</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/7d5febbd51ba8db7848c7bc7fd3b2f1.png" class="" title="sort set 类型">
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ZADD key score1 member1 [score2 member2]  # 向有序集合添加一个或多个成员，或者更新已存在成员的分数</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="操作-Redis"><a href="#操作-Redis" class="headerlink" title="操作 Redis"></a>操作 Redis</h3><p><strong>【服务器安装要求】</strong></p>
+<p>1、Linux 服务器 （这里使用 Centos ）</p>
+<p>2、PHP 5.3 （phpize / php-config ） 以上，具体和下载的 redis 要求版本一致</p>
+<p>3、PHP redis 拓展</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/ed7a32accfa66e6070c2af2d33acfc5.png" class="" title="系统要求">
+
+
+<p>下载php-redis 拓展</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;github.com&#x2F;phpredis&#x2F;phpredis&#x2F;archive&#x2F;develop.zip</span><br></pre></td></tr></table></figure>
+
+<img src="http://oss.shayvmo.cn/hexo/redis/929c8c5d55edc8e56e6a93baba839e5.png" class="" title="安装PHP-redis拓展">
+
+
+<p>make 出现错误</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@izwz94ryybsa2lcqvewvzqz phpredis-develop]# make</span><br><span class="line">&#x2F;bin&#x2F;sh &#x2F;opt&#x2F;phpredis-develop&#x2F;libtool --mode&#x3D;compile cc  -I. -I&#x2F;opt&#x2F;phpredis-develop -DPHP_ATOM_INC -I&#x2F;opt&#x2F;phpredis-develop&#x2F;include -I&#x2F;opt&#x2F;phpredis-develop&#x2F;main -I&#x2F;opt&#x2F;phpredis-develop -I&#x2F;usr&#x2F;include&#x2F;php -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;main -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;TSRM -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;Zend -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext&#x2F;date&#x2F;lib -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext  -DHAVE_CONFIG_H  -g -O2   -c &#x2F;opt&#x2F;phpredis-develop&#x2F;redis.c -o redis.lo</span><br><span class="line">libtool: compile:  cc -I. -I&#x2F;opt&#x2F;phpredis-develop -DPHP_ATOM_INC -I&#x2F;opt&#x2F;phpredis-develop&#x2F;include -I&#x2F;opt&#x2F;phpredis-develop&#x2F;main -I&#x2F;opt&#x2F;phpredis-develop -I&#x2F;usr&#x2F;include&#x2F;php -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;main -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;TSRM -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;Zend -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext&#x2F;date&#x2F;lib -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext -DHAVE_CONFIG_H -g -O2 -c &#x2F;opt&#x2F;phpredis-develop&#x2F;redis.c  -fPIC -DPIC -o .libs&#x2F;redis.o</span><br><span class="line">In file included from &#x2F;opt&#x2F;phpredis-develop&#x2F;redis.c:27:0:</span><br><span class="line">&#x2F;opt&#x2F;phpredis-develop&#x2F;common.h:12:28: fatal error: zend_smart_str.h: No such file or directory</span><br><span class="line"> #include &lt;zend_smart_str.h&gt;</span><br><span class="line">                            ^</span><br><span class="line">compilation terminated.</span><br><span class="line">make: *** [redis.lo] Error 1</span><br></pre></td></tr></table></figure>
+
+<p>make 出现错误，是因为下载的 redis 版本要求的PHP版本 和服务器的版本不一致导致的。最新版的redis，最低要求 PHP7.0 或以上。<br>原先服务器用的是php5.6，于是升级到php 7.1。首先卸载5.6 <code>yum remove php-common</code><br>然后再安装PHP7.1</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install -y php71w-fpm php71w-opcache php71w-cli php71w-gd php71w-imap </span><br><span class="line">php71w-mysqlnd php71w-mbstring php71w-mcrypt php71w-pdo php71w-pecl-apcu php71w-pecl-mongodb </span><br><span class="line">php71w-pecl-redis php71w-pgsql php71w-xml php71w-xmlrpc php71w-devel mod_php71w</span><br></pre></td></tr></table></figure>
+
+<p>make &amp;&amp; make install 成功</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/7f14962bd924225f8e15b90068ec6a3.png" class="" title="make &amp;&amp; make install">
+
+<p>下一步，更改 php.ini 文件，加载 redis.so 模块<br><code>extention=redis.so</code></p>
+<p>使用命令<code>php -m</code> 查看加载的模块，即可看到已经加载 redis</p>
+<hr>
+<p>【PHP 如何连接 redis 】<br>phpredis 文档<br><code>https://github.com/phpredis/phpredis</code></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$redis = <span class="keyword">new</span> \Redis();</span><br><span class="line">$redis-&gt;connect(<span class="string">'127.0.0.1'</span>,<span class="number">7200</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//string 操作，保存json</span></span><br><span class="line">$redis-&gt;delete(<span class="string">"string1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;set(<span class="string">"string1"</span>,<span class="string">"val1"</span>);</span><br><span class="line"></span><br><span class="line">$val = $redis-&gt;get(<span class="string">"string1"</span>);</span><br><span class="line"></span><br><span class="line">var_dump($val);</span><br><span class="line"></span><br><span class="line">$redis-&gt;set(<span class="string">"string1"</span>,<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;incr(<span class="string">"string1"</span>,<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">$val = $redis-&gt;get(<span class="string">"string1"</span>);</span><br><span class="line"></span><br><span class="line">var_dump($val);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//list 实现队列，先进先出，异步行为</span></span><br><span class="line">$redis-&gt;delete(<span class="string">"list1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;lPush(<span class="string">"list1"</span>,<span class="string">"A"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;lPush(<span class="string">"list1"</span>,<span class="string">"B"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;lPush(<span class="string">"list1"</span>,<span class="string">"C"</span>);</span><br><span class="line"></span><br><span class="line">$val = $redis-&gt;rPop(<span class="string">"list1"</span>);</span><br><span class="line"></span><br><span class="line">var_dump($val);<span class="comment">//输出A</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">//set 唯一集合</span></span><br><span class="line">$redis-&gt;delete(<span class="string">"set1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;sAdd(<span class="string">"set1"</span>,<span class="string">"A"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;sAdd(<span class="string">"set1"</span>,<span class="string">"B"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;sAdd(<span class="string">"set1"</span>,<span class="string">"C"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;sAdd(<span class="string">"set1"</span>,<span class="string">"C"</span>);</span><br><span class="line"></span><br><span class="line">$val = $redis-&gt;sCard(<span class="string">"set1"</span>);</span><br><span class="line">var_dump($val);</span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;sMembers(<span class="string">"set1"</span>));</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">//hash 一般用于存储复杂属性</span></span><br><span class="line"></span><br><span class="line">$redis-&gt;delete(<span class="string">"driver1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;hSet(<span class="string">"driver1"</span>,<span class="string">"name"</span>,<span class="string">"shayvmo"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;hSet(<span class="string">"driver1"</span>,<span class="string">"age"</span>,<span class="number">25</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;hSet(<span class="string">"driver1"</span>,<span class="string">"gender"</span>,<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;hGet(<span class="string">"driver1"</span>,<span class="string">"name"</span>);</span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;hMGet(<span class="string">"driver1"</span>,<span class="string">"name"</span>,<span class="string">"age"</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">// sort set 排行榜</span></span><br><span class="line"><span class="comment">// zAdd  zRange 分数低到高  zRevRange 高到低</span></span><br><span class="line"></span><br><span class="line">$redis-&gt;delete(<span class="string">"zset1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;zAdd(<span class="string">"zset1"</span>,<span class="number">100</span>,<span class="string">'shayvmo'</span>);</span><br><span class="line">$redis-&gt;zAdd(<span class="string">"zset1"</span>,<span class="number">88</span>,<span class="string">'shayvmo88'</span>);</span><br><span class="line">$redis-&gt;zAdd(<span class="string">"zset1"</span>,<span class="number">97</span>,<span class="string">'shayvmo97'</span>);</span><br><span class="line">$redis-&gt;zAdd(<span class="string">"zset1"</span>,<span class="number">93</span>,<span class="string">'shayvmo93'</span>);</span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;zRange(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">-1</span>));<span class="comment">//分数低到高全部返回</span></span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;zRevRange(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">-1</span>));<span class="comment">//分数高到低全部返回</span></span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;zRevRange(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="keyword">true</span>));<span class="comment">//分数高到低全部返回，并返回分数</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>【注意事项】<br>运行PHP 文件时，出错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PHP Startup: Unable to load dynamic library &#39;&#x2F;usr&#x2F;lib64&#x2F;php&#x2F;modules&#x2F;redis.so&#39; </span><br><span class="line">- &#x2F;usr&#x2F;lib64&#x2F;php&#x2F;modules&#x2F;redis.so: undefined symbol: php_json_decode_ex in Unknown on line 0</span><br></pre></td></tr></table></figure>
+<p>解决方法： 去掉<code>php.ini</code> 中的 <code>extension=redis.so</code><br>来源链接：<a href="https://stackoverflow.com/questions/41052999/php-warning-unable-to-load-dynamic-library-usr-lib64-php-modules-solr-so-und" title="" target="">链接</a></p>
+<p>【最后更新时间】<br>2019年9月14日16:39:26</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">沙屿沫</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://blog.shayvmo.top/2019/09/02/redis-basic/">http://blog.shayvmo.top/2019/09/02/redis-basic/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://blog.shayvmo.top" target="_blank">指尖改变世界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Redis/">Redis</a></div><div class="post_share"><div class="social-share" data-image="http://oss.shayvmo.cn/hexo/yii.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2019/09/09/migrate/"><img class="prev_cover" src="http://oss.shayvmo.cn/hexo_butterfly/code.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Hexo 迁移到另外一台电脑 【亲测】</div></div></a></div><div class="next-post pull_right"><a href="/2019/08/30/memcache/"><img class="next_cover" src="http://oss.shayvmo.cn/blog/upload/7e3483ec4f7dedd5a30f0e7fee1635b921.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Centos 配置 PHP memcached 缓存【踩坑】</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'nick,mail,link')
+var requiredFields = requestSetting(['nick','mail','link'],'nick,mail')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'DBE28bcIeJQCLItbYBscAejl-gzGzoHsz',
+  appKey: 'JTbRWomnop8NNaTHoySeoLEC',
+  notify: false,
+  verify: false,
+  placeholder: 'Please leave your footprints',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'en',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: false,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" style="background-image: url(http://oss.shayvmo.cn/hexo/redis/redis.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By 沙屿沫</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>粤ICP备18133330号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/ClickShowText.js"></script><script src="/js/search/local-search.js"></script></body></html>

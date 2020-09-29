@@ -1,0 +1,1144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Yii 合集</title>
+      <link href="/2020/09/29/yii-collection/"/>
+      <url>/2020/09/29/yii-collection/</url>
+      
+        <content type="html"><![CDATA[<p>最近更新时间： 2020年9月29日09:47:56</p><p>1、Yii 设置<code>hostInfo</code>生成绝对的url</p><p><a href="https://www.yiichina.com/topic/870" target="_blank" rel="noopener">源链接</a></p><p>Yii 中，可以设置请求地址中的<code>hostInfo</code> 来达到生成绝对的Url</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">Yii::app()-&gt;request-&gt;setHostInfo(<span class="string">'http://127.0.0.1'</span>);</span><br><span class="line"><span class="keyword">echo</span> Yii::$app-&gt;request-&gt;hostInfo;</span><br></pre></td></tr></table></figure><p>同样，也可以在 <code>config</code>目录下，进行配置项的设置</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;components&#39; &#x3D;&gt; [</span><br><span class="line">    &#39;request&#39; &#x3D;&gt; [</span><br><span class="line">        &#39;hostInfo&#39; &#x3D;&gt; &#39;&#39;,</span><br><span class="line">        &#39;baseUrl&#39; &#x3D;&gt; &#39;&#39;,</span><br><span class="line">    ]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><p>2、生成环境开启 <code>SCHEMA CACHE</code>缓存</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 对应 db 配置项</span><br><span class="line">enableSchemaCache&#x3D;true</span><br></pre></td></tr></table></figure><p>在没有开启schema缓存的情况下，Yii框架会在每次查表时，执行以下语句，可能会造成数据库响应变慢，甚至直接拖垮数据库。</p><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    kcu.constraint_name,</span><br><span class="line">    kcu.column_name,</span><br><span class="line">    kcu.referenced_table_name,</span><br><span class="line">    kcu.referenced_column_name</span><br><span class="line"><span class="keyword">FROM</span> information_schema.referential_constraints <span class="keyword">AS</span> rc</span><br><span class="line"><span class="keyword">JOIN</span> information_schema.key_column_usage <span class="keyword">AS</span> kcu <span class="keyword">ON</span></span><br><span class="line">    (</span><br><span class="line">        kcu.constraint_catalog = rc.constraint_catalog <span class="keyword">OR</span></span><br><span class="line">        (kcu.constraint_catalog <span class="keyword">IS</span> <span class="literal">NULL</span> <span class="keyword">AND</span> rc.constraint_catalog <span class="keyword">IS</span> <span class="literal">NULL</span>)</span><br><span class="line">    ) <span class="keyword">AND</span></span><br><span class="line">    kcu.constraint_schema = rc.constraint_schema <span class="keyword">AND</span></span><br><span class="line">    kcu.constraint_name = rc.constraint_name</span><br><span class="line"><span class="keyword">WHERE</span> rc.constraint_schema = <span class="keyword">database</span>() <span class="keyword">AND</span> kcu.table_schema = <span class="keyword">database</span>()</span><br><span class="line"><span class="keyword">AND</span> rc.table_name = <span class="string">'table1'</span> <span class="keyword">AND</span> kcu.table_name = <span class="string">'table1'</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Yii </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hexo 问题合集</title>
+      <link href="/2020/09/29/hexo-collection/"/>
+      <url>/2020/09/29/hexo-collection/</url>
+      
+        <content type="html"><![CDATA[<p>【最近更新】2020年9月22日09:42:48</p><h3 id="【问题】"><a href="#【问题】" class="headerlink" title="【问题】"></a>【问题】</h3><p>1、hexo: command not found</p><p>解决：重新全局安装 <code>hexo-cli</code> ，执行命令 <code>npm install hexo-cli -g</code></p><p>2、node 配置国内源</p><p>解决：执行命令 <code>npm config set registry http://registry.npm.taobao.org</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Hexo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>MySQL主从复制部署以及遇到的问题</title>
+      <link href="/2020/09/11/mysql-copy/"/>
+      <url>/2020/09/11/mysql-copy/</url>
+      
+        <content type="html"><![CDATA[<p>MySQL主从复制，就是利用MySQL本身的复制特性实现</p><p>达到互联网常用的数据库配置，如：1主+1从；1主+N从等架构</p><h4 id="一、复制解决的根本问题"><a href="#一、复制解决的根本问题" class="headerlink" title="一、复制解决的根本问题"></a>一、复制解决的根本问题</h4><p>让一台服务器的数据与其他服务器保持同步。</p><h4 id="二、支持两种复制方式"><a href="#二、支持两种复制方式" class="headerlink" title="二、支持两种复制方式"></a>二、支持两种复制方式</h4><p>基于行的复制（5.1版本引入）</p><p>基于语句的复制（也称为逻辑复制）</p><p>两种方式都是通过主库上记录二进制日志，在备库重放日志的方式来实现异步的数据复制。</p><h4 id="三、复制解决的问题"><a href="#三、复制解决的问题" class="headerlink" title="三、复制解决的问题"></a>三、复制解决的问题</h4><p>1、数据分布</p><p>2、负载均衡</p><p>3、备份</p><p>4、高可用和故障切换</p><p>5、MySQL升级测试</p><h4 id="四、复制如何工作"><a href="#四、复制如何工作" class="headerlink" title="四、复制如何工作"></a>四、复制如何工作</h4><p>复制通常有三个步骤：</p><p>1、在主库上把数据更改记录记录到二进制日志中（这些记录被称为二进制日志事件）</p><p>2、备库将主库上的日志复制到自己的中继日志（relay log）中</p><p>3、备库读取中继日志中的事件，将其重放到备库数据之上</p><h4 id="五、配置复制"><a href="#五、配置复制" class="headerlink" title="五、配置复制"></a>五、配置复制</h4><p>下面列出针对新安装的主库和备库，可以从以下几步进行配置：</p><p>1、在每台服务器创建复制账号</p><p>2、配置主库和备库</p><p>3、通知备库连接到主库并从主库复制数据</p><h5 id="1、创建复制账号"><a href="#1、创建复制账号" class="headerlink" title="1、创建复制账号"></a>1、创建复制账号</h5><p><code>注：主库和备库都执行该操作。</code></p><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">REPLICATION</span> <span class="keyword">SLAVE</span>, <span class="keyword">REPLICATION</span> <span class="keyword">CLIENT</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> username@<span class="string">'192.168.0.%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'password'</span>;</span><br></pre></td></tr></table></figure><h5 id="2、配置主库和备库"><a href="#2、配置主库和备库" class="headerlink" title="2、配置主库和备库"></a>2、配置主库和备库</h5><p>在主库的 <code>my.cnf</code> 的 <code>[mysqld]</code> 增加或修改以下配置：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">log-bin&#x3D;mysql-bin</span><br><span class="line">binlog_format&#x3D;mixed</span><br><span class="line">server_id &#x3D; 1</span><br><span class="line">expire_logs_days &#x3D; 10</span><br></pre></td></tr></table></figure><p>执行 <code>SHOW VARIABLES LIKE &#39;log_bin&#39;;</code> , 可以查看二进制日志是否打开。</p><p>执行 <code>SHOW MASTER STATUS;</code>, 可以看到二进制日志的文件名和位置（这2个值，在备库启动复制时有用到）</p><p>在备库的 <code>my.cnf</code> 的 <code>[mysqld]</code> 增加或修改以下配置：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">log-bin&#x3D;mysql-bin</span><br><span class="line">binlog_format&#x3D;mixed</span><br><span class="line">server_id &#x3D; 2</span><br><span class="line">expire_logs_days &#x3D; 10</span><br></pre></td></tr></table></figure><p><strong><span style="color: red">注：</span></strong> 主库和备库的server_id是唯一标识。</p><h5 id="3、启动复制"><a href="#3、启动复制" class="headerlink" title="3、启动复制"></a>3、启动复制</h5><p>在备库执行以下语句，告诉备库如何连接到主库并重放其二进制日志。</p><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CHANGE</span> <span class="keyword">MASTER</span> <span class="keyword">TO</span> MASTER_HOST = <span class="string">'server_ip or address'</span>,</span><br><span class="line">MASTER_USER = <span class="string">'username'</span>,</span><br><span class="line">MASTER_PASSWORD = <span class="string">'password'</span>,</span><br><span class="line">MASTER_LOG_FILE = <span class="string">'mysql-bin.000001'</span>,</span><br><span class="line">MASTER_LOG_POS = <span class="number">0</span>;</span><br></pre></td></tr></table></figure><p>语句中的 <code>MASTER_LOG_FILE</code> 和 <code>MASTER_LOG_POS</code> 和第二步中，设置好的主库状态一致。（当然也可以设置<code>MASTER_LOG_POS=0</code>, 从头开始）</p><p>执行<code>SHOW SLAVE STATUS;</code>, 查看复制是否正确执行，这里的 <code>Last_Errno</code> 和 <code>Last_Error</code> 会显示发生的错误。</p><p>执行<code>START SLAVE;</code> , 开始复制。如果没有显示错误，我们再用<code>SHOW SLAVE STATUS;</code>进行检查</p><p>此时，<code>Slave_IO_Running</code> 和 <code>Slave_SQL_Running</code> 都已经启动。</p><p>以上，就是实现MySQL复制的一些简单操作。</p><h4 id="六、期间可能会遇到问题"><a href="#六、期间可能会遇到问题" class="headerlink" title="六、期间可能会遇到问题"></a>六、期间可能会遇到问题</h4><p>1、主库添加log-bin-index 参数后，从库报以下错误：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Got fatal error 1236 from master when reading data from binary log: &#39;Could not find first log file name in binary log index file&#39;</span><br><span class="line">Got fatal error 1236 from master when reading data from binary log: &#39;could not find next log&#39;</span><br></pre></td></tr></table></figure><p>解决方式：在备库执行以下语句。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">stop slave;</span><br><span class="line"></span><br><span class="line">reset slave;</span><br><span class="line"></span><br><span class="line">start slave;</span><br></pre></td></tr></table></figure><p>2、错误提示主从使用了相同的server UUID</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Fatal error: The slave I&#x2F;O thread stops because master and slave have equal MySQL server UUIDs; these UUIDs must be different for replication to work.</span><br></pre></td></tr></table></figure><p>导致原因：</p><p>auto.cnf 中的 server-uuid 相同</p><p>该场景发生是因为我使用的是虚拟机直接克隆整机，所以会导致整个问题。</p><p>解决方式：</p><p>停止mysql服务，删除 auto.cnf 文件后，重启mysql服务</p><p>服务器执行</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl stop mysqld.service</span><br><span class="line"></span><br><span class="line">mv &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;auto.cnf &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;auto.cnf.bak</span><br><span class="line"></span><br><span class="line">systemctl start mysqld.service</span><br></pre></td></tr></table></figure><p><strong>其他参考解决</strong></p><p><a href="https://developer.aliyun.com/article/27685" target="_blank" rel="noopener">【MySQL】Got fatal error 1236原因和解决方法</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ubuntu20.04 安装docker</title>
+      <link href="/2020/08/13/ubuntu-docker/"/>
+      <url>/2020/08/13/ubuntu-docker/</url>
+      
+        <content type="html"><![CDATA[<p><code>Ubuntu20.04</code> 安装 <code>docker</code></p><p>来源：<a href="https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/" target="_blank" rel="noopener">清华大学开源软件镜像站</a></p><h3 id="【具体步骤】"><a href="#【具体步骤】" class="headerlink" title="【具体步骤】"></a>【具体步骤】</h3><p><a href="https://docs.docker.com/engine/install/ubuntu/" target="_blank" rel="noopener">docker官方安装指引</a> </p><p>1、之前有安装过 docker ， 先删除(新安装的20.04版本没有安装，其他版本可能会默认安装了)<br><code>sudo apt-get remove docker docker-engine docker.io containerd runc</code></p><p>2、安装依赖<br><code>sudo apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common</code></p><p>3、信任 docker 的 GPG 公钥<br><code>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</code></p><p>4、添加软件仓库</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository \</span><br><span class="line">   "deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu \</span><br><span class="line"><span class="meta">   $</span><span class="bash">(lsb_release -cs) \</span></span><br><span class="line">   stable"</span><br></pre></td></tr></table></figure><p>5、更新并安装软件</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure><h3 id="成功安装后操作"><a href="#成功安装后操作" class="headerlink" title="成功安装后操作"></a>成功安装后操作</h3><p>1、将非root用户加入到 docker 用户，避免使用sudo<br> <code>sudo gpasswd -a $USER docker</code></p><p>2、重启服务并刷新docker组成员</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo service docker restart</span><br><span class="line">newgrp docker</span><br></pre></td></tr></table></figure><p>3、设置开机启动</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl enable docker</span><br><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure><h3 id="安装-docker-compose"><a href="#安装-docker-compose" class="headerlink" title="安装 docker-compose"></a>安装 docker-compose</h3><p>参考官方<a href="https://docs.docker.com/compose/install/" target="_blank" rel="noopener">docker-compose</a></p><h3 id="设置-docker-镜像加速"><a href="#设置-docker-镜像加速" class="headerlink" title="设置 docker 镜像加速"></a>设置 docker 镜像加速</h3><p>参考<a href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors" target="_blank" rel="noopener">阿里云加速</a></p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'</span><br><span class="line">&#123;</span><br><span class="line">  "registry-mirrors": ["https://xxxxx.mirror.aliyuncs.com"]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Ubuntu </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>新安装完 ubuntu 20.04 ， 我做了这些操作!</title>
+      <link href="/2020/08/13/ubuntu-todo/"/>
+      <url>/2020/08/13/ubuntu-todo/</url>
+      
+        <content type="html"><![CDATA[<h4 id="1、更新软件源"><a href="#1、更新软件源" class="headerlink" title="1、更新软件源"></a>1、更新软件源</h4><p>上篇已经说过这个操作，<a href="/2020/08/13/ubuntu-update-source/">飞机直达</a></p><h4 id="2、增加中文输入法"><a href="#2、增加中文输入法" class="headerlink" title="2、增加中文输入法"></a>2、增加中文输入法</h4><p>ubuntu 20.04 看到已经可以在 <code>setting -&gt; region &amp; langague</code> 相应添加中文智能拼音输入法，这里我就没有安装其他输入法</p><h4 id="3、安装-VIM"><a href="#3、安装-VIM" class="headerlink" title="3、安装 VIM"></a>3、安装 VIM</h4><p><code>sudo apt-get install vim</code></p><h4 id="4、安装-docker"><a href="#4、安装-docker" class="headerlink" title="4、安装 docker"></a>4、安装 docker</h4><p>另一篇有介绍，<a href="/2020/08/13/ubuntu-docker/">直达</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Ubuntu </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ubuntu20.04 更新软件源</title>
+      <link href="/2020/08/13/ubuntu-update-source/"/>
+      <url>/2020/08/13/ubuntu-update-source/</url>
+      
+        <content type="html"><![CDATA[<p>众所周知，我们的网络都是有沃尔（wall）的。</p><p>在访问一些国外的网站，软件源等等，速度都会比国内的网站要慢。</p><p>但是我们可以更新软件源，或镜像源达到加速的目的。</p><p>下面，演示一下更新 Ubuntu 20.04 的软件源到清华大学的软件源。</p><h3 id="【具体步骤】"><a href="#【具体步骤】" class="headerlink" title="【具体步骤】"></a>【具体步骤】</h3><h4 id="1、清华大学软件源"><a href="#1、清华大学软件源" class="headerlink" title="1、清华大学软件源"></a>1、清华大学软件源</h4><p><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华软件源</a></p><p>左边栏相应地选择 <code>ubuntu</code> ,这里我们可以看到清华大学已经更新了Ubuntu 软件源到 20.04 版本</p><p><img src="http://oss.shayvmo.cn/hexo/c318ac203217b57251af2d4d5afb1b4.png" alt=""></p><h4 id="2、进入ubuntu-ctrl-alt-t-呼出终端"><a href="#2、进入ubuntu-ctrl-alt-t-呼出终端" class="headerlink" title="2、进入ubuntu,ctrl + alt + t 呼出终端"></a>2、进入<code>ubuntu</code>,<code>ctrl + alt + t</code> 呼出终端</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 备份原先的官方源</span></span><br><span class="line">cp /etc/apt/sources.list /etc/apt/sources.list.backup</span><br></pre></td></tr></table></figure><p>把上图中的源列表, 覆盖到 <code>/etc/apt/sources.list</code> </p><p>执行更新源命令 <code>apt-get update</code> 即可。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Ubuntu </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>PHP7 新特性与变更</title>
+      <link href="/2020/06/12/php7/"/>
+      <url>/2020/06/12/php7/</url>
+      
+        <content type="html"><![CDATA[<p>官方文档： <a href="https://www.php.net/manual/zh/migration70.php" target="_blank" rel="noopener">从PHP 5.6.x 移植到 PHP 7.0.x</a></p><p><code>PHP</code>官方文档上面说到, <code>PHP7</code> 相对于 <code>PHP5.6</code> 来说，是一个大版本的改变。</p><p>现在我们整理一下可能会影响到日常开发的点（注：实际变更涉及到的点不仅限于下述几点）。</p><h3 id="【不向后兼容变更】"><a href="#【不向后兼容变更】" class="headerlink" title="【不向后兼容变更】"></a>【不向后兼容变更】</h3><h4 id="异常处理和错误的更改"><a href="#异常处理和错误的更改" class="headerlink" title="异常处理和错误的更改"></a>异常处理和错误的更改</h4><p>在<code>PHP 7</code>中，很多致命错误以及可恢复的致命错误，都被转换为异常来处理了。 这些异常继承自<code>Error</code>类，此类实现了<code>Throwable</code>接口 （所有异常都实现了这个基础接口）。</p><p>这也意味着，当发生错误的时候，以前代码中的一些错误处理的代码将无法被触发。 因为在<code>PHP 7</code>版本中，已经使用抛出异常的错误处理机制了。 （如果代码中没有捕获<code>Error</code>异常，那么会引发致命错误）。</p><h4 id="关于间接使用变量、属性和方法的变化"><a href="#关于间接使用变量、属性和方法的变化" class="headerlink" title="关于间接使用变量、属性和方法的变化"></a>关于间接使用变量、属性和方法的变化</h4><p>对变量、属性和方法的间接调用现在将<strong><code>严格遵循从左到右的顺序</code></strong>来解析</p><p>使用了旧的从右到左的解析顺序的代码必须被重写，明确的使用<strong><code>大括号</code></strong>来表明顺序（参见示例 <code>PHP5</code> 的写法）。 这样使得代码既保持了与PHP 7.x的前向兼容性，又保持了与PHP 5.x的后向兼容性。</p><p>示例：</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$a = <span class="string">'b'</span>;</span><br><span class="line"></span><br><span class="line">$b = [</span><br><span class="line">    <span class="string">'a'</span>=&gt;[</span><br><span class="line">        <span class="string">'aa'</span>=&gt;<span class="string">'a'</span>,</span><br><span class="line">    ],</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $$b[<span class="string">'a'</span>][<span class="string">'aa'</span>]; <span class="comment"># echo b in php 5</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $$b[<span class="string">'a'</span>][<span class="string">'aa'</span>]; <span class="comment"># php7 中则会解析成 ($$b)['a']['aa']，如果要想达到php5中的输出结果，则需要加上大括号   $&#123;$b['a']['aa']&#125;</span></span><br></pre></td></tr></table></figure><h4 id="list-处理方式变动"><a href="#list-处理方式变动" class="headerlink" title="list() 处理方式变动"></a>list() 处理方式变动</h4><h4 id="foreach-变化"><a href="#foreach-变化" class="headerlink" title="foreach 变化"></a>foreach 变化</h4><p>(1) foreach 不再改变内部数组指针</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$array = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">foreach</span> ($array <span class="keyword">as</span> &amp;$val) &#123;</span><br><span class="line">    var_dump(current($array));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># in php 5</span></span><br><span class="line">int(<span class="number">1</span>)</span><br><span class="line">int(<span class="number">2</span>)</span><br><span class="line">bool(<span class="keyword">false</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># in php 7</span></span><br><span class="line">int(<span class="number">0</span>)</span><br><span class="line">int(<span class="number">0</span>)</span><br><span class="line">int(<span class="number">0</span>)</span><br></pre></td></tr></table></figure><p>(2) 通过值遍历时，操作的值为数组的副本</p><p>(3) 通过引用遍历时，有更好的迭代特性</p><h4 id="HTTP-RAW-POST-DATA-被移除"><a href="#HTTP-RAW-POST-DATA-被移除" class="headerlink" title="$HTTP_RAW_POST_DATA 被移除"></a>$HTTP_RAW_POST_DATA 被移除</h4><p>不再提供<code>$HTTP_RAW_POST_DATA</code>变量。 请使用<code>php://input</code>作为替代。</p><h3 id="【新特性】"><a href="#【新特性】" class="headerlink" title="【新特性】"></a>【新特性】</h3><h4 id="标量类型声明"><a href="#标量类型声明" class="headerlink" title="标量类型声明"></a>标量类型声明</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sumOfInts</span><span class="params">(int ...$ints)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> array_sum($ints);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 输出 int(9)</span></span><br><span class="line">var_dump(sumOfInts(<span class="number">2</span>, <span class="string">'3'</span>, <span class="number">4.1</span>));</span><br></pre></td></tr></table></figure><h4 id="返回值类型声明"><a href="#返回值类型声明" class="headerlink" title="返回值类型声明"></a>返回值类型声明</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">arraysSum</span><span class="params">(array ...$arrays)</span>: <span class="title">array</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> array_map(<span class="function"><span class="keyword">function</span><span class="params">(array $array)</span>: <span class="title">int</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> array_sum($array);</span><br><span class="line">    &#125;, $arrays);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print_r(arraysSum([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]));</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出一个数组</span></span><br><span class="line"><span class="keyword">Array</span></span><br><span class="line">(</span><br><span class="line">    [<span class="number">0</span>] =&gt; <span class="number">6</span></span><br><span class="line">    [<span class="number">1</span>] =&gt; <span class="number">15</span></span><br><span class="line">    [<span class="number">2</span>] =&gt; <span class="number">24</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure><h4 id="null合并运算符"><a href="#null合并运算符" class="headerlink" title="null合并运算符"></a><code>null</code>合并运算符</h4><p>由于日常使用中存在大量同时使用三元表达式和 isset()的情况， 我们添加了null合并运算符 (??) 这个语法糖。</p><p>如果变量存在且值不为NULL， 它就会返回自身的值，否则返回它的第二个操作数。</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$username = $_GET[<span class="string">'user'</span>] ?? <span class="string">'nobody'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等同于</span></span><br><span class="line">$username = <span class="keyword">isset</span>($_GET[<span class="string">'user'</span>]) ? $_GET[<span class="string">'user'</span>] : <span class="string">'nobody'</span>;</span><br></pre></td></tr></table></figure><p>拓展</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$a = <span class="string">''</span>; <span class="comment">// or 0 or false</span></span><br><span class="line"></span><br><span class="line">$b = $a ?? <span class="string">'a'</span>; <span class="comment">// $b is '' or 0 or false</span></span><br><span class="line"></span><br><span class="line">$c = $a ?: <span class="string">'a'</span>;<span class="comment">// $c is 'a'</span></span><br></pre></td></tr></table></figure><h4 id="太空船操作符（组合比较符）-lt-gt"><a href="#太空船操作符（组合比较符）-lt-gt" class="headerlink" title="太空船操作符（组合比较符） &lt;=&gt;"></a>太空船操作符（组合比较符） <code>&lt;=&gt;</code></h4><p>太空船操作符用于比较两个表达式。当$a小于、等于或大于$b时它分别返回-1、0或1。 比较的原则是沿用 PHP 的常规比较规则进行的。</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 整数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">1</span> &lt;=&gt; <span class="number">1</span>; <span class="comment">// 0</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">1</span> &lt;=&gt; <span class="number">2</span>; <span class="comment">// -1</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">2</span> &lt;=&gt; <span class="number">1</span>; <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 浮点数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">1.5</span> &lt;=&gt; <span class="number">1.5</span>; <span class="comment">// 0</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">1.5</span> &lt;=&gt; <span class="number">2.5</span>; <span class="comment">// -1</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">2.5</span> &lt;=&gt; <span class="number">1.5</span>; <span class="comment">// 1</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 字符串</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"a"</span> &lt;=&gt; <span class="string">"a"</span>; <span class="comment">// 0</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"a"</span> &lt;=&gt; <span class="string">"b"</span>; <span class="comment">// -1</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"b"</span> &lt;=&gt; <span class="string">"a"</span>; <span class="comment">// 1</span></span><br></pre></td></tr></table></figure><h4 id="通过define-定义常量数组"><a href="#通过define-定义常量数组" class="headerlink" title="通过define()定义常量数组"></a>通过<code>define()</code>定义常量数组</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">define(<span class="string">'ANIMALS'</span>, [</span><br><span class="line">    <span class="string">'dog'</span>,</span><br><span class="line">    <span class="string">'cat'</span>,</span><br><span class="line">    <span class="string">'bird'</span></span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ANIMALS[<span class="number">1</span>]; <span class="comment">// 输出 "cat"</span></span><br></pre></td></tr></table></figure><h4 id="匿名类"><a href="#匿名类" class="headerlink" title="匿名类"></a>匿名类</h4><p>现在支持通过new class 来实例化一个匿名类，这可以用来替代一些“用后即焚”的完整类定义。</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Logger</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">log</span><span class="params">(string $msg)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $logger;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getLogger</span><span class="params">()</span>: <span class="title">Logger</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;logger;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setLogger</span><span class="params">(Logger $logger)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">$this</span>-&gt;logger = $logger;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$app = <span class="keyword">new</span> Application;</span><br><span class="line">$app-&gt;setLogger(<span class="keyword">new</span> <span class="class"><span class="keyword">class</span> <span class="keyword">implements</span> <span class="title">Logger</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">log</span><span class="params">(string $msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> $msg;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">var_dump($app-&gt;getLogger());</span><br></pre></td></tr></table></figure><h4 id="整数除法函数intdiv"><a href="#整数除法函数intdiv" class="headerlink" title="整数除法函数intdiv()"></a>整数除法函数<code>intdiv()</code></h4><p>新加的函数 intdiv() 用来进行 整数的除法运算。</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 输出 int(3)</span></span><br><span class="line">var_dump(intdiv(<span class="number">10</span>, <span class="number">3</span>));</span><br></pre></td></tr></table></figure><h3 id="【PHP-7-0-x-弃用的功能】"><a href="#【PHP-7-0-x-弃用的功能】" class="headerlink" title="【PHP 7.0.x 弃用的功能】"></a>【PHP 7.0.x 弃用的功能】</h3><h4 id="password-hash-盐值选项"><a href="#password-hash-盐值选项" class="headerlink" title="password_hash() 盐值选项"></a>password_hash() 盐值选项</h4><p>废弃了 password_hash() 函数中的盐值选项，阻止开发者生成自己的盐值（通常更不安全）。 </p><p>开发者不传该值时，该函数自己会生成密码学安全的盐值。因此再无必要传入自己自定义的盐值。</p><h4 id="变更的函数"><a href="#变更的函数" class="headerlink" title="变更的函数"></a>变更的函数</h4><p><code>debug_zval_dump()</code> 现在打印 “int” 替代 “long”, 打印 “float” 替代 “double”</p><p><code>dirname()</code> 增加了可选的第二个参数, depth, 获取当前目录向上 depth 级父目录的名称。</p><p><code>getrusage()</code> 现在支持 Windows.</p><p><code>mktime()</code> and <code>gmmktime()</code> 函数不再接受 is_dst 参数。</p><p><code>preg_replace()</code> 函数不再支持 “\e” (PREG_REPLACE_EVAL). 应当使用 <code>preg_replace_callback()</code> 替代。</p><p><code>setlocale()</code> 函数不再接受 category 传入字符串。 应当使用 LC_* 常量。</p><p><code>exec()</code>, <code>system()</code> and <code>passthru()</code> 函数对 <code>NULL</code> 增加了保护.</p><p><code>shmop_open()</code> 现在返回一个资源而非一个int， 这个资源可以传给<code>shmop_size()</code>, <code>shmop_write()</code>, <code>shmop_read()</code>, <code>shmop_close()</code> 和 <code>shmop_delete()</code>.</p><p><code>substr()</code> 现在当 start 的值与 string 的长度相同时将返回一个空字符串。</p><p>为了避免内存泄露，<code>xml_set_object()</code> 现在在执行结束时需要手动清除 $parse。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP7 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>composer require 拓展包时，出现内存溢出</title>
+      <link href="/2020/06/05/composer-exhaust/"/>
+      <url>/2020/06/05/composer-exhaust/</url>
+      
+        <content type="html"><![CDATA[<p>Composer 安装包基于 php 来执行，所有当出现内存溢出时，只要调整 php 的内存限制即可。</p><p>想要突破 php 的内存限制，可以通过修改配置文件或在执行 composer 命令时动态修改。</p><p>建议在 composer require 时，临时动态调整 php 的内存限制，命令如下：</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在 composer 命令前添加</span></span><br><span class="line">php -d memory_limit=<span class="number">-1</span> /usr/local/bin/composer <span class="keyword">require</span> [your pakage]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 示例</span></span><br><span class="line">php -d memory_limit=<span class="number">-1</span> /usr/local/bin/composer <span class="keyword">require</span> <span class="string">"overtrue/laravel-filesystem-qiniu"</span> -vvv</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> composer </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>宝塔使用 git + webhooks 实现服务器同步</title>
+      <link href="/2020/06/04/git-webhook/"/>
+      <url>/2020/06/04/git-webhook/</url>
+      
+        <content type="html"><![CDATA[<p>我们在开发项目的时候，push到git服务器后，我们可能还需要同步更新到线上服务器。</p><p>但是这一步骤往往比较麻烦，算是重复工作的一部分了，这时候我们就可以利用 <code>钩子</code> 来实现，自动同步项目代码</p><h3 id="【事先准备】"><a href="#【事先准备】" class="headerlink" title="【事先准备】"></a>【事先准备】</h3><p>1、git仓库，可以是 <a href="https://github.com/" target="_blank" rel="noopener">github</a> ，<a href="https://gitee.com/" target="_blank" rel="noopener">gitee</a>，也可以是自建的 <a href="https://gitea.io/zh-cn/" target="_blank" rel="noopener">gitea</a>, <a href="https://gogs.io/" target="_blank" rel="noopener">gogs</a></p><p>2、安装好 <a href="https://www.bt.cn/" target="_blank" rel="noopener">宝塔</a> 的服务器</p><p>3、安装好 git 的服务器，未安装的可以先安装 <code>yum install git</code></p><p>已安装的，可以通过<code>git --version</code>查看版本</p><p>各个 git 托管仓库的 webhooks 大同小异，以下以 码云gitee 为例，进行流程讲述。</p><h3 id="【流程】"><a href="#【流程】" class="headerlink" title="【流程】"></a>【流程】</h3><h4 id="1、为当前服务器生成公钥"><a href="#1、为当前服务器生成公钥" class="headerlink" title="1、为当前服务器生成公钥"></a>1、为当前服务器生成公钥</h4><p>登录到服务器，输入 <code>ssh-keygen -t ras</code> 命令，一路回车即可。</p><img src="http://oss.shayvmo.cn/hexo/git-webhook/1.png" class=""><img src="http://oss.shayvmo.cn/hexo/git-webhook/2.png" class=""><h4 id="2、添加公钥到码云项目"><a href="#2、添加公钥到码云项目" class="headerlink" title="2、添加公钥到码云项目"></a>2、添加公钥到码云项目</h4><img src="http://oss.shayvmo.cn/hexo/git-webhook/3.png" class=""><h4 id="3、进入服务器，web目录，首次克隆仓库"><a href="#3、进入服务器，web目录，首次克隆仓库" class="headerlink" title="3、进入服务器，web目录，首次克隆仓库"></a>3、进入服务器，web目录，首次克隆仓库</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cd &#x2F;www&#x2F;wwwroot</span><br><span class="line"></span><br><span class="line"># 方法一： 使用ssh </span><br><span class="line">git clone git@gitee.com:shayvmo&#x2F;test-webhook.git</span><br><span class="line"></span><br><span class="line"># 方法二： 使用https</span><br><span class="line">git clone https:&#x2F;&#x2F;gitee.com&#x2F;shayvmo&#x2F;test-webhook.git</span><br><span class="line"></span><br><span class="line"># 使用 https 方法，则开启记录第一次 git pull 输入的账号密码。如果使用https 方法，需要在服务器先 git pull 一次</span><br><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱&quot;</span><br><span class="line">git config --global credential.helper store</span><br><span class="line"></span><br><span class="line"># 查看记录的用户凭证</span><br><span class="line">cat ~&#x2F;.git-credentials</span><br><span class="line"></span><br><span class="line">#显示</span><br><span class="line">https:&#x2F;&#x2F;Username:Password@gitee.com</span><br></pre></td></tr></table></figure><h4 id="4、宝塔添加-webhook"><a href="#4、宝塔添加-webhook" class="headerlink" title="4、宝塔添加 webhook"></a>4、宝塔添加 webhook</h4><img src="http://oss.shayvmo.cn/hexo/git-webhook/4.png" class=""><img src="http://oss.shayvmo.cn/hexo/git-webhook/5.png" class=""><p>需要执行的脚本</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">echo &quot;&quot;</span><br><span class="line">#输出当前时间</span><br><span class="line">date --date&#x3D;&#39;0 days ago&#39; &quot;+%Y-%m-%d %H:%M:%S&quot;</span><br><span class="line">echo &quot;Start&quot;</span><br><span class="line">#判断宝塔WebHook参数是否存在</span><br><span class="line">if [ ! -n &quot;$1&quot; ];</span><br><span class="line">then </span><br><span class="line">          echo &quot;param参数错误&quot;</span><br><span class="line">          echo &quot;End&quot;</span><br><span class="line">          exit</span><br><span class="line">fi</span><br><span class="line">#git项目路径</span><br><span class="line">gitPath&#x3D;&quot;&#x2F;www&#x2F;wwwroot&#x2F;$1&quot;</span><br><span class="line">#git 网址</span><br><span class="line">gitHttp&#x3D;&quot;参照第3步的克隆地址&quot;</span><br><span class="line"> </span><br><span class="line">echo &quot;Web站点路径：$gitPath&quot;</span><br><span class="line"> </span><br><span class="line">#判断项目路径是否存在</span><br><span class="line">if [ -d &quot;$gitPath&quot; ]; then</span><br><span class="line">        cd $gitPath</span><br><span class="line">        #判断是否存在git目录</span><br><span class="line">        if [ ! -d &quot;.git&quot; ]; then</span><br><span class="line">                echo &quot;在该目录下克隆 git&quot;</span><br><span class="line">                git clone $gitHttp gittemp</span><br><span class="line">                mv gittemp&#x2F;.git .</span><br><span class="line">                rm -rf gittemp</span><br><span class="line">        fi</span><br><span class="line">        #拉取最新的项目文件</span><br><span class="line">        git reset --hard origin&#x2F;master</span><br><span class="line">        git pull</span><br><span class="line">        #设置目录权限</span><br><span class="line">        chown -R www:www $gitPath</span><br><span class="line">        echo &quot;End&quot;</span><br><span class="line">        exit</span><br><span class="line">else</span><br><span class="line">        echo &quot;该项目路径不存在&quot;</span><br><span class="line">        echo &quot;End&quot;</span><br><span class="line">        exit</span><br><span class="line">fi</span><br></pre></td></tr></table></figure><h4 id="5、把-webhook-地址添加到码云上"><a href="#5、把-webhook-地址添加到码云上" class="headerlink" title="5、把 webhook 地址添加到码云上"></a>5、把 webhook 地址添加到码云上</h4><img src="http://oss.shayvmo.cn/hexo/git-webhook/6.png" class=""><h3 id="【结尾】"><a href="#【结尾】" class="headerlink" title="【结尾】"></a>【结尾】</h3><p>以上几步就可以利用git + webhook 实现自动部署代码到服务器上，解放生产力。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> webhooks </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>宝塔部署 laravel 项目踩坑</title>
+      <link href="/2020/06/04/bt-laravel/"/>
+      <url>/2020/06/04/bt-laravel/</url>
+      
+        <content type="html"><![CDATA[<p>宝塔部署 <code>laravel</code> 项目，访问出现路由失效 404 </p><p>查看网站配置后，修改相应的伪静态配置文件即可</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">    try_files $uri $uri&#x2F; &#x2F;index.php?$query_string; #开启路由访问，laravel项目改为此条</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><img src="http://oss.shayvmo.cn/hexo/bt-laravel-1.png" class=""><img src="http://oss.shayvmo.cn/hexo/bt-laravel-2.png" class="">]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> Laravel </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>创业维艰</title>
+      <link href="/2020/06/03/2020-6-3/"/>
+      <url>/2020/06/03/2020-6-3/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>It’s amazing how people think 4 years is a long time to succeed in a business but think it’s alright to stay broke at a job for 40 years !</p></blockquote><p><code>-- Art Jonak</code></p><blockquote><p>很惊讶，人们觉得花4年在一个生意事业上成功，是一段非常漫长的时间。<br>却觉得花40年上班打工、让自己贫困一生，是无所谓的。</p></blockquote><p>创业是一种修行，</p><p>也是一种信任。</p><p>过程中，会有质疑，会有不解，会有人离开，会有人淘汰出局。</p><p>没有永远的核心，多的是后起之秀，能力不重要，能力可培养，而人格难造。</p><p>同理，机会常有，而机遇难求！</p><p>谦卑和讯，以诚相待，利他而为，道之所器，方能长久。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 生活 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>2020-6-1 儿童节快乐</title>
+      <link href="/2020/06/01/2020-6-1/"/>
+      <url>/2020/06/01/2020-6-1/</url>
+      
+        <content type="html"><![CDATA[<p>立个Flag，2020年接下来的7个月时间，每天发布每日一句。</p><p>今天的每日一句，刚好是六一儿童节。</p><blockquote><p>Being a kid is a wonderful thing. Second it is over, you start wishing you could have it back again.</p></blockquote><blockquote><p>当孩子是一件好事，一旦童年结束，你就会开始祈祷它能回来。</p></blockquote><p>随着慢慢长大，时间总是觉得走得越来越快。</p><p>小时候，每年都期待着儿童节，因为那天可以吃到很多很多零食，可以和小伙伴一起游玩。</p><p>慢慢长大了，到了中学时期，开始对生日那天有所期待</p><p>再后来，上大学了，离家更远了，也就开始对放假回家的有所期待，对以后的工作生活有所幻想</p><p>现在，出来工作了，开始对回家陪陪父母，陪陪另一半有了期待，期望找到更适合自己的工作，期望去创业尝试一番</p><p>每个阶段有每个阶段的期待，也许每次期待都不尽如人意，但也因为如此造就了自己独特的人生</p><p>珍惜每个阶段的经历，让每个阶段的经历变得更加精彩，共勉！</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 生活 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>python 序列在 for 循环需要注意的点</title>
+      <link href="/2020/05/27/python-list/"/>
+      <url>/2020/05/27/python-list/</url>
+      
+        <content type="html"><![CDATA[<p>复合语句是包含其它语句（语句组）的语句；它们会以某种方式影响或控制所包含其它语句的执行。 通常，复合语句会跨越多行，虽然在某些简单形式下整个复合语句也可能包含于一行之内。</p><p>if, while 和 for 语句用来实现传统的控制流程构造。</p><p>for 语句中执行 list 的 remove 操作时，会有一个很微妙的问题。如下：</p><h3 id="【问题】"><a href="#【问题】" class="headerlink" title="【问题】"></a>【问题】</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#示例1，会打印出 1 2 </span></span><br><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">    a.remove(i)</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> a:</span><br><span class="line">        <span class="keyword">if</span>(i==j):</span><br><span class="line">            print(j) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#示例2，只会打印出 1</span></span><br><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">    a.remove(i)</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> a:</span><br><span class="line">        <span class="keyword">if</span>(i==j):</span><br><span class="line">            print(j)</span><br></pre></td></tr></table></figure><p>上述2个示例中，我们想要达到的预期效果是找出list a 中的重复元素。但是为什么示例1可以打印出2个重复元素，示例2只能打印出1个重复元素呢？</p><h3 id="【分析】"><a href="#【分析】" class="headerlink" title="【分析】"></a>【分析】</h3><p>Python 中 for 语句用于序列或其他可迭代对象中的元素进行迭代。</p><p>当序列在循环中被修改时会有一个微妙的问题（这只可能发生于可变序列例如列表中）。 </p><p>会有一个内部计数器被用来跟踪下一个要使用的项，每次迭代都会使计数器递增，当计数器值达到序列长度时循环就会终止。</p><p>这意味着如果语句体从序列中<strong><u>删除</u></strong>了当前（或之前）的一项，<strong><u>下一项就会被跳过</u></strong>（因为其标号将变成已被处理的当前项的标号）。 </p><p>类似地，如果语句体在序列当前项的前面插入一个新项，当前项会在循环的下一轮中再次被处理。 </p><p>这会导致麻烦的程序错误，通常避免此问题的办法是对整个序列使用切片来创建一个临时副本</p><h3 id="【参考解决】"><a href="#【参考解决】" class="headerlink" title="【参考解决】"></a>【参考解决】</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 对整个序列使用切片创建一个临时副本</span></span><br><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a[:]:</span><br><span class="line">    a.remove(i)</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> a:</span><br><span class="line">        <span class="keyword">if</span>(i==j):</span><br><span class="line">            print(j)</span><br></pre></td></tr></table></figure><p>###【参考】<br><a href="https://docs.python.org/zh-cn/3.7/reference/compound_stmts.html" target="_blank" rel="noopener">Python文档</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>git-flow 在团队中的实践</title>
+      <link href="/2020/05/25/git-flow/"/>
+      <url>/2020/05/25/git-flow/</url>
+      
+        <content type="html"><![CDATA[<p>文档规范在一个高效的团队里面必不可少。工作上，我们也从起初的 SVN 转到了 Git 工具上。</p><p>Git 作为出色的项目版本管理工具，究竟有什么优点，该如何使用？下面我们来一一说明。</p><h3 id="【介绍】"><a href="#【介绍】" class="headerlink" title="【介绍】"></a>【介绍】</h3><p>Git 是一个开源高效的分布式版本管理工具，相比 SVN 集中式工具，最大的特点是，Git 在每个本地都是一个完整的版本库，各自处理版本开发，开发完成后，再推送到远程的主库</p><p>不同的开发人员，再分别拉取各自的更新即可。</p><h3 id="【常用分支】"><a href="#【常用分支】" class="headerlink" title="【常用分支】"></a>【常用分支】</h3><p><strong><code>master</code></strong>: 主分支，也就是产品分支，这个分支保持和线上的代码完全一致。该分支最为稳定功能最为完整的随时可发布的代码</p><p><strong><code>develop</code></strong> : 开发分支，包含所有下一个版本的开发代码，也是团队人员需要保持最新版本的分支，也是功能最新最全的分支</p><p><code>feature/*</code> : 功能分支。基于 develop 分支，每个功能单独建立一个分支，例如：feature/user-add，完成时，合并到 develop 分支，合并完成后，删除或保留分支 </p><p><code>bugfix/*</code> : bug 修复分支，基于 develop 分支的修复不紧急的 bug 。对于一些完成的功能未上线且已经合并到了 develop 分支，此时发现 Bug 则建立相应分支，修复后，合并到 develop ,并删除该分支</p><p><code>hotfix</code> : 基于主分支的热修复分支，线上出现 bug 需要紧急修复时，建立热更新分支，处理完成后，合并到 master 分支和 develop 分支，合并后删除分支</p><p><code>release/*</code> : 版本分支，发布新版本时，基于 develop 分支创建，创建完成后，合并到 master 分支，并在 master 分支打上标签 tag ,完成后，可删除或保留 release 分支</p><h3 id="【分支规范】"><a href="#【分支规范】" class="headerlink" title="【分支规范】"></a>【分支规范】</h3><p><code>feature</code> 功能（特性）分支： 名称应该为能准确表达该功能的英文表述</p><p>例如： <code>feature/user-add</code> 新增用户，<code>feature/user-module</code> 用户模块 等</p><p><code>release</code> 版本预分布分支： 名称应该为该版本主要功能的英文描述，或版本号</p><p>例如： <code>release/user-module</code> 用户模块版本，<code>feature/v1.0.0</code> 1.0.0 版本 </p><p>【 Bug 修复及热修复分支 】</p><p>名称应能描述本次修复的主要功能点<br><code>bugfix/*</code>  <code>hotfix/*</code> </p><p>例如： <code>bugfix/user-add</code> 修复添加用户功能，<code>hotfix/user-edit</code> 线上热修复编辑用户功能 </p><h3 id="【总结】"><a href="#【总结】" class="headerlink" title="【总结】"></a>【总结】</h3><p>日常开发中，需要注意以下几点内容：</p><ul><li><p>所有的新功能开发，bug修复（非紧急）都要从<code>develop</code>分支拉取新的分支进行开发，开发完成自测没有问题再合并到<code>develop</code>分支</p></li><li><p><code>release</code>分支发布到测试环境，由开发人员创建<code>release</code>分支（需要测试人员提出需求）并发布到测试环境，如果测试过程中发现bug，需要开发人员track到该<code>release</code>分支修复bug，上线前需要测试人员提交merge request到 <code>master</code>分支，准备上线，同时需要合并回<code>develop</code>分支。</p></li><li><p>只有紧急情况下才允许从<code>master</code>上拉取<code>hotfix</code>分支， <code>hotfix</code>分支需要最终同时合并到<code>develop</code>和<code>master</code>分支（共两次 merge 操作）</p></li><li><p>原则上除了<code>master</code>和 <code>develop</code> 分支，其它分支在开发完成后都要删除,当然也可以按需保留</p></li></ul><p><strong>【参考来源】</strong></p><p><a href="https://github.com/mylxsw/growing-up" target="_blank" rel="noopener">mylxsw/growing-up</a></p><p><a href="https://www.open-open.com/lib/view/open1451353135339.html" target="_blank" rel="noopener">Git 在团队中的最佳实践–如何正确使用Git Flow</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>导入 vagrant-box 到 vagrant 里面</title>
+      <link href="/2020/05/20/vagrant-box-1/"/>
+      <url>/2020/05/20/vagrant-box-1/</url>
+      
+        <content type="html"><![CDATA[<h3 id="vagrant"><a href="#vagrant" class="headerlink" title="vagrant"></a>vagrant</h3><p>安装好 vagrant ， 下载相应的 vagrant box </p><p>初次导入 box 到全局vagrant ，供创建 vagrant 新容器 时使用</p><p>【步骤】</p><p>1、下载安装 vagrant</p><p><a href="https://www.virtualbox.org/" target="_blank" rel="noopener">https://www.virtualbox.org/</a></p><p>2、下载 vagrant box</p><p>参考： <a href="http://blog.shayvmo.top/2020/05/20/vagrant-box/">http://blog.shayvmo.top/2020/05/20/vagrant-box/</a></p><p>3、将 box 导入到 vagrant </p><p><code>vagrant box add 名称 box路径</code></p><p><code>vagrant box add bbc/centos65 /data/vm/commerce_b2b2c-lnmp-with-prism-0.0.2.box</code></p><p>4、创建新的 vagrant 容器</p><p><code>vagrant init bbc/centos65</code></p><p>启动 vagrant 容器</p><p><code>vagrant up</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vagrant </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vagrant的box哪里下？找不到镜像？教你如何优雅地下载各种box资源</title>
+      <link href="/2020/05/20/vagrant-box/"/>
+      <url>/2020/05/20/vagrant-box/</url>
+      
+        <content type="html"><![CDATA[<p>每当有小伙伴搭建 vagrant 环境的时候，总是苦于 box 镜像怎么下载。（其实我一开始也找不到）</p><p>各种度娘之后，终于找到了一种方式，可以优雅地下载需要的 box 镜像啦</p><p>很感谢开源中国的 <a href="https://my.oschina.net/cxgphper" target="_blank" rel="noopener">cxgphper</a>  提供的方式</p><p>话不多说进入主题</p><h4 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h4><p>1、进入 <a href="https://www.vagrantup.com/" target="_blank" rel="noopener">vagrantup</a> 官网，点击 <code>Find Boxes</code> ， 进入 <a href="https://app.vagrantup.com/boxes/search" target="_blank" rel="noopener">box列表页</a></p><img src="http://oss.shayvmo.cn/hexo/vagrant-box/1.png" class=""><img src="http://oss.shayvmo.cn/hexo/vagrant-box/2.png" class=""><p>2、点击进入需要下载的box详情页</p><img src="http://oss.shayvmo.cn/hexo/vagrant-box/3.png" class=""><p>3、点击选择版本</p><p>4、 这时候网站地址栏会拼接上相应版本号，这时，不多说，开始拼接URL</p><img src="http://oss.shayvmo.cn/hexo/vagrant-box/4.png" class=""><p><code>https://app.vagrantup.com/centos/boxes/7/versions/2004.01/providers/供应商名字.box</code></p><p>【示例下载链接】<br><code>https://app.vagrantup.com/centos/boxes/7/versions/2004.01/providers/virtualbox.box</code></p><p>【链接解析】<br><code>https://app.vagrantup.com/box名称前半部分/boxes/box名称后半部分/versions/版本号/providers/供应商名字.box</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vagrant </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基于 vue-element-admin 基础模板实现侧边栏菜单动态渲染</title>
+      <link href="/2020/05/20/vue-admin-template/"/>
+      <url>/2020/05/20/vue-admin-template/</url>
+      
+        <content type="html"><![CDATA[<p>码云仓库地址： <code>https://gitee.com/shayvmo/vue-element-template</code></p><p>基于 vue-admin-template 基础模板实现动态生成侧边栏菜单</p><h3 id="【思路】"><a href="#【思路】" class="headerlink" title="【思路】"></a>【思路】</h3><p>获取用户信息的时候，把后端返回的路由保存在 store 里面，执行生成路由时，合并前端静态定义的路由以及后端获取回来的动态路由</p><h3 id="【主要修改文件】"><a href="#【主要修改文件】" class="headerlink" title="【主要修改文件】"></a>【主要修改文件】</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">src&#x2F;permission.js</span><br><span class="line"> </span><br><span class="line">src&#x2F;store&#x2F;modules&#x2F;permission.js</span><br><span class="line"> </span><br><span class="line">utils&#x2F;_import.js</span><br><span class="line"> </span><br><span class="line">utils&#x2F;router.js</span><br></pre></td></tr></table></figure><p>文件： <code>src/permission.js</code></p><p>获取用户信息，存储路由</p><p><code>const { roles } = await store.dispatch(&#39;basic/getInfo&#39;)</code></p><p>合并路由，渲染路由</p><p><code>const accessRoutes = await store.dispatch(&#39;permission/generateRoutes&#39;, { &#39;roles&#39;: roles, &#39;routers&#39;: store.getters.routers })</code></p><h3 id="【后端返回数据结构】"><a href="#【后端返回数据结构】" class="headerlink" title="【后端返回数据结构】"></a>【后端返回数据结构】</h3><p>具体根据 框架 原本需要返回的结构即可。组件那里返回组件名称，会实现自动加载</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">routers &#x3D; [</span><br><span class="line">&#123;</span><br><span class="line">    path: &#39;&#x2F;&#39;,</span><br><span class="line">    component: &#39;Layout&#39;,</span><br><span class="line">    redirect: &#39;&#x2F;dashboard&#39;,</span><br><span class="line">    children: [</span><br><span class="line">        &#123;</span><br><span class="line">             path: &#39;dashboard&#39;,</span><br><span class="line">             name: &#39;Dashboard&#39;,</span><br><span class="line">             component: &#39;dashboard&#39;,</span><br><span class="line">             meta: &#123; </span><br><span class="line">                 title: &#39;仪表盘&#39;, </span><br><span class="line">                 icon: &#39;dashboard&#39; </span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure><p><strong>【 vue-element-admin 】</strong><br><a href="https://panjiachen.github.io/vue-element-admin-site/zh/" target="_blank" rel="noopener">https://panjiachen.github.io/vue-element-admin-site/zh/</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>postman 实用小技巧 - 登录设置token</title>
+      <link href="/2020/05/19/postman-1/"/>
+      <url>/2020/05/19/postman-1/</url>
+      
+        <content type="html"><![CDATA[<p>日常在使用 postman 进行接口调试时，难免会先登录后，再附加 token 进行另外接口的调试。</p><p>每次请求接口后，会有相应的数据返回；在某些场景需要用到另一个接口的返回值，比如API带token进行请求地址。</p><p>在这种情况下，可以将最初请求接口返回的token数据，设置为环境变量或全局变量，便于下次直接调用，不用每次都请求一遍接口获取token</p><p>而且获取新token后也不用每次都手动输入。</p><p><strong>【步骤】</strong></p><p>1、把返回来的json字符串转换成json对象。</p><p><code>JsonData=JSON.parse(responseBody);</code></p><p>2、设置成变量名为token的环境变量</p><p><code>pm.environment.set(&quot;token&quot;, JsonData.session_key);</code></p><p>设置环境变量，全局变量可以自由按照项目需求进行设置。</p><p>一般情况下，有多个项目时，同一个项目的变量设置到同一个环境下，通用的变量设置到全局变量即可。</p><p>在调用变量的时候，用  方式进行变量读取即可。图中的请求地址，就是直接调用环境变量中的 url_base 。</p><img src="http://oss.shayvmo.cn/hexo/postman/postman-1.png" class="">]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> postman </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>goland 下载与安装</title>
+      <link href="/2020/05/18/goland/"/>
+      <url>/2020/05/18/goland/</url>
+      
+        <content type="html"><![CDATA[<p>【原文链接】</p><p><a href="http://c.biancheng.net/view/6124.html" target="_blank" rel="noopener">Goland 2019下载和安装</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Golang </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> goland </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>文件的md5和sha1值的用处</title>
+      <link href="/2020/05/18/md5-file/"/>
+      <url>/2020/05/18/md5-file/</url>
+      
+        <content type="html"><![CDATA[<p>熟悉公众号的小伙伴，应该知道里面后台素材库这个板块的内容。而我们在网站后台的开发时，也会用到资源库的概念。</p><p>资源库，是指把所有用户上传的文件记录起来的地方，比如说文件类型，大小，存放位置等等；</p><p>当我们需要避免用户重复上传，或者实现秒传，检验文件完整性等场景的时候，就要用到能够标识出这个文件的唯一标识，这个时候，就可以用到文件的md5值，或者哈希值。每个文件的每个状态都对应特定的值，我们可以通过比对这个值，来实现上述的3个场景</p><h3 id="【场景】"><a href="#【场景】" class="headerlink" title="【场景】"></a>【场景】</h3><p>避免重复上传</p><p>同一个文件，用户可能在不同的场景下上传多次，如果我们不对此进行相应的检验、去重，服务器的文件数量会越来越多，同时一些无效的文件也会保存在服务器上，造成空间浪费</p><p>实现秒传</p><p>秒传，实际上是和第一个场景提到的问题延伸。当用户不同场景上传同一个文件时，我们可以先检验资源库里面是否有这个文件，有则直接返回相对的资源路径，减少客户端等待的时间</p><p>校验文件完整性</p><p>在某些场景下，比如文档状态记录时，可能会需要比对当前文件是否无改动，这时候，就可以采用检验前后文件加密值的方式来进行区分文件是否未被修改</p><h3 id="【实现思路】"><a href="#【实现思路】" class="headerlink" title="【实现思路】"></a>【实现思路】</h3><p>1、建立资源表，用于保存文件相关信息，如文件类型，大小，加密值，存放路径等</p><p>2、接收前端上传文件时，先过去加密值，比对数据库数据，有则返回存放路径，实现秒传；否则执行文件保存，记录相关信息</p><p>3、利用资源表，定期处理未被关联的无效资源，降低空间浪费</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MD5 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>jQuery全选和反选CheckBox</title>
+      <link href="/2020/05/18/checkbox/"/>
+      <url>/2020/05/18/checkbox/</url>
+      
+        <content type="html"><![CDATA[<p>近日在项目维护中，前端页面涉及到了复选框，于是记录一下如何使用 jQuery 实现 CheckBox 的全选和反选。</p><h4 id="1、checkBox"><a href="#1、checkBox" class="headerlink" title="1、checkBox"></a>1、checkBox</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'checkbox'</span> <span class="attr">onclick</span>=<span class="string">'checkAll(this)'</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'checkbox'</span> <span class="attr">name</span>=<span class="string">'expense_cate'</span> <span class="attr">value</span>=<span class="string">''</span> /&gt;</span>;</span><br></pre></td></tr></table></figure><h4 id="2、javascript-部分"><a href="#2、javascript-部分" class="headerlink" title="2、javascript 部分"></a>2、javascript 部分</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全选和反选</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkAll</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">let</span> check_stauts = obj.checked;</span><br><span class="line">     $(<span class="string">'[name=expense_cate]:chekbox'</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     <span class="keyword">this</span>.checked = check_status;</span><br><span class="line">     &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//选中的复选框值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_expense_cate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> checkID = [];</span><br><span class="line">    $(<span class="string">"input[name='expense_cate']:checked"</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params">i</span>)</span>&#123;</span><br><span class="line">        checkID[i] = $(<span class="keyword">this</span>).val();</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> checkID;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> jquery </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>什么是sitemap?究竟有什么作用呢？</title>
+      <link href="/2020/05/18/sitemap/"/>
+      <url>/2020/05/18/sitemap/</url>
+      
+        <content type="html"><![CDATA[<p>sitemap即网站地图，存储网站所有网址url的索引，用于通知搜索引擎网站上有哪些可供抓取的网页。</p><h4 id="【sitemap-xml】"><a href="#【sitemap-xml】" class="headerlink" title="【sitemap.xml】"></a>【sitemap.xml】</h4><p>即网站地图，存储网站所有网址url的索引，用于通知搜索引擎网站上有哪些可供抓取的网页。</p><p>一般放置在网站根目录，通过域名 + sitemap.xml的形式访问，如<a href="http://www.shayvmo.top/sitemap.xml" target="_blank" rel="noopener">http://www.shayvmo.top/sitemap.xml</a></p><p>常见的sitemap文件格式有xml、txt，一般使用xml即可，百度、谷歌等主流搜索引擎都是使用xml文件</p><p>网站地图的主要作用是告诉搜索引擎网站可供访问的url链接，以及最近更新网页信息，便于搜索引擎抓取收录，因此对于网站的排名具有积极意义。</p><h4 id="【sitemap-生成】"><a href="#【sitemap-生成】" class="headerlink" title="【sitemap 生成】"></a>【sitemap 生成】</h4><p>参考以下链接：</p><p><a href="http://www.sitemap-xml.org/" target="_blank" rel="noopener">http://www.sitemap-xml.org/</a></p><h4 id="【robots-txt】"><a href="#【robots-txt】" class="headerlink" title="【robots.txt】"></a>【robots.txt】</h4><p>搜索引擎使用spider程序自动范文互联网上的网页并获取网页信息。</p><p>robots.txt 这个文件用于指定spider在您网站上的抓取范围，可以 定义哪些目录抓取，哪些目录禁止抓取。</p><h4 id="【用法】"><a href="#【用法】" class="headerlink" title="【用法】"></a>【用法】</h4><p>User-agent：定义进制搜索引擎名字，比如说：百度（Baiduspider）、谷歌（Googlebot）、360（360Spider）等。*号代表全部搜索引擎</p><p>Disallow：不允许收录</p><p>Allow：允许收录</p><h4 id="【案例】"><a href="#【案例】" class="headerlink" title="【案例】"></a>【案例】</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">User-agent: *          #（声明禁止所有的搜索引擎抓取以下内容）</span><br><span class="line"></span><br><span class="line">Disallow：&#x2F;blog&#x2F;       #（禁止网站blog栏目下所有的页面。比如说：&#x2F;blog&#x2F;123.html）</span><br><span class="line"></span><br><span class="line">Disallow：&#x2F;api         #（比如说：&#x2F;apifsdfds&#x2F;123.html也会被屏蔽。）</span><br><span class="line"></span><br><span class="line">Allow：&#x2F;blog&#x2F;12&#x2F;       #（一般情况下不需要写Allow）</span><br><span class="line"></span><br><span class="line">Disallow：*?*          #（只要你的路径里面带有问号的路径，那么这条路径将会被屏蔽。）</span><br><span class="line"></span><br><span class="line">Disallow：&#x2F;*.php$      #（意思是以.php结尾的路径全部屏蔽掉。）</span><br></pre></td></tr></table></figure><h4 id="【参考地址】"><a href="#【参考地址】" class="headerlink" title="【参考地址】"></a>【参考地址】</h4><p><a href="https://www.seoxiehui.cn/article-80769-1.html" target="_blank" rel="noopener">https://www.seoxiehui.cn/article-80769-1.html</a></p><p><a href="https://www.chinaz.com/web/2013/0930/320276.shtml" target="_blank" rel="noopener">https://www.chinaz.com/web/2013/0930/320276.shtml</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> sitemap </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>为自己的网站添加百度统计</title>
+      <link href="/2020/05/18/baidu-static/"/>
+      <url>/2020/05/18/baidu-static/</url>
+      
+        <content type="html"><![CDATA[<p>网站上线后，往往需要统计网站的访问情况，SEO效果等等。</p><p>我们可以通过百度统计，来查看我们的网站在百度引擎的SEO情况。</p><p>那如何网站怎样才能引入百度统计呢？</p><h3 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h3><p>1、首先进入百度统计网站，注册或登录账号。</p><p><a href="https://tongji.baidu.com/web/welcome/login" target="_blank" rel="noopener">https://tongji.baidu.com/web/welcome/login</a></p><p>2、添加待统计的网站，安装统计代码到网站中需要统计的页面</p><img src="http://oss.shayvmo.cn/blog/upload/26999331103abdd4e9c5a37bd0ed5ded71.png" class="" title="百度统计1" alt="百度统计1"><img src="http://oss.shayvmo.cn/blog/upload/c00fb43cd832a7bd115cea1704144eb837.png" class="" title="百度统计2" alt="百度统计2"><p>3、一般情况下，20分钟后自动生效，也可以根据提示，进行手动代码检查，检测是否安装成功。</p><h3 id="【注意】"><a href="#【注意】" class="headerlink" title="【注意】"></a>【注意】</h3><p>如果需要把统计数据公开，则可以通过以下方式进行开放。</p><img src="http://oss.shayvmo.cn/blog/upload/f4e350a9b4dcd0a443450329ef315f8178.png" class="">]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 百度统计 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>公众号页面开发添加调试器</title>
+      <link href="/2020/03/04/console/"/>
+      <url>/2020/03/04/console/</url>
+      
+        <content type="html"><![CDATA[<p>开发公众号页面时，面对真机页面测试，有时候需要查看页面加载情况，这里可以加载一个调试器，进行调试处理。</p><p>首先引入js文件，<a href="https://cdn.jsdelivr.net/npm/vconsole@3.3.4/dist/vconsole.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/npm/vconsole@3.3.4/dist/vconsole.min.js</a></p><p>然后在脚本中实例化类</p><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://cdn.jsdelivr.net/npm/vconsole@3.3.4/dist/vconsole.min.js"</span>&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">new</span> VConsole();</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure><p>实际效果</p><img src="http://oss.shayvmo.cn/blog/upload/b3bfa975a80b0b43a745e30f2edc14be61.png" class="" title="微信调试器" alt="微信调试器">]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> 微信 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 公众号调试器 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>2019.3.2 版本 PHPStorm 最新激活方式 （2020年亲测）</title>
+      <link href="/2020/03/03/phpstorm/"/>
+      <url>/2020/03/03/phpstorm/</url>
+      
+        <content type="html"><![CDATA[<img src="http://oss.shayvmo.cn/hexo/phpstorm/0.png" class="" title="phpstorm" alt="phpstorm"><h3 id="【严肃声明】"><a href="#【严肃声明】" class="headerlink" title="【严肃声明】"></a>【严肃声明】</h3><p>1、本教程补丁、激活码来源于网络，如有侵权请联系作者删除！<br>2、本项目只做个人学习研究之用，不得用于商业用途！<br>3、若资金允许，请点击 <a href="https://www.jetbrains.com/idea/buy/" title="" target="">链接</a> 购买正版，谢谢合作！</p><h3 id="【激活注意】"><a href="#【激活注意】" class="headerlink" title="【激活注意】"></a>【激活注意】</h3><p>1、本文适用于PHPstorm 2019.3.2（亲测成功），其他版本待大家测试使用，由于是使用最新 jar 包，相信激活问题不大。</p><p>2、修改后配置，重启IDE，输入相应激活码</p><p>3、不需要修改 host 文件以及任何配置文件</p><p>题外，Windows host 路径：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">C:\Windows\System32\drivers\etc</span><br></pre></td></tr></table></figure> <h3 id="【激活步骤】"><a href="#【激活步骤】" class="headerlink" title="【激活步骤】"></a>【激活步骤】</h3><p>1、正常下载，安装PHPstorm，官方下载渠道：</p><a href="https://www.jetbrains.com/phpstorm/download/" title="" target="">官网</a><p>2、下载激活 jar 包</p><p>下载完成后，将 jar 包放在任意目录下，路径不得有中文，并记下这个路径，后续配置时需要用到。建议存放妥当。</p><p>链接：<a href="https://pan.baidu.com/s/1uuVQy8IvJrgFzPg0wSL2yQ" title="" target="">点击</a><br>提取码：lp50</p><p>3、打开 PHPstorm ，首次安装打开时，选择 Evaluate for free 免费试用即可</p><p>打开后，会看到以下图一（已打开项目的，可根据图二操作），点击 configure  &gt;&gt;  edit custom Vm options , 在结尾下一行加上之前的 jar 包存放目录</p><p>-javaagent:D:\jetbrains-agent.jar</p><p>图一：</p><img src="http://oss.shayvmo.cn/hexo/phpstorm/1.png" class="" title="1" alt="1"><p>图二：</p><img src="http://oss.shayvmo.cn/hexo/phpstorm/2.png" class="" title="2" alt="2"><p>4、设置完成后，重启IDE，根据图一或图二输入激活码，激活即可。</p><p>图一：</p><img src="http://oss.shayvmo.cn/hexo/phpstorm/3.png" class="" title="3" alt="3"><img src="http://oss.shayvmo.cn/hexo/phpstorm/4.png" class="" title="4" alt="4"><img src="http://oss.shayvmo.cn/hexo/phpstorm/5.png" class="" title="5" alt="5"><img src="http://oss.shayvmo.cn/hexo/phpstorm/4.png" class="" title="4" alt="4"><p>【最后】</p><p>激活码获取，关注公众号【南五路】后台回复  phpstorm 即可。</p><img src="http://oss.shayvmo.cn/hexo/phpstorm/wxgzh.jpg" class="" title="wxgzh" alt="wxgzh">]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PhpStorm </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>PHP 返回一维数组中，有序组合成 N 个元素的数组</title>
+      <link href="/2019/11/09/function1/"/>
+      <url>/2019/11/09/function1/</url>
+      
+        <content type="html"><![CDATA[<p>最近业务上遇到一个商品捆绑促销的问题，需要计算出一维数组中组合成2个有序不重复的元素组合数组。</p><p>于是总结了一下，写了一个可以通用算多一维数组中，组成有序组合数组的函数。</p><h3 id="函数方法"><a href="#函数方法" class="headerlink" title="函数方法"></a><strong>函数方法</strong></h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 返回一维数组中，有序组合成 $count 个元素的数组</span><br><span class="line"> * @author Eric</span><br><span class="line"> * @param $arr 原数组</span><br><span class="line"> * @param $collect 组成新数组</span><br><span class="line"> * @param int $count 新数组单元素组合个数</span><br><span class="line"> * @return array</span><br><span class="line"> *&#x2F;</span><br><span class="line">function array_picker($arr,&amp;$collect,$count&#x3D;2) &#123;</span><br><span class="line">    if (empty($arr)) &#123;</span><br><span class="line">        return $collect;</span><br><span class="line">    &#125;</span><br><span class="line">    static $temp_string;</span><br><span class="line">    for ($i&#x3D;0; $i &lt; count($arr); $i++) &#123;</span><br><span class="line">        $temp_string[] &#x3D; $arr[$i];</span><br><span class="line">        if(count($temp_string) &lt; $count) &#123;</span><br><span class="line">            array_picker(array_slice($arr,$i+1),$collect,$count);</span><br><span class="line">        &#125;</span><br><span class="line">        if(count($temp_string) &#x3D;&#x3D; $count) &#123;</span><br><span class="line">            $collect[] &#x3D; implode(&#39;,&#39;,$temp_string);</span><br><span class="line">        &#125;</span><br><span class="line">        array_pop($temp_string);</span><br><span class="line">    &#125;</span><br><span class="line">    return $collect;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a><strong>运行结果</strong></h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 原数组</span><br><span class="line">array (size&#x3D;5)</span><br><span class="line">  0 &#x3D;&gt; string &#39;Alpha&#39; (length&#x3D;5)</span><br><span class="line">  1 &#x3D;&gt; string &#39;Beta&#39; (length&#x3D;4)</span><br><span class="line">  2 &#x3D;&gt; string &#39;Gamma&#39; (length&#x3D;5)</span><br><span class="line">  3 &#x3D;&gt; string &#39;Sigma&#39; (length&#x3D;5)</span><br><span class="line">  4 &#x3D;&gt; string &#39;Lamda&#39; (length&#x3D;5)</span><br><span class="line">  </span><br><span class="line">&#x2F;&#x2F; 结果数组</span><br><span class="line">array (size&#x3D;10)</span><br><span class="line">  0 &#x3D;&gt; string &#39;Alpha,Beta,Gamma&#39; (length&#x3D;16)</span><br><span class="line">  1 &#x3D;&gt; string &#39;Alpha,Beta,Sigma&#39; (length&#x3D;16)</span><br><span class="line">  2 &#x3D;&gt; string &#39;Alpha,Beta,Lamda&#39; (length&#x3D;16)</span><br><span class="line">  3 &#x3D;&gt; string &#39;Alpha,Gamma,Sigma&#39; (length&#x3D;17)</span><br><span class="line">  4 &#x3D;&gt; string &#39;Alpha,Gamma,Lamda&#39; (length&#x3D;17)</span><br><span class="line">  5 &#x3D;&gt; string &#39;Alpha,Sigma,Lamda&#39; (length&#x3D;17)</span><br><span class="line">  6 &#x3D;&gt; string &#39;Beta,Gamma,Sigma&#39; (length&#x3D;16)</span><br><span class="line">  7 &#x3D;&gt; string &#39;Beta,Gamma,Lamda&#39; (length&#x3D;16)</span><br><span class="line">  8 &#x3D;&gt; string &#39;Beta,Sigma,Lamda&#39; (length&#x3D;16)</span><br><span class="line">  9 &#x3D;&gt; string &#39;Gamma,Sigma,Lamda&#39; (length&#x3D;17)</span><br></pre></td></tr></table></figure><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>便利店销售系统中，商品捆绑优惠活动用到了商品组合的计算，也就是说存在，商品两两组合、多个商品组合的情况。</p><p>这种情况下，就可以用上述方法，获取到一堆商品里面，可以任意组合成多个有序、不重复的集合，用于捆绑活动的匹配。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>php 遍历数组的几种方式</title>
+      <link href="/2019/10/25/php-array/"/>
+      <url>/2019/10/25/php-array/</url>
+      
+        <content type="html"><![CDATA[<p>最近恰好看到了 PHP 循环数组有多种方式，于是便总结一下这几种日常开发中，使用比较频繁的方式。</p><hr>  <h3 id="1、for"><a href="#1、for" class="headerlink" title="1、for"></a>1、for</h3><p>只支持索引数组，不支持关联数组</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$array &#x3D; [&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;];</span><br><span class="line">for ($i&#x3D;0;$i&lt;count($array);$i++)</span><br><span class="line">&#123;</span><br><span class="line">    echo $array[$i].&#39;-&#39;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><h3 id="2、foreach"><a href="#2、foreach" class="headerlink" title="2、foreach"></a>2、foreach</h3><p>索引数组和关联数组都可以</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">foreach ($array as $key &#x3D;&gt; $value)</span><br><span class="line">&#123;</span><br><span class="line">    echo $value.&#39;-&#39;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><h3 id="3、while-list-each-结合"><a href="#3、while-list-each-结合" class="headerlink" title="3、while(), list(), each() 结合"></a>3、while(), list(), each() 结合</h3><p>实质上是指针移动；支持索引数组和关联数组</p><p>注意：each() 在7.2以上版本已被弃用，会报 warning 警告错误</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">while ( list($key,$value)&#x3D;each($array) )</span><br><span class="line">&#123;</span><br><span class="line">    echo &#39;|&#39;.$value.&#39;-&#39;;</span><br><span class="line">    echo current($array);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><h3 id="4、数组指针"><a href="#4、数组指针" class="headerlink" title="4、数组指针"></a>4、数组指针</h3><p>指针移动；支持索引数组和关联数组</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">    echo current($array);</span><br><span class="line">&#125; while ( next($array) );</span><br></pre></td></tr></table></figure><hr><h3 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h3><p>foreach 和 list 可以嵌套解包</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$array &#x3D; [[&#39;a&#39;,&#39;b&#39;],[&#39;c&#39;,&#39;d&#39;]];</span><br><span class="line">foreach($array as list($a,$b))</span><br><span class="line">&#123;</span><br><span class="line">    echo $a.&#39;-&#39;.$b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>php-excel、phpspreadsheet的封装类</title>
+      <link href="/2019/10/07/php-excel/"/>
+      <url>/2019/10/07/php-excel/</url>
+      
+        <content type="html"><![CDATA[<p>最近项目遇到了经常性使用表格导出，之前使用的是PHPExcel，但是已经不更新了。于是开始使用PHPspreadsheet，并且在空闲时间写了一个封装类。<br>如果有需要，可以在下载使用。遇到BUG问题，可以讨论完善。</p><h3 id="1、composer-加载包"><a href="#1、composer-加载包" class="headerlink" title="1、composer 加载包"></a>1、composer 加载包</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer require shayvmo&#x2F;php-excel</span><br></pre></td></tr></table></figure><h3 id="2、github-地址"><a href="#2、github-地址" class="headerlink" title="2、github 地址"></a>2、github 地址</h3><p>地址：<a href="https://github.com/shayvmo/phpExcel" target="_blank" rel="noopener">https://github.com/shayvmo/phpExcel</a></p><h3 id="3、部分代码"><a href="#3、部分代码" class="headerlink" title="3、部分代码"></a>3、部分代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$excel = <span class="keyword">new</span> \shayvmo\phpExcel([</span><br><span class="line">    <span class="string">'savePath'</span>=&gt;<span class="string">'D:\wamp64\www\phpExcel\Examples'</span>,<span class="comment">//保存路径</span></span><br><span class="line">    <span class="string">'filename'</span>=&gt;<span class="string">'test_file'</span>.time(),</span><br><span class="line">    <span class="string">'properties'</span>=&gt;[</span><br><span class="line">        <span class="string">'Creator'</span>=&gt;<span class="string">'Eric'</span>,<span class="comment">//文件创建者</span></span><br><span class="line">        <span class="string">'LastModifiedBy'</span>=&gt;<span class="string">'Eric'</span>,<span class="comment">//最后更新</span></span><br><span class="line">        <span class="string">'Title'</span>=&gt;<span class="string">'导出文档'</span>,<span class="comment">//标题</span></span><br><span class="line">        <span class="string">'Subject'</span>=&gt;<span class="string">'导出文档'</span>,<span class="comment">//主题</span></span><br><span class="line">        <span class="string">'Description'</span>=&gt;<span class="string">'php导出文档'</span>,<span class="comment">//描述</span></span><br><span class="line">        <span class="string">'Keywords'</span>=&gt;<span class="string">''</span>,<span class="comment">//关键词</span></span><br><span class="line">        <span class="string">'Category'</span>=&gt;<span class="string">''</span>,<span class="comment">//分类</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">'worksheet'</span>=&gt;[</span><br><span class="line">        [<span class="string">'Title'</span>=&gt;<span class="string">'sheet01'</span>]</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">'startCell'</span>=&gt;<span class="string">'A1'</span>,</span><br><span class="line">    <span class="string">'options'</span>=&gt;[</span><br><span class="line">        <span class="string">'print'</span>=&gt;<span class="keyword">true</span>,<span class="comment">//设置打印格式</span></span><br><span class="line"></span><br><span class="line">        <span class="string">'freezePane'</span>=&gt;[],<span class="comment">//锁定行数，例如表头为第一行，则锁定表头输入A2</span></span><br><span class="line"></span><br><span class="line">        <span class="string">'setARGB'</span>=&gt;[</span><br><span class="line">            <span class="string">'A1'</span>=&gt;<span class="string">'FFFFFF00'</span>,</span><br><span class="line">            <span class="string">'F2'</span>=&gt;<span class="string">'FFFFFF00'</span></span><br><span class="line">        ],<span class="comment">//设置背景色</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置宽度</span></span><br><span class="line">        <span class="string">'setWidth'</span>=&gt;[</span><br><span class="line">            <span class="string">'A'</span>=&gt;<span class="number">10</span>,</span><br><span class="line">            <span class="string">'B'</span>=&gt;<span class="number">15</span>,</span><br><span class="line">            <span class="string">'C'</span>=&gt;<span class="number">20</span></span><br><span class="line">        ],</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置单元格边框：位置，颜色</span></span><br><span class="line">        <span class="string">'setBorder'</span>=&gt;[<span class="string">'A1:I3'</span>,<span class="string">'000000'</span>],</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置合并单元格</span></span><br><span class="line">        <span class="string">'mergeCells'</span>=&gt;[<span class="string">'A1:B1'</span>,<span class="string">'B2:B3'</span>],</span><br><span class="line"></span><br><span class="line">        <span class="string">'formula'</span>=&gt;[],<span class="comment">//设置公式，例如['F2' =&gt; '=IF(D2&gt;0,E42/D2,0)']</span></span><br><span class="line"></span><br><span class="line">        <span class="string">'format'</span>=&gt;[<span class="string">'A'</span>=&gt;<span class="string">''</span>],<span class="comment">//设置格式，整列设置，例如['A' =&gt; 'General']</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置居中样式</span></span><br><span class="line">        <span class="string">'alignment'</span>=&gt;[</span><br><span class="line"><span class="comment">//            'A1'=&gt;['left','top'],//水平，垂直</span></span><br><span class="line"><span class="comment">//            'D1'=&gt;['center','center'],//水平，垂直</span></span><br><span class="line"><span class="comment">//            'G1'=&gt;['right','bottom'],//水平，垂直</span></span><br><span class="line"><span class="comment">//            'A1:I2'=&gt;['center','center'],//水平，垂直</span></span><br><span class="line">            <span class="string">'A:I'</span>=&gt;[<span class="string">'center'</span>,<span class="string">'center'</span>],<span class="comment">//水平，垂直</span></span><br><span class="line">        ],</span><br><span class="line"></span><br><span class="line">        <span class="string">'bold'</span>=&gt;[<span class="string">'A1:I1'</span>,<span class="string">'E2'</span>],<span class="comment">//设置加粗样式，例如['A1', 'A2']</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">'data'</span>=&gt;[</span><br><span class="line">        [</span><br><span class="line">            <span class="string">'A'</span>=&gt;<span class="string">'供应商'</span>,</span><br><span class="line">            <span class="string">'B'</span>=&gt;<span class="string">'商品名称'</span>,</span><br><span class="line">            <span class="string">'C'</span>=&gt;<span class="string">'系统编号'</span>,</span><br><span class="line">            <span class="string">'D'</span>=&gt;<span class="string">'条形码'</span>,</span><br><span class="line">            <span class="string">'E'</span>=&gt;<span class="string">'规格'</span>,</span><br><span class="line">            <span class="string">'F'</span>=&gt;<span class="string">'单位'</span>,</span><br><span class="line">            <span class="string">'G'</span>=&gt;<span class="string">'采购价采购价采购价采qwsdqwwe购价采购价2采购价采购价采购价'</span>,</span><br><span class="line">            <span class="string">'H'</span>=&gt;<span class="string">'零售价'</span>,</span><br><span class="line">            <span class="string">'I'</span>=&gt;<span class="string">'库存'</span>,</span><br><span class="line">        ],</span><br><span class="line">        <span class="number">2</span>=&gt;[</span><br><span class="line">            <span class="string">'A'</span>=&gt;<span class="string">'1'</span>,</span><br><span class="line">            <span class="string">'B'</span>=&gt;<span class="string">'2'</span>,</span><br><span class="line">            <span class="string">'C'</span>=&gt;<span class="string">'3'</span>,</span><br><span class="line">            <span class="string">'D'</span>=&gt;<span class="string">'4'</span>,</span><br><span class="line">            <span class="string">'E'</span>=&gt;<span class="string">'5'</span>,</span><br><span class="line">            <span class="string">'F'</span>=&gt;<span class="string">'6'</span>,</span><br><span class="line">            <span class="string">'G'</span>=&gt;<span class="string">'7'</span>,</span><br><span class="line">            <span class="string">'H'</span>=&gt;<span class="string">'8.01'</span>,</span><br><span class="line">            <span class="string">'I'</span>=&gt;<span class="string">'9.03'</span>,</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$excel-&gt;exportExcel();</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> phpspreadsheet </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>php curl 请求 https 接口时，返回错误码：77</title>
+      <link href="/2019/09/24/curl-77/"/>
+      <url>/2019/09/24/curl-77/</url>
+      
+        <content type="html"><![CDATA[<h3 id="错误情况"><a href="#错误情况" class="headerlink" title="错误情况"></a>错误情况</h3><p>php CURL 请求一个 https 的接口时，返回一个<code>bool false</code>，打印错误<code>curl_error($ch)</code>信息时没有返回错误内容</p><p>查看错误码<code>curl_errno($ch)</code> 是 77 。</p><p>根据 curl 错误码显示，77 代表 <code>&#39;CURLE_SSL_CACERT_BADFILE&#39;</code> ，本地 CA 证书有异常。</p><h3 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h3><p>1、服务器更新 CA 证书</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum update ca-certificates</span><br></pre></td></tr></table></figure><p>2、重启 php-fpm 或重启 APACHE</p><p>3、curl 请求中加上忽略证书</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, <span class="keyword">false</span>);</span><br><span class="line">curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> CURL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>lnmp 环境搭建（基于CentOS7）</title>
+      <link href="/2019/09/18/lnmp/"/>
+      <url>/2019/09/18/lnmp/</url>
+      
+        <content type="html"><![CDATA[<p>最近更新：2019年9月28日22:01:06</p><hr><p>一键安装包的方式就不作介绍了。本文主要说明如果手动安装配置LNMP。</p><h3 id="【安装前准备】"><a href="#【安装前准备】" class="headerlink" title="【安装前准备】"></a>【安装前准备】</h3><p>1、查看是否已安装 wget<br><code>rpm -qa wget</code><br>如果显示版本，说明已经安装，否则运行命令进行安装 <code>yum install wget</code>。</p><p>2、查看是否已安装编译器<br><code>rpm -qa gcc</code><br>如果显示版本，说明已经安装，否则运行命令进行安装 <code>yum install gcc gcc-c++</code>。</p><h3 id="【安装Nginx】"><a href="#【安装Nginx】" class="headerlink" title="【安装Nginx】"></a>【安装Nginx】</h3><p>1、安装 nginx 依赖包<br>nginx的Rewrite模块和HTTP核心模块会使用到PCRE正则表达式语法：</p><p><code>yum -y install pcre pcre-devel</code></p><p>nginx的各种模块中需要使用gzip压缩：</p><p><code>yum -y install zlib zlib-devel</code></p><p>安全套接字层密码库：</p><p><code>yum -y install openssl openssl-devel</code></p><p>2、下载nginx包并解压（到/usr/local/src目录中）</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;src</span><br><span class="line">wget http:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.17.3.tar.gz</span><br><span class="line">tar -zxvf nginx-1.17.3.tar.gz</span><br></pre></td></tr></table></figure><p>3、编译安装（到/usr/local/nginx目录中）</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cd nginx-1.1.10</span><br><span class="line"></span><br><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;nginx</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>4、创建并设置nginx运行账号：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">groupadd nginx</span><br><span class="line"></span><br><span class="line">useradd -M -g nginx -s &#x2F;sbin&#x2F;nologin nginx</span><br><span class="line"></span><br><span class="line">cd &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf</span><br><span class="line"></span><br><span class="line">vim nginx.conf，设置user参数如下：</span><br><span class="line"></span><br><span class="line">user nginx nginx</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx -t</span><br><span class="line">  </span><br></pre></td></tr></table></figure><p>5、启动nginx </p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx     # 启动nginx</span><br><span class="line">ps -ef | grep nginx    # 查看进程</span><br><span class="line"></span><br></pre></td></tr></table></figure> <p>6、访问站点IP，若出现<code>welcome to nginx</code> 则说明安装成。<br>如果访问失败，可能是防火墙原因，开放相应端口即可。</p><h4 id="【nginx加入到开机自动启动】"><a href="#【nginx加入到开机自动启动】" class="headerlink" title="【nginx加入到开机自动启动】"></a>【nginx加入到开机自动启动】</h4><p>(1)编辑系统启动脚本<code>vim /etc/rc.local</code>  这个文件是系统启动后会自动执行的,因此就将启动命令加入到这个文件中。</p><p>(2)在脚本后面加上 <code>/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf &amp;</code></p><p>(3)更改脚本的权限，<code>chmod o+x /etc/rc.local</code> 或 <code>chmod 755 /etc/rc.local</code></p><p>(4)重启后，<code>ps -e | grep nginx</code> 就能看 nginx 开机启动</p><h4 id="【未找到-nginx-command-】"><a href="#【未找到-nginx-command-】" class="headerlink" title="【未找到 nginx command 】"></a>【未找到 nginx command 】</h4><p>解决： 添加nginx 到系统环境变量中<br><code>vim /etc/profile</code><br>在最后的 <code>done</code> 和 <code>unset i</code> 之间加上 <code>export PATH=&quot;$PATH:/usr/local/nginx/sbin:&quot;</code></p><img src="http://oss.shayvmo.cn/hexo/LNMP/etc-profile.png" class="" title="etc-profile配置"><p>随后更新环境变量</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br><span class="line">nginx -V</span><br></pre></td></tr></table></figure><h4 id="【-PHP-文件-出现-File-not-found。】"><a href="#【-PHP-文件-出现-File-not-found。】" class="headerlink" title="【 PHP 文件 出现 File not found。】"></a>【 PHP 文件 出现 File not found。】</h4><p>解决：修改 nginx.conf </p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">fastcgi_param  SCRIPT_FILENAME  &#x2F;scripts$fastcgi_script_name;</span><br><span class="line"># 改成</span><br><span class="line">fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">nginx -s reload #重启即可</span><br></pre></td></tr></table></figure><h3 id="【防火墙】"><a href="#【防火墙】" class="headerlink" title="【防火墙】"></a>【防火墙】</h3><p>相关命令参考，来源：<a href="https://www.cnblogs.com/xxoome/p/7115614.html" title="" target="">链接</a></p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl status firewalld   #查看防火墙服务状态</span><br><span class="line"></span><br><span class="line">firewalld-cmd --state   #查看防火墙状态</span><br><span class="line"></span><br><span class="line">systemctl start firewalld  # 开启防火墙</span><br><span class="line"></span><br><span class="line">systemctl restart firewalld # 重启防火墙</span><br><span class="line"></span><br><span class="line">systemctl stop firewalld # 关闭防火墙</span><br><span class="line"></span><br><span class="line">firewall-cmd --list-all # 查看防火墙规则</span><br><span class="line"></span><br><span class="line">firewall-cmd --query-port&#x3D;8080&#x2F;tcp  # 查询端口是否开放</span><br><span class="line"></span><br><span class="line">firewall-cmd --permanent --add-port&#x3D;80&#x2F;tcp # 开放80端口</span><br><span class="line"></span><br><span class="line">firewall-cmd --permanent --remove-port&#x3D;8080&#x2F;tcp # 移除端口</span><br><span class="line"></span><br><span class="line">systemctl restart firewalld #重启防火墙(修改配置后要重启防火墙)</span><br><span class="line"></span><br></pre></td></tr></table></figure><h4 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h4><p>1、firwall-cmd：是Linux提供的操作firewall的一个工具；<br>2、–permanent：表示设置为持久；<br>3、–add-port：标识添加的端口；</p><h3 id="【安装PHP】"><a href="#【安装PHP】" class="headerlink" title="【安装PHP】"></a>【安装PHP】</h3><p>参考博客内的另外一篇文章：“Centos 安装 LAMP 环境”  <a href="http://blog.shayvmo.cn/2019/08/29/lamp/" target="_blank" rel="noopener">http://blog.shayvmo.cn/2019/08/29/lamp/</a></p><h3 id="【安装MySQL】"><a href="#【安装MySQL】" class="headerlink" title="【安装MySQL】"></a>【安装MySQL】</h3><p>参考链接：<a href="https://www.cnblogs.com/qjoanven/p/7699382.html" target="_blank" rel="noopener">https://www.cnblogs.com/qjoanven/p/7699382.html</a><br>(1) 下载rpm 文件。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;Downloads&#x2F;MySQL-5.7&#x2F;mysql-5.7.16-1.el7.x86_64.rpm-bundle.tar </span><br></pre></td></tr></table></figure><p>(2)解压，并依次安装</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tar -xvf mysql-5.7.16-1.el7.x86_64.rpm-bundle.tar</span><br></pre></td></tr></table></figure><p>解压后依次执行安装</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rpm -ivh mysql-community-common-5.7.16-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-libs-5.7.16-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-client-5.7.16-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-server-5.7.16-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure><p>(3) 安装成功后，启动 MySQL service<br><code>systemctl start mysqld.service</code></p><p>(4) 修改配置 /etc/my.cnf</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;my.cnf</span><br><span class="line"># 插入以下</span><br><span class="line">[mysqld]</span><br><span class="line">datadir&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql</span><br><span class="line">socket&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line">symbolic-links&#x3D;0</span><br><span class="line">log-error&#x3D;&#x2F;var&#x2F;log&#x2F;mysqld.log</span><br><span class="line">pid-file&#x3D;&#x2F;var&#x2F;run&#x2F;mysqld&#x2F;mysqld.pid</span><br><span class="line">validate_password&#x3D;off</span><br><span class="line">default-storage-engine&#x3D;INNODB</span><br><span class="line">character-set-server&#x3D;utf8</span><br><span class="line">collation-server&#x3D;utf8_general_ci</span><br></pre></td></tr></table></figure><p>注：validate_password=off 的意思是关闭密码验证插件（这一句必须加上，因为在修改密码的时候如果不加上会非常的麻烦）。</p><p>(5) 重启服务<br><code>systemctl restart mysqld.service</code></p><h4 id="【MySQL后续处理】"><a href="#【MySQL后续处理】" class="headerlink" title="【MySQL后续处理】"></a>【MySQL后续处理】</h4><p>1、修改 root 用户初始密码<br>生成临时密码，执行命令后，会看到生成的临时密码是多少。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">grep &#39;temporary password&#39; &#x2F;var&#x2F;log&#x2F;mysqld.log</span><br></pre></td></tr></table></figure><p>使用临时密码，登录MySQL。<br><code>mysql -u root -p</code></p><p>登录数据库之后，运行命令更改密码。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql&gt; set password&#x3D;password(&#39;新密码&#39;);</span><br><span class="line">mysql&gt; flush privileges; #刷新</span><br></pre></td></tr></table></figure><p>更改密码后，添加root用户远程访问权限</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#登录mysql</span><br><span class="line">mysql&gt; use mysql</span><br><span class="line">mysql&gt; update user set host&#x3D;&#39;%&#39; where user&#x3D;&#39;root&#39;;</span><br><span class="line">mysql&gt; select host,user from user;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">#退出mysql，重启mysql服务生效</span><br></pre></td></tr></table></figure><p>至此，LNMP 就安装完成了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> LNMP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>VMWare安装完CentOS 7后，出现 Couldn&#39;t resolve host</title>
+      <link href="/2019/09/17/vmware-centos-1/"/>
+      <url>/2019/09/17/vmware-centos-1/</url>
+      
+        <content type="html"><![CDATA[<p>参考链接：<a href="https://blog.csdn.net/qq_31295171/article/details/80875653" target="_blank" rel="noopener">https://blog.csdn.net/qq_31295171/article/details/80875653</a></p><h3 id="yum-时候遇到-Couldn’t-resolve-host"><a href="#yum-时候遇到-Couldn’t-resolve-host" class="headerlink" title="yum 时候遇到 Couldn’t resolve host"></a>yum 时候遇到 Couldn’t resolve host</h3><p>在VMWare 虚拟机上，安装CentOS7 系统进行学习的时候，<code>yum install</code> 安装包时，遇到了 <code>Couldn&#39;tresolve host</code> 。查询后初步判断是网卡设置原因。<br>解决方式：<br>编辑网卡配置</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-xxxxx      # 后面的xxxxx 对应各自的网卡</span><br></pre></td></tr></table></figure><p>修改文件在后面加上：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DNS1&#x3D;8.8.8.8</span><br><span class="line"></span><br><span class="line">DNS2&#x3D;8.8.4.4</span><br><span class="line"></span><br><span class="line">ONBOOT&#x3D;no 修改为 ONBOOT&#x3D;yes</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>然后<code>:wq</code>保存退出。输入：<code>service network restart</code> 重启网络。</p><p>操作完成，重新执行yum指令就可以正常下载了。</p><h3 id="wget-时遇到-Couldn’t-resolve-host"><a href="#wget-时遇到-Couldn’t-resolve-host" class="headerlink" title="wget 时遇到 Couldn’t resolve host"></a>wget 时遇到 Couldn’t resolve host</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;resolv.conf</span><br></pre></td></tr></table></figure><p>如果没有<code>domain localdomain</code> 这一行，就在顶上一行加上。加上后重启服务 <code>service network restart</code>。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> VMWare </tag>
+            
+            <tag> CentOS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hexo 迁移到另外一台电脑 【亲测】</title>
+      <link href="/2019/09/09/migrate/"/>
+      <url>/2019/09/09/migrate/</url>
+      
+        <content type="html"><![CDATA[<p>最近想到一个问题，一开始 Hexo 是在我的手提电脑上安装，那怎么能在另外的电脑也能正常使用？<br>于是在网上搜了一下，但是在实际操作的时候，发现好几个问题。</p><p>1、<code>npm install</code> 的时候，提示某些组件没有安装。这时候需要按照提示缺少的插件进行安装即可。<br> 例如：<code>npm install eslint@^4</code></p><p>2、使用 github 保存时，发现主题文件没有上传。<br>这时候需要把 themes 下的主题目录的 <code>.git .github .gitignore</code> 这几个都删掉，然后 <code>git add -A</code> ,提交即可。</p><p>3、hexo 不是内部命令。<br>执行 <code>npm install -g hexo-cli</code> 安装 hexo-cli 即可。</p><p>如果有遇到上述问题，希望以上能帮助到你。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Hexo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis基础入门</title>
+      <link href="/2019/09/02/redis-basic/"/>
+      <url>/2019/09/02/redis-basic/</url>
+      
+        <content type="html"><![CDATA[<h3 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h3><p>Redis是远程的，基于内存的，非关系型数据库</p><hr><h3 id="Redis-应用场景"><a href="#Redis-应用场景" class="headerlink" title="Redis 应用场景"></a>Redis 应用场景</h3><p>1、缓存<br>缓存数据</p><p>2、队列<br>list 实现队列</p><p>3、数据存储</p><hr><h3 id="Redis-安装"><a href="#Redis-安装" class="headerlink" title="Redis 安装"></a>Redis 安装</h3><p>1、服务器环境： Linux / Centos </p><p>2、Redis</p><p>3、预装 gcc tcl<br><code>yum install gcc-c++</code></p><p>【安装步骤】<br>1、下载 Redis<br><code>wget http://download.redis.io/releases/redis-5.0.5.tar.gz</code></p><img src="http://oss.shayvmo.cn/hexo/redis/ff9223e900dd1c663d613e1f671e17f.png" class="" title="下载Redis"><p>2、解压 Redis<br><code>tar -xf redis-5.0.5.tar.gz</code><br>解压后，进入源码目录，执行 <code>make</code> 命令。<br>安装完后页面：</p><img src="http://oss.shayvmo.cn/hexo/redis/d138e2684b43882f924a5d17fef569e.png" class="" title="安装redis完成"><p>3、将 <code>src</code> 目录下二进制文件安装到 <code>/usr/local/bin</code> 下。<br>执行命令 <code>sudo make install</code></p><img src="http://oss.shayvmo.cn/hexo/redis/730f11238c5853d6e64bde5a413ec77.png" class=""><p>4、配置项<br>一般 redis 参考的默认配置文件为解压目录下的 redis.conf ,先把该文件复制到其他目录下，并对其进行配置项修改。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">daemonize no &#x2F;&#x2F;改为yes ,配置redis server 后台进程启动 </span><br><span class="line"></span><br><span class="line">port 6379 &#x2F;&#x2F;默认端口 7200 </span><br><span class="line"></span><br></pre></td></tr></table></figure><p>5、启动 Redis server</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;bin&#x2F;redis-server &#x2F;opt&#x2F;redis&#x2F;config&#x2F;redis.conf &#x2F;&#x2F;以配置项启动redis-server</span><br><span class="line">ps aux|grep redis-server &#x2F;&#x2F;查看进程是否开启成功</span><br><span class="line">kill -9 XX  &#x2F;&#x2F;杀死进程</span><br></pre></td></tr></table></figure><img src="http://oss.shayvmo.cn/hexo/redis/a9d31d4e367272e802470ab81a35cb1.png" class="" title="启动服务"><hr><p>Redis 客户端</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#redis-cli --help </span><br><span class="line">redis-cli -h 127.0.0.1 -p 7200</span><br><span class="line"></span><br><span class="line">[root@izwz94ryybsa2lcqvewvzqz redis-5.0.5]# redis-cli -h 127.0.0.1 -p 7200</span><br><span class="line">127.0.0.1:7200&gt; info</span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><h3 id="Redis-数据类型以及各数据类型的使用场景"><a href="#Redis-数据类型以及各数据类型的使用场景" class="headerlink" title="Redis 数据类型以及各数据类型的使用场景"></a>Redis 数据类型以及各数据类型的使用场景</h3><table><thead><tr><th>数据类型</th><th>存储的值</th><th>读写能力</th></tr></thead><tbody><tr><td>String</td><td>字符串、整数或浮点，统称为元素</td><td>对字符串操作<br>对整数类型加减</td></tr><tr><td>List</td><td>序列集合且每个节点包含一个元素</td><td>序列两端推入、或弹出元素<br>修建、查找或移除元素</td></tr><tr><td>Set</td><td>各不相同的元素</td><td>从集合中插入或删除元素</td></tr><tr><td>Hash</td><td>有key-value 的散列组<br>key 是字符串，value 是元素</td><td>按照key 进行增加删除</td></tr><tr><td>Sort Set</td><td>带分数的score-value有序集合<br>score 为浮点，value 是元素</td><td>集合插入，按照分数范围查找</td></tr></tbody></table><p>【String】<br>key | value(string/int/float)</p><img src="http://oss.shayvmo.cn/hexo/redis/4c58fc89b8ed8e31c9a2b1ebe9ac0ce.png" class="" title="string 类型"><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">127.0.0.1:7200&gt; set string1 eric</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:7200&gt; get string1</span><br><span class="line">&quot;eric&quot;</span><br><span class="line">127.0.0.1:7200&gt; set string2 4</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:7200&gt; get string2</span><br><span class="line">&quot;4&quot;</span><br><span class="line">127.0.0.1:7200&gt; incr string2</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:7200&gt; get string2</span><br><span class="line">&quot;5&quot;</span><br><span class="line">127.0.0.1:7200&gt; decr string2</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:7200&gt; decrby string2 2</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure><p>【List】<br>列表，元素不唯一</p><img src="http://oss.shayvmo.cn/hexo/redis/2d2704b069f92c9f0e89596b271c9ad.png" class="" title="list 类型"><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">lpush list1 12 &#x2F;&#x2F; 12</span><br><span class="line">lpush list1 13 &#x2F;&#x2F; 13 12</span><br><span class="line"></span><br><span class="line">lindex list1 0 &#x2F;&#x2F; 13</span><br><span class="line"></span><br><span class="line">rpop list1 &#x2F;&#x2F;12</span><br><span class="line">#先进先出</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>【Set】<br>集合，元素唯一</p><img src="http://oss.shayvmo.cn/hexo/redis/632cac3d6180e19518df403091d6c89.png" class="" title="set 类型"><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sadd set1 redis</span><br><span class="line">sadd set1 memcached</span><br><span class="line">smembers set1</span><br></pre></td></tr></table></figure><p>【Hash】<br>哈希</p><img src="http://oss.shayvmo.cn/hexo/redis/befd56703b38b25cc721c3438da93f0.png" class="" title="hash 类型"><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hset key field value # 将哈希表 key 中的字段 field 的值设为 value 。</span><br></pre></td></tr></table></figure><p>【Sort Set】<br>有序集合</p><img src="http://oss.shayvmo.cn/hexo/redis/7d5febbd51ba8db7848c7bc7fd3b2f1.png" class="" title="sort set 类型"><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ZADD key score1 member1 [score2 member2]  # 向有序集合添加一个或多个成员，或者更新已存在成员的分数</span><br></pre></td></tr></table></figure><h3 id="操作-Redis"><a href="#操作-Redis" class="headerlink" title="操作 Redis"></a>操作 Redis</h3><p><strong>【服务器安装要求】</strong></p><p>1、Linux 服务器 （这里使用 Centos ）</p><p>2、PHP 5.3 （phpize / php-config ） 以上，具体和下载的 redis 要求版本一致</p><p>3、PHP redis 拓展</p><img src="http://oss.shayvmo.cn/hexo/redis/ed7a32accfa66e6070c2af2d33acfc5.png" class="" title="系统要求"><p>下载php-redis 拓展</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;github.com&#x2F;phpredis&#x2F;phpredis&#x2F;archive&#x2F;develop.zip</span><br></pre></td></tr></table></figure><img src="http://oss.shayvmo.cn/hexo/redis/929c8c5d55edc8e56e6a93baba839e5.png" class="" title="安装PHP-redis拓展"><p>make 出现错误</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@izwz94ryybsa2lcqvewvzqz phpredis-develop]# make</span><br><span class="line">&#x2F;bin&#x2F;sh &#x2F;opt&#x2F;phpredis-develop&#x2F;libtool --mode&#x3D;compile cc  -I. -I&#x2F;opt&#x2F;phpredis-develop -DPHP_ATOM_INC -I&#x2F;opt&#x2F;phpredis-develop&#x2F;include -I&#x2F;opt&#x2F;phpredis-develop&#x2F;main -I&#x2F;opt&#x2F;phpredis-develop -I&#x2F;usr&#x2F;include&#x2F;php -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;main -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;TSRM -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;Zend -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext&#x2F;date&#x2F;lib -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext  -DHAVE_CONFIG_H  -g -O2   -c &#x2F;opt&#x2F;phpredis-develop&#x2F;redis.c -o redis.lo</span><br><span class="line">libtool: compile:  cc -I. -I&#x2F;opt&#x2F;phpredis-develop -DPHP_ATOM_INC -I&#x2F;opt&#x2F;phpredis-develop&#x2F;include -I&#x2F;opt&#x2F;phpredis-develop&#x2F;main -I&#x2F;opt&#x2F;phpredis-develop -I&#x2F;usr&#x2F;include&#x2F;php -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;main -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;TSRM -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;Zend -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext&#x2F;date&#x2F;lib -I&#x2F;usr&#x2F;include&#x2F;php&#x2F;ext -DHAVE_CONFIG_H -g -O2 -c &#x2F;opt&#x2F;phpredis-develop&#x2F;redis.c  -fPIC -DPIC -o .libs&#x2F;redis.o</span><br><span class="line">In file included from &#x2F;opt&#x2F;phpredis-develop&#x2F;redis.c:27:0:</span><br><span class="line">&#x2F;opt&#x2F;phpredis-develop&#x2F;common.h:12:28: fatal error: zend_smart_str.h: No such file or directory</span><br><span class="line"> #include &lt;zend_smart_str.h&gt;</span><br><span class="line">                            ^</span><br><span class="line">compilation terminated.</span><br><span class="line">make: *** [redis.lo] Error 1</span><br></pre></td></tr></table></figure><p>make 出现错误，是因为下载的 redis 版本要求的PHP版本 和服务器的版本不一致导致的。最新版的redis，最低要求 PHP7.0 或以上。<br>原先服务器用的是php5.6，于是升级到php 7.1。首先卸载5.6 <code>yum remove php-common</code><br>然后再安装PHP7.1</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install -y php71w-fpm php71w-opcache php71w-cli php71w-gd php71w-imap </span><br><span class="line">php71w-mysqlnd php71w-mbstring php71w-mcrypt php71w-pdo php71w-pecl-apcu php71w-pecl-mongodb </span><br><span class="line">php71w-pecl-redis php71w-pgsql php71w-xml php71w-xmlrpc php71w-devel mod_php71w</span><br></pre></td></tr></table></figure><p>make &amp;&amp; make install 成功</p><img src="http://oss.shayvmo.cn/hexo/redis/7f14962bd924225f8e15b90068ec6a3.png" class="" title="make &amp;&amp; make install"><p>下一步，更改 php.ini 文件，加载 redis.so 模块<br><code>extention=redis.so</code></p><p>使用命令<code>php -m</code> 查看加载的模块，即可看到已经加载 redis</p><hr><p>【PHP 如何连接 redis 】<br>phpredis 文档<br><code>https://github.com/phpredis/phpredis</code></p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$redis = <span class="keyword">new</span> \Redis();</span><br><span class="line">$redis-&gt;connect(<span class="string">'127.0.0.1'</span>,<span class="number">7200</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//string 操作，保存json</span></span><br><span class="line">$redis-&gt;delete(<span class="string">"string1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;set(<span class="string">"string1"</span>,<span class="string">"val1"</span>);</span><br><span class="line"></span><br><span class="line">$val = $redis-&gt;get(<span class="string">"string1"</span>);</span><br><span class="line"></span><br><span class="line">var_dump($val);</span><br><span class="line"></span><br><span class="line">$redis-&gt;set(<span class="string">"string1"</span>,<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;incr(<span class="string">"string1"</span>,<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">$val = $redis-&gt;get(<span class="string">"string1"</span>);</span><br><span class="line"></span><br><span class="line">var_dump($val);</span><br></pre></td></tr></table></figure><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//list 实现队列，先进先出，异步行为</span></span><br><span class="line">$redis-&gt;delete(<span class="string">"list1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;lPush(<span class="string">"list1"</span>,<span class="string">"A"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;lPush(<span class="string">"list1"</span>,<span class="string">"B"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;lPush(<span class="string">"list1"</span>,<span class="string">"C"</span>);</span><br><span class="line"></span><br><span class="line">$val = $redis-&gt;rPop(<span class="string">"list1"</span>);</span><br><span class="line"></span><br><span class="line">var_dump($val);<span class="comment">//输出A</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">//set 唯一集合</span></span><br><span class="line">$redis-&gt;delete(<span class="string">"set1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;sAdd(<span class="string">"set1"</span>,<span class="string">"A"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;sAdd(<span class="string">"set1"</span>,<span class="string">"B"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;sAdd(<span class="string">"set1"</span>,<span class="string">"C"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;sAdd(<span class="string">"set1"</span>,<span class="string">"C"</span>);</span><br><span class="line"></span><br><span class="line">$val = $redis-&gt;sCard(<span class="string">"set1"</span>);</span><br><span class="line">var_dump($val);</span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;sMembers(<span class="string">"set1"</span>));</span><br></pre></td></tr></table></figure><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">//hash 一般用于存储复杂属性</span></span><br><span class="line"></span><br><span class="line">$redis-&gt;delete(<span class="string">"driver1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;hSet(<span class="string">"driver1"</span>,<span class="string">"name"</span>,<span class="string">"shayvmo"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;hSet(<span class="string">"driver1"</span>,<span class="string">"age"</span>,<span class="number">25</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;hSet(<span class="string">"driver1"</span>,<span class="string">"gender"</span>,<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;hGet(<span class="string">"driver1"</span>,<span class="string">"name"</span>);</span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;hMGet(<span class="string">"driver1"</span>,<span class="string">"name"</span>,<span class="string">"age"</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">// sort set 排行榜</span></span><br><span class="line"><span class="comment">// zAdd  zRange 分数低到高  zRevRange 高到低</span></span><br><span class="line"></span><br><span class="line">$redis-&gt;delete(<span class="string">"zset1"</span>);</span><br><span class="line"></span><br><span class="line">$redis-&gt;zAdd(<span class="string">"zset1"</span>,<span class="number">100</span>,<span class="string">'shayvmo'</span>);</span><br><span class="line">$redis-&gt;zAdd(<span class="string">"zset1"</span>,<span class="number">88</span>,<span class="string">'shayvmo88'</span>);</span><br><span class="line">$redis-&gt;zAdd(<span class="string">"zset1"</span>,<span class="number">97</span>,<span class="string">'shayvmo97'</span>);</span><br><span class="line">$redis-&gt;zAdd(<span class="string">"zset1"</span>,<span class="number">93</span>,<span class="string">'shayvmo93'</span>);</span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;zRange(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">-1</span>));<span class="comment">//分数低到高全部返回</span></span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;zRevRange(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">-1</span>));<span class="comment">//分数高到低全部返回</span></span><br><span class="line"></span><br><span class="line">var_dump($redis-&gt;zRevRange(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="keyword">true</span>));<span class="comment">//分数高到低全部返回，并返回分数</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>【注意事项】<br>运行PHP 文件时，出错</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PHP Startup: Unable to load dynamic library &#39;&#x2F;usr&#x2F;lib64&#x2F;php&#x2F;modules&#x2F;redis.so&#39; </span><br><span class="line">- &#x2F;usr&#x2F;lib64&#x2F;php&#x2F;modules&#x2F;redis.so: undefined symbol: php_json_decode_ex in Unknown on line 0</span><br></pre></td></tr></table></figure><p>解决方法： 去掉<code>php.ini</code> 中的 <code>extension=redis.so</code><br>来源链接：<a href="https://stackoverflow.com/questions/41052999/php-warning-unable-to-load-dynamic-library-usr-lib64-php-modules-solr-so-und" title="" target="">链接</a></p><p>【最后更新时间】<br>2019年9月14日16:39:26</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Redis </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Redis </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Centos 配置 PHP memcached 缓存【踩坑】</title>
+      <link href="/2019/08/30/memcache/"/>
+      <url>/2019/08/30/memcache/</url>
+      
+        <content type="html"><![CDATA[<p>最近项目中，刚好配置一个新的服务器 memcache 环境。<br>项目中用到 memcache 缓存的时候，需要先在服务器上安装 memcache 环境，以及配置 PHP 的 memcache 拓展。<br>目前接触到使用 memcache 缓存的场景是，多终端登录，前后端分离，设置登录 session 值。</p><p>安装教程，可以参考阿里云官方文档。</p><blockquote><p><a href="https://help.aliyun.com/document_detail/48432.html?spm=a2c4g.11186623.6.564.4a1a7cc53z7YxM" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/48432.html?spm=a2c4g.11186623.6.564.4a1a7cc53z7YxM</a></p></blockquote><p><strong>注： 如果在生产环境的服务器，记得先做备份。</strong></p><p>Centos 及 Aliyun Linux 6系列版本</p><p>1、确认是否安装了gcc-c++ 等组件（使用 <code>gcc –v</code> 查看版本是否为4.2及以上）。<br>如没有请执行 <code>yum install gcc+ gcc-c++</code>。</p><p>2、执行 <code>rpm -qa | grep php</code> 查看系统中是否有 PHP 环境。<br>如果没有则执行 <code>yum install php-devel,php-common,php-cli</code> 安装包含源码编译的 PHP。</p><p>3、检测是否有已安装了 SASL 相关环境包，如没有，则执行 yum install cyrus-sasl-plain cyrus-sasl cyrus-sasl-devel cyrus-sasl-lib 安装 SASL 相关环境。</p><p>4、检测下是否有已安装了 libmemcached 源码包，若没有，则执行以下命令安装 libmemcached 源码包（推荐版本 libmemcached-1.0.18）。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">wget https:&#x2F;&#x2F;launchpad.net&#x2F;libmemcached&#x2F;1.0&#x2F;1.0.18&#x2F;+download&#x2F;libmemcached-1.0.18.tar.gz </span><br><span class="line"></span><br><span class="line">tar zxvf libmemcached-1.0.18.tar.gz</span><br><span class="line"></span><br><span class="line">cd libmemcached-1.0.18</span><br><span class="line"></span><br><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;libmemcached --enable-sasl</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">cd ..</span><br></pre></td></tr></table></figure><p>5、执行 yum install zlib-devel 安装 memcached 源码包（推荐版本为 memcached-2.2.0）。<br>注意：<br>1、安装 memcached 前需要确认是否有 zlib-devel 包需要执行。</p><p>2、请先检测下是否已安装了 memcached 客户端包（包含源码包）。如有则不需要安装，但需要重新编译增加 -enable-memcached-sasl 这个扩展。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget http:&#x2F;&#x2F;pecl.php.net&#x2F;get&#x2F;memcached-2.2.0.tgz</span><br><span class="line"></span><br><span class="line">tar zxvf memcached-2.2.0.tgz</span><br><span class="line"></span><br><span class="line">cd memcached-2.2.0</span><br><span class="line"></span><br><span class="line">phpize（如果系统中有两套PHP环境，需绝对路径调用该命令&#x2F;usr&#x2F;bin&#x2F;phpize，该路径为使用云数据库Memcache的PHP环境路径）</span><br><span class="line"></span><br><span class="line">.&#x2F;configure --with-libmemcached-dir&#x3D;&#x2F;usr&#x2F;local&#x2F;libmemcached --enable-memcached-sasl（注意这个参数）</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>6、修改 php.ini 文件（locate 找该文件，如果系统中有两套 PHP 环境，需找到使用云数据库 Memcache 的 PHP 环境路径，对应修改之），<br>末尾增加 </p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">extension&#x3D;memcached.so</span><br><span class="line">memcached.use_sasl &#x3D; 1</span><br></pre></td></tr></table></figure><p>7、使用该页面最后的测试代码测试下是否环境部署成功，请修改代码中相应的地址、端口、用户名及密码。<br>注：新版的阿里云 memcache 服务，账号为实例ID</p><hr><p>【 PHP实例代码 】</p><p>示例1：基本的连接云数据库 Memcache 及 set/get 操作</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$connect = <span class="keyword">new</span> Memcached;  <span class="comment">//声明一个新的memcached链接</span></span><br><span class="line">$connect-&gt;setOption(Memcached::OPT_COMPRESSION, <span class="keyword">false</span>); <span class="comment">//关闭压缩功能</span></span><br><span class="line">$connect-&gt;setOption(Memcached::OPT_BINARY_PROTOCOL, <span class="keyword">true</span>); <span class="comment">//使用binary二进制协议</span></span><br><span class="line">$connect-&gt;setOption(Memcached::OPT_TCP_NODELAY, <span class="keyword">true</span>); <span class="comment">//重要，php memcached有个bug，当get的值不存在，有固定40ms延迟，开启这个参数，可以避免这个bug</span></span><br><span class="line">$connect-&gt;addServer(<span class="string">'aaaaaaaaaa.m.yyyyyyyyyyy.ocs.aliyuncs.com'</span>, <span class="number">11211</span>); <span class="comment">//添加OCS实例地址及端口号</span></span><br><span class="line">$connect-&gt;setSaslAuthData(<span class="string">'aaaaaaaaaa'</span>, <span class="string">'password'</span>); <span class="comment">//设置OCS帐号密码进行鉴权，如已开启免密码功能，则无需此步骤；新版OCS的username为实例id</span></span><br><span class="line">$connect-&gt;set(<span class="string">"hello"</span>, <span class="string">"world"</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'hello: '</span>,$connect-&gt;get(<span class="string">"hello"</span>);</span><br><span class="line">$connect-&gt;quit();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p>示例2：在云数据库 Memcache 中缓存一个数组</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$connect= <span class="keyword">new</span> Memcached; <span class="comment">//声明一个新的memcached链接</span></span><br><span class="line">$connect-&gt;setOption(Memcached::OPT_COMPRESSION, <span class="keyword">false</span>); <span class="comment">//关闭压缩功能</span></span><br><span class="line">$connect-&gt;setOption(Memcached::OPT_BINARY_PROTOCOL, <span class="keyword">true</span>);<span class="comment">//使用binary二进制协议</span></span><br><span class="line">$connect-&gt;setOption(Memcached::OPT_TCP_NODELAY, <span class="keyword">true</span>); <span class="comment">//重要，php memcached有个bug，当get的值不存在，有固定40ms延迟，开启这个参数，可以避免这个bug</span></span><br><span class="line">$connect-&gt;addServer(<span class="string">'xxxxxxxx.m.yyyyyyyy.ocs.aliyuncs.com'</span>, <span class="number">11211</span>);<span class="comment">//添加OCS实例地址及端口号</span></span><br><span class="line">$connect-&gt;setSaslAuthData(<span class="string">'xxxxxxxx'</span>, <span class="string">'bbbbbbbb'</span>);<span class="comment">//设置OCS帐号密码进行鉴权，如已开启免密码功能，则无需此步骤</span></span><br><span class="line">$user = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">"name"</span> =&gt; <span class="string">"ocs"</span>,</span><br><span class="line">    <span class="string">"age"</span> =&gt; <span class="number">1</span>,</span><br><span class="line">    <span class="string">"sex"</span> =&gt; <span class="string">"male"</span></span><br><span class="line">); <span class="comment">//声明一组数组  </span></span><br><span class="line">$expire = <span class="number">60</span>; <span class="comment">//设置过期时间</span></span><br><span class="line">test($connect-&gt;set(<span class="string">'your_name'</span>,$user,$expire), <span class="keyword">true</span>, <span class="string">'Set cache failed'</span>);</span><br><span class="line"><span class="keyword">if</span>($connect-&gt;get(<span class="string">'your_name'</span>))&#123;</span><br><span class="line">$result =$connect-&gt;get(<span class="string">'your_name'</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;  </span><br><span class="line"><span class="keyword">echo</span> <span class="string">"Return code:"</span>, $connect-&gt;getResultCode();</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"Retucn Message:"</span>, $connect-&gt;getResultMessage (); <span class="comment">//如出现错误，解析出返回码</span></span><br><span class="line">$result=<span class="string">" "</span>;</span><br><span class="line">&#125;  </span><br><span class="line">print_r($result);</span><br><span class="line">$connect-&gt;quit();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">($val, $expect, $msg)</span></span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">if</span>($val!= $expect) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>($msg);</span><br><span class="line">&#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>示例3：云数据库 Memcache 与 MySQL 数据库结合使用</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$connect = <span class="keyword">new</span> Memcached; <span class="comment">//声明一个新的memcached链接</span></span><br><span class="line">$connect-&gt;setOption(Memcached::OPT_COMPRESSION, <span class="keyword">false</span>);<span class="comment">//关闭压缩功能</span></span><br><span class="line">$connect-&gt;setOption(Memcached::OPT_BINARY_PROTOCOL, <span class="keyword">true</span>);<span class="comment">//使用binary二进制协议</span></span><br><span class="line">$connect-&gt;setOption(Memcached::OPT_TCP_NODELAY, <span class="keyword">true</span>); <span class="comment">//重要，php memcached有个bug，当get的值不存在，有固定40ms延迟，开启这个参数，可以避免这个bug</span></span><br><span class="line">$connect-&gt;addServer(<span class="string">'xxxxxx.m.yyyyyyyy.ocs.aliyuncs.com'</span>, <span class="number">11211</span>);<span class="comment">//添加实例地址  端口号</span></span><br><span class="line">$connect-&gt;setSaslAuthData(<span class="string">'xxxxxx'</span>, <span class="string">'my_passwd'</span>);<span class="comment">//设置OCS帐号密码进行鉴权，如已开启免密码功能，则无需此步骤</span></span><br><span class="line">$user = <span class="keyword">array</span>(</span><br><span class="line">   <span class="string">"name"</span> =&gt; <span class="string">"ocs"</span>,</span><br><span class="line">   <span class="string">"age"</span>  =&gt; <span class="number">1</span>,</span><br><span class="line">   <span class="string">"sex"</span>  =&gt; <span class="string">"male"</span></span><br><span class="line">); <span class="comment">//定义一组数组</span></span><br><span class="line"><span class="keyword">if</span>($connect-&gt;get(<span class="string">'your_name'</span>))</span><br><span class="line">&#123;</span><br><span class="line">  $result =$connect-&gt;get(<span class="string">'your_name'</span>);</span><br><span class="line">  print_r($result);</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"Found in OCS, get data from OCS"</span>; <span class="comment">//如果获取到数据，则打印此数据来源于OCS</span></span><br><span class="line">  <span class="keyword">exit</span>;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"Return code:"</span>, $connect-&gt;getResultCode();</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"Retucn Message:"</span>, $connect-&gt;getResultMessage ();<span class="comment">//抛出code返回码</span></span><br><span class="line">  $db_host=<span class="string">'zzzzzz.mysql.rds.aliyuncs.com'</span>; <span class="comment">//数据库地址</span></span><br><span class="line">  $db_name=<span class="string">'my_db'</span>;         <span class="comment">//database name</span></span><br><span class="line">  $db_username=<span class="string">'db_user'</span>;    <span class="comment">//数据库用户名</span></span><br><span class="line">  $db_password=<span class="string">'db_passwd'</span>;<span class="comment">//数据库用户密码</span></span><br><span class="line">  $connection=mysql_connect($db_host,$db_username,$db_password);</span><br><span class="line">  <span class="keyword">if</span> (!mysql_select_db($db_name, $connection))</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'Could not select database'</span>; <span class="comment">//数据库连接不成功则抛出错误信息</span></span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  $sql = <span class="string">"SELECT name,age,sex FROM test1 WHERE name = 'ocs'"</span>;</span><br><span class="line">  $result = mysql_query($sql, $connection);</span><br><span class="line">  <span class="keyword">while</span> ($row = mysql_fetch_assoc($result))</span><br><span class="line">  &#123;</span><br><span class="line">    $user = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">"name"</span> =&gt; $row[<span class="string">"name"</span>],</span><br><span class="line">      <span class="string">"age"</span>  =&gt; $row[<span class="string">"age"</span>],</span><br><span class="line">      <span class="string">"sex"</span>  =&gt; $row[<span class="string">"sex"</span>],</span><br><span class="line">    );</span><br><span class="line">    $expire = <span class="number">5</span>; <span class="comment">//设置数据在缓存中的过期时间</span></span><br><span class="line">    test($connect-&gt;set(<span class="string">'your_name'</span>,$user,$expire), <span class="keyword">true</span>, <span class="string">'Set cache failed'</span>); <span class="comment">//写入OCS缓存</span></span><br><span class="line">  &#125;</span><br><span class="line">  mysql_free_result($result);</span><br><span class="line">  mysql_close($connection);</span><br><span class="line">&#125;</span><br><span class="line">print_r($connect-&gt;get(<span class="string">'your_name'</span>)); <span class="comment">//打印出  获取到的数据</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"Not Found in OCS,get data from MySQL"</span>; <span class="comment">//确认从数据库获取的数据</span></span><br><span class="line">$connect-&gt;quit();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">($val, $expect, $msg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>($val!= $expect) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>($msg);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><h3 id="【踩坑】"><a href="#【踩坑】" class="headerlink" title="【踩坑】"></a>【踩坑】</h3><p>尝试配置的时候，设置好 阿里云 memcache 参数，发现返回一个错误：UNKNOWN READ FAILURE7</p><p>查了一晚上，也没什么结果，第二天一看发现，配置的IP白名单有问题。</p><p>因为购买 memcache 的时候，绑定了专有网络，但是我在绑定 IP 白名单的时候却用到了外网IP，所以导致了读错误。</p><p>后面修改白名单后，也是顺利解决了这个问题。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Memcached </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> memcache </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>php常量以及数据类型</title>
+      <link href="/2019/08/30/php-basic-1/"/>
+      <url>/2019/08/30/php-basic-1/</url>
+      
+        <content type="html"><![CDATA[<h3 id="PHP字符串定义方式及各自区别"><a href="#PHP字符串定义方式及各自区别" class="headerlink" title="PHP字符串定义方式及各自区别"></a>PHP字符串定义方式及各自区别</h3><p>【定义方式】<br>单引号<br>双引号</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">heredoc : </span><br><span class="line">&lt;&lt;&lt;EOT</span><br><span class="line">hello world</span><br><span class="line">EOT</span><br></pre></td></tr></table></figure><p>newdoc : </p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;&lt;&lt;&#39;EOT&#39;</span><br><span class="line">hello Eric</span><br><span class="line">EOT</span><br></pre></td></tr></table></figure><hr><p>【区别】</p><p>单引号不解析变量，<br>单引号不解析转义字符，只能解析单引号和反斜线本身</p><p>双引号解析变量、所有转义符号<br>变量可以使用特殊字符和{}包含</p><p>同等情况下，单引号效率更高</p><p>heredoc 相当于多行双引号</p><p>nowdoc 类似于多行单引号</p><hr><h3 id="【数据类型】"><a href="#【数据类型】" class="headerlink" title="【数据类型】"></a>【数据类型】</h3><p><strong>浮点型</strong></p><p>不能运用到比较运算中，会有单双精度的问题。</p><p><strong>布尔型</strong></p><p>FALSE的多种情况</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="number">0</span>,<span class="number">0.0</span>,<span class="string">''</span>,<span class="string">'0'</span>,<span class="keyword">false</span>,<span class="keyword">array</span>(),<span class="keyword">NULL</span></span><br></pre></td></tr></table></figure><p><strong>数组类型</strong></p><p>超全局数组</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$GLOBALS <span class="comment">//包含所有</span></span><br><span class="line">$_GET</span><br><span class="line">$_POST</span><br><span class="line">$_SESSION</span><br><span class="line">$_COOKIE</span><br><span class="line">$_REQUEST <span class="comment">//包含get,post</span></span><br><span class="line">$_SERVER <span class="comment">//重点</span></span><br><span class="line">$_FILES</span><br><span class="line">$_ENV</span><br><span class="line"></span><br><span class="line">$_SERVER</span><br><span class="line">$_SERVER[<span class="string">'SERVER_ADDR'</span>]  <span class="comment">// 服务器IP</span></span><br><span class="line">$_SERVER[<span class="string">'SERVER_NAME'</span>]  <span class="comment">// 服务器域名</span></span><br><span class="line">$_SERVER[<span class="string">'REQUEST_TIME'</span>] <span class="comment">//请求时间</span></span><br><span class="line">$_SERVER[<span class="string">'QUERY_STRING'</span>] <span class="comment">//请求参数字符串</span></span><br><span class="line">$_SERVER[<span class="string">'HTTP_REFERER'</span>] <span class="comment">//链接到当前页面的上一个地址</span></span><br><span class="line">$_SERVER[<span class="string">'HTTP_USER_AGENT'</span>] <span class="comment">//当前请求用户信息</span></span><br><span class="line">$_SERVER[<span class="string">'REMOTE_ADDR'</span>] <span class="comment">// 客户端IP</span></span><br><span class="line">$_SERVER[<span class="string">'REQUEST_URI'</span>] <span class="comment">//请求地址</span></span><br><span class="line">$_SERVER[<span class="string">'PATH_INFO'</span>] <span class="comment">// 文件路径，可用作路由区分参数</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><p><strong>NULL 类型</strong></p><p>3种情况，NULL，未定义变量，unset后的变量</p><p><strong>常量</strong></p><p>const 语言结构<br>define 函数</p><p>2者相比，const 更快</p><p><strong>预定义常量</strong></p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">__FILE__</span><br><span class="line">__LINE__</span><br><span class="line">__DIR__</span><br><span class="line">__FUNCTION__</span><br><span class="line">__CLASS__</span><br><span class="line">__TRAIT__</span><br><span class="line">__METHOD__</span><br><span class="line">__NAMESPACE__</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>php引用变量</title>
+      <link href="/2019/08/30/php-basic/"/>
+      <url>/2019/08/30/php-basic/</url>
+      
+        <content type="html"><![CDATA[<h4 id="【概念】"><a href="#【概念】" class="headerlink" title="【概念】"></a>【概念】</h4><p>在PHP中使用不同的变量名称，访问同一个内容。</p><h4 id="【定义方式】"><a href="#【定义方式】" class="headerlink" title="【定义方式】"></a>【定义方式】</h4><p>&amp;</p><h4 id="【demo】"><a href="#【demo】" class="headerlink" title="【demo】"></a>【demo】</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;&#x2F;创建一个包含0-10的数组</span><br><span class="line">$a &#x3D; range(0,10);&#x2F;&#x2F;创建内存空间</span><br><span class="line"></span><br><span class="line">var_dump(memory_get_usage());&#x2F;&#x2F;查看内存使用情况</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; COW Copy On Write</span><br><span class="line">$b &#x3D; $a;   &#x2F;&#x2F;$b指向$a 空间</span><br><span class="line">$a &#x3D; range(0,2);&#x2F;&#x2F;修改a，开辟新空间</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$b &amp;&#x3D; $a;  &#x2F;&#x2F;引用，2个变量永远指向一个空间。更改a内容，并不会开辟新空间</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>【zval变量容器】</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$a &#x3D; range(0,3);</span><br><span class="line">xdebug_debug_zval(&#39;a&#39;);&#x2F;&#x2F;需要安装Xdebug</span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><p>当变量发生引用时，unset 只会取消引用，并不会销毁空间。</p><p>对于对象 obj 来说，本身就是引用传递，不会开辟新空间。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Person</span><br><span class="line">&#123;</span><br><span class="line">public $name &#x3D; &quot;zhangsan&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$p1 &#x3D; new Person();</span><br><span class="line">xdebug_debug_zval(&#39;p1&#39;);</span><br><span class="line"></span><br><span class="line">$p2 &#x3D; $p1;</span><br><span class="line"></span><br><span class="line">$p2-&gt;name &#x3D; &quot;lisi&quot;;</span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><h4 id="【题目练习】"><a href="#【题目练习】" class="headerlink" title="【题目练习】"></a>【题目练习】</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"></span><br><span class="line">$data &#x3D; [&#39;a&#39;,&#39;b&#39;,&#39;c&#39;];</span><br><span class="line"></span><br><span class="line">foreach($data as $key &#x3D;&gt; $val)</span><br><span class="line">&#123;</span><br><span class="line">$val &#x3D; &amp;$data[$key];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">1、程序运行时，每一次循环结束后，变量$data的值是什么，请解释。</span><br><span class="line">2、程序执行完成后，变量 $data 的值是什么？请解释。</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><p>abc-&gt;bbc-&gt;bcc-&gt;bcc</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Apache 设置虚拟 hosts</title>
+      <link href="/2019/08/29/apache-hosts/"/>
+      <url>/2019/08/29/apache-hosts/</url>
+      
+        <content type="html"><![CDATA[<p>前几篇介绍了 Centos 下安装 LAMP 环境，随着服务器上部署的项目越来越多，Apache 也会用到配置 http-vhosts 来实现<br>同一台服务器，部署多个站点的需求。</p><h3 id="引入-vhosts-文件"><a href="#引入-vhosts-文件" class="headerlink" title="引入 vhosts 文件"></a>引入 vhosts 文件</h3><p>1、首先，远程连接服务器后，进入 <code>/etc/httpd/conf</code> 目录下，会看到 <code>httpd.conf</code> 的 APACHE 配置文件。<br>这时候，可以在该文件末尾加上引入文件语句，把需要配置的 vhosts 引入进来。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">include conf&#x2F;extra&#x2F;httpd-vhosts.conf</span><br></pre></td></tr></table></figure><img src="http://oss.shayvmo.cn/hexo/vhosts/006a0654db05e0ea8d4b8ccc6505491.png" class="" title="apache 配置目录"><h3 id="配置站点"><a href="#配置站点" class="headerlink" title="配置站点"></a>配置站点</h3><p>2、extra 目录下的 httpd-vhosts.conf 文件则填写需要配置的 vhosts 站点。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NameVirtualHost *:80</span><br><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">ServerName xx.shayvmo.cn</span><br><span class="line">DocumentRoot &quot;&#x2F;var&#x2F;www&#x2F;html&#x2F;xx&quot;</span><br><span class="line">&lt;Directory &quot;&#x2F;var&#x2F;www&#x2F;html&#x2F;xx&quot;&gt;</span><br><span class="line">    Options FollowSymLinks</span><br><span class="line">    AllowOverride All</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow from all</span><br><span class="line">    &lt;&#x2F;Directory&gt;</span><br><span class="line">&lt;&#x2F;VirtualHost&gt;</span><br><span class="line"></span><br><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">ServerName aa.shayvmo.cn</span><br><span class="line">DocumentRoot &quot;&#x2F;var&#x2F;www&#x2F;html&#x2F;aa&quot;</span><br><span class="line">&lt;Directory &quot;&#x2F;var&#x2F;www&#x2F;html&#x2F;aa&quot;&gt;</span><br><span class="line">    Options FollowSymLinks</span><br><span class="line">    AllowOverride All</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow from all</span><br><span class="line">    &lt;&#x2F;Directory&gt;</span><br><span class="line">&lt;&#x2F;VirtualHost&gt;</span><br></pre></td></tr></table></figure><h3 id="重启-Apache-服务器"><a href="#重启-Apache-服务器" class="headerlink" title="重启 Apache 服务器"></a>重启 Apache 服务器</h3><p>3、配置好之后，重启 apache 服务器即可。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl restart httpd.service</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Apache </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>如何把 Hexo 博客添加自己的域名</title>
+      <link href="/2019/08/29/cname/"/>
+      <url>/2019/08/29/cname/</url>
+      
+        <content type="html"><![CDATA[<p>使用 Hexo 搭建博客，并发布到 GitHub 上面后，我们可以使用 yourname.github.io 访问搭建好的博客。因为之前买了自己的域名，</p><p>所以就想把自己的域名解析到 github 上。看了网上的介绍之后，设置还是比较简单，接下来就是添加域名的过程。</p><p>1、首先，进入域名所有服务商的控制台，添加 github 网址的解析，这里不推荐使用 ip 解析，推荐使用 CNAME 方式解析。</p><img src="http://oss.shayvmo.cn/hexo/98ecdfdd95dd50f4795fbc750985808.png" class="" title="[] [] title text " alt="alt text"><p>2、第二步，进入 github 网站，添加 yourname.github.io.git 仓库的 setting 里面的 Custom domain 为你解析的记录域名。</p><img src="http://oss.shayvmo.cn/hexo/12ac11ce244179338e92169d91eb459.png" class="" title="[] [] title text " alt="alt text"><p>3、第三步，回到 Hexo 目录下的 source ，添加一个 CNAME 文件，不用加后缀。CNAME 文件内容为 刚刚解析的域名记录。</p><hr><p>三步设置完后，等待解析生效，即可使用解析的域名进行访问。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Centos 搭建 svn 服务器</title>
+      <link href="/2019/08/29/svn/"/>
+      <url>/2019/08/29/svn/</url>
+      
+        <content type="html"><![CDATA[<p>搭建好服务器之后，免不了需要搭建一个代码的版本控制，这里介绍如何在 Centos 服务器上搭建 svn 版本控制。</p><p>1、连接到远程服务器，并搭建 svn </p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install subversion</span><br></pre></td></tr></table></figure> <p>安装完成后，会在命令行界面显示Complete！</p><p>2、安装好 svn 后，创建一个版本库。我个人比较习惯放在 /opt/ 目录下</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir -p &#x2F;opt&#x2F;svn&#x2F;repos</span><br><span class="line">svnadmin create &#x2F;opt&#x2F;svn&#x2F;repos</span><br></pre></td></tr></table></figure><hr><p><strong>【配置】</strong></p><p>创建版本库后，需要修改仓库的权限控制配置。进入到刚刚创建好的仓库目录，conf 目录存放该仓库的配置信息。里面有3个文件，<br>authz,passwd,svnserve.conf</p><p>passwd 表示用户的账号，密码<br>authz 表示有哪些用户，对当前仓库的目录访问权限<br>svnserve.conf 表示当前仓库的 svn 配置</p><p>（1）先设置passwd，配置多个用户时，以换行的格式区分</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[users]</span><br><span class="line"># harry &#x3D; harryssecret</span><br><span class="line"># sally &#x3D; sallyssecret</span><br><span class="line">hello&#x3D;123</span><br><span class="line">#用户名&#x3D;密码</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>（2）设置authz</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[groups]</span><br><span class="line">admin&#x3D;hello</span><br><span class="line">[&#x2F;]</span><br><span class="line">hello&#x3D;rw</span><br><span class="line">* &#x3D; r</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>（3）配置svnserve.conf</p><p>anon-access = none # 使非授权用户无法访问</p><p>auth-access = write # 使授权用户有写权限</p><p>password-db = passwd</p><p>authz-db = authz # 访问控制文件</p><p>realm = /opt/svn/repos #认证命名空间</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[general]</span><br><span class="line">anon-access &#x3D; none</span><br><span class="line">auth-access &#x3D; write</span><br><span class="line">password-db &#x3D; passwd</span><br><span class="line">authz-db &#x3D; authz</span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><p><strong>【如何使用】</strong></p><p>1、启动 svn 端口监听。这里监听的端口，要和服务器防火墙允许的端口一致。<br>另外，如果是使用阿里云服务器，除了服务器本身防火墙外，还需要在阿里云的防火墙进行端口开放。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">svnserve -d -r &#x2F;opt&#x2F;svn&#x2F;repos --listen-port 3391</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>通过监听不同的端口，一个服务器可以创建多个仓库。</p><p>2、同步到 web 目录下。通过钩子文件，实现 svn 提交后，同步到 web 目录。</p><p>（1）进入hooks目录下，复制post-commit.tmpl 到post-commit</p><p>（2）编辑 post-commit 文件</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi post-commit</span><br></pre></td></tr></table></figure><p>（3）并把内容修改成下面内容（ps：vi编辑器下，V + GG + D 删除文件全部内容）</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">export LANG&#x3D;&quot;zh_CN.UTF-8&quot;</span><br><span class="line">svn update &#x2F;var&#x2F;www&#x2F;html  --username user --password user_pwd</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>（4）修改完成后，更改post-commit权限为755，使得文件有权限被执行</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod 755 post-commit</span><br></pre></td></tr></table></figure><p>（5）设置好之后，在web目录先checkout一次svn才能同步过来。进入web目录下，过程会询问授权，按照操作输入yes 或者y 即可。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">svn checkout svn:&#x2F;&#x2F;服务器ip:端口 &#x2F;var&#x2F;www&#x2F;html --username username --password pwd</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> SVN </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> SVN </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Centos 安装 LAMP 环境</title>
+      <link href="/2019/08/29/lamp/"/>
+      <url>/2019/08/29/lamp/</url>
+      
+        <content type="html"><![CDATA[<p>恰好今天安装服务器环境，顺便也整理下之前的笔记，写一下 Centos 安装 LAMP 环境。</p><p>不会使用Docker，部署起来有点麻烦，后面学习 Docker 的时候再另开一篇总结。</p><hr><p><strong>【安装流程】</strong></p><p>1、防火墙配置<br>CentOS 7.0默认使用的是firewall作为防火墙，这里改为iptables防火墙。</p><p>（1）关闭firewall</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld.service #停止firewall</span><br><span class="line"></span><br><span class="line">systemctl disable firewalld.service #禁止firewall开机启动</span><br></pre></td></tr></table></figure><p>（2）安装iptables防火墙，开放80端口，3306</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">yum install iptables-services #安装</span><br><span class="line"></span><br><span class="line">vi &#x2F;etc&#x2F;sysconfig&#x2F;iptables #编辑防火墙配置文件</span><br><span class="line"></span><br><span class="line"># Firewall configuration written by system-config-firewall</span><br><span class="line"></span><br><span class="line"># Manual customization of this file is not recommended.</span><br><span class="line"></span><br><span class="line">*filter</span><br><span class="line"></span><br><span class="line">:INPUT ACCEPT [0:0]</span><br><span class="line"></span><br><span class="line">:FORWARD ACCEPT [0:0]</span><br><span class="line"></span><br><span class="line">:OUTPUT ACCEPT [0:0]</span><br><span class="line"></span><br><span class="line">-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -p icmp -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -i lo -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line"></span><br><span class="line">-A FORWARD -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line"></span><br><span class="line">COMMIT</span><br><span class="line"></span><br><span class="line">:wq! #保存退出</span><br><span class="line"></span><br><span class="line">systemctl restart iptables.service #最后重启防火墙使配置生效</span><br><span class="line"></span><br><span class="line">systemctl enable iptables.service #设置防火墙开机启动</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><p>2、安装APACHE</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">yum install httpd #根据提示，输入Y安装即可成功安装</span><br><span class="line"></span><br><span class="line">systemctl start httpd.service #启动apache</span><br><span class="line"></span><br><span class="line">systemctl stop httpd.service #停止apache</span><br><span class="line"></span><br><span class="line">systemctl restart httpd.service #重启apache</span><br><span class="line"></span><br><span class="line">systemctl enable httpd.service #设置apache开机启动</span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><p>3、安装PHP</p><p>Centos 默认安装PHP版本是5.4的，我们可以根据需求，安装更高的版本。安装前，先更新一下服务器软件源</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;mirror.webtatic.com&#x2F;yum&#x2F;el7&#x2F;epel-release.rpm</span><br><span class="line"></span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;mirror.webtatic.com&#x2F;yum&#x2F;el7&#x2F;webtatic-release.rpm</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>然后安装需要的版本：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install -y php56w php56w-opcache php56w-xml php56w-mcrypt php56w-gd php56w-devel php56w-mysql php56w-intl php56w-mbstring</span><br></pre></td></tr></table></figure><p>或安装PHP7.1</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install -y php71w-fpm php71w-opcache php71w-cli php71w-gd php71w-imap php71w-mysqlnd php71w-mbstring php71w-mcrypt php71w-pdo php71w-pecl-apcu php71w-pecl-mongodb php71w-pecl-redis php71w-pgsql php71w-xml php71w-xmlrpc php71w-devel mod_php71w</span><br></pre></td></tr></table></figure><p>安装完PHP后，重启APACHE服务。<br><code>service httpd restart</code><br>或者<br><code>systemctl restart  httpd.service</code></p><hr><p>4、数据库多为使用云数据库，这里不就具体说明了。</p><hr><p><strong>【配置项修改】</strong></p><p>1、APACHE</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">vi &#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf #编辑文件</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">AllowOverride None</span><br><span class="line">#修改为：AllowOverride All （ 允许.htaccess重写 ）</span><br><span class="line"></span><br><span class="line">Options Indexes FollowSymLinks  </span><br><span class="line"></span><br><span class="line">#修改为：Options Includes ExecCGI FollowSymLinks（允许服务器执行CGI及SSI，禁止列出目录） </span><br><span class="line">#去掉 Indexes （不在浏览器上显示树状目录结构）</span><br><span class="line"></span><br><span class="line">DirectoryIndex index.html   </span><br><span class="line"></span><br><span class="line">#修改为：DirectoryIndex index.html index.htm Default.html Default.htm index.php（设置默认首页文件，增加index.php）</span><br><span class="line"></span><br><span class="line">MaxKeepAliveRequests 500  </span><br><span class="line"></span><br><span class="line">#添加MaxKeepAliveRequests 500 （增加同时连接数）</span><br><span class="line"></span><br><span class="line">:wq! #保存退出</span><br><span class="line"></span><br><span class="line">systemctl restart httpd.service #重启apache</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>2、PHP</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">vi &#x2F;etc&#x2F;php.ini #编辑</span><br><span class="line"></span><br><span class="line">date.timezone &#x3D; PRC #把前面的分号去掉，改为date.timezone &#x3D; PRC</span><br><span class="line"></span><br><span class="line">expose_php &#x3D; Off #禁止显示php版本的信息</span><br><span class="line"></span><br><span class="line">:wq! #保存退出</span><br><span class="line"></span><br><span class="line">systemctl restart httpd.service #重启apache</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> LAMP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux 定时任务配置</title>
+      <link href="/2019/08/28/crontab/"/>
+      <url>/2019/08/28/crontab/</url>
+      
+        <content type="html"><![CDATA[<p>记录下项目当中用得还是比较多的 Linux 定时任务。平时在项目当中，会在用在一些信息的同步上，错误日志的处理等等。</p><p>首先，介绍一下 Linux定时任务 Crontab 命令组成。</p><p>基本格式 : </p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">* * * * * command </span><br></pre></td></tr></table></figure><p>分　时　日　月　周　命令 </p><p>第1列表示分钟1～59 每分钟用*或者 */1表示 </p><p>第2列表示小时1～23（0表示0点） </p><p>第3列表示日期1～31 </p><p>第4列表示月份1～12 </p><p>第5列标识号星期0～6（0表示星期天） </p><p>第6列要运行的命令 </p><p><strong>【相关命令】</strong></p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">crontab -l  &#x2F;&#x2F;列出当前服务器的定时任务</span><br><span class="line"></span><br><span class="line">crontab -e  &#x2F;&#x2F;添加&#x2F;编辑已有的定时任务</span><br><span class="line"></span><br><span class="line">service crond start             &#x2F;&#x2F;启动服务</span><br><span class="line"></span><br><span class="line">service crond stop             &#x2F;&#x2F;关闭服务</span><br><span class="line"></span><br><span class="line">service crond restart         &#x2F;&#x2F;重启服务</span><br><span class="line"></span><br><span class="line">service crond reload         &#x2F;&#x2F;重新载入配置</span><br><span class="line"></span><br></pre></td></tr></table></figure><p><strong>【流程】</strong></p><p>连接远程服务器后，crontab -e 进入定时任务列表，i 进入编辑模式，添加完需要执行的定时任务命令后， esc 退出编辑模式， :wq 写入保存定时任务，并回车退出任务列表。dos 界面会提示 installing new crontab ，这是是服务器正在安装新的定时任务。</p><p><strong>【实用例子】</strong></p><p>每分钟执行一次 curl 请求<br><code>*/1 * * * * /usr/bin/curl http://xxxx</code></p><p>每5分钟执行一次php文件<br><code>*/5 * * * * /usr/bin/php /var/www/time_task/xx.php</code></p><p>每小时的0分，30分各执行一次 curl 请求<br><code>0,30 * * * * /usr/bin/curl https://xxx.com</code></p><p>每月1、10、22日的4:45 执行一次命令<br><code>45 4 1,10,22 * * command</code></p><p>每天18:00至23:00之间每隔30分钟 执行一次命令<br><code>0,30 18-23 * * * command</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Crontab </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>数据库批量更新数据</title>
+      <link href="/2019/08/28/batch-update/"/>
+      <url>/2019/08/28/batch-update/</url>
+      
+        <content type="html"><![CDATA[<p>记录一下，之前项目中用到的批量更新数据库数据。在数据库直接SQL更新，删除时，养成先备份数据的习惯，万一出错了还能补救。</p><p>里面有个<strong>注意点：批量更新时，一定要加上条件限制，否则会更新全部数据。</strong></p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SET title &#x3D; CASE id</span><br><span class="line">WHEN 975 THEN &#39;新标题1&#39;</span><br><span class="line">WHEN 976 THEN &#39;新标题2&#39;</span><br><span class="line">WHEN 977 THEN &#39;新标题3&#39;</span><br><span class="line">WHEN 978 THEN &#39;新标题4&#39;</span><br><span class="line">WHEN 979 THEN &#39;新标题5&#39;</span><br><span class="line">END,</span><br><span class="line">content &#x3D; CASE id</span><br><span class="line">WHEN 975 THEN &#39;新内容1&#39;</span><br><span class="line">WHEN 976 THEN &#39;新内容2&#39;</span><br><span class="line">WHEN 977 THEN &#39;新内容3&#39;</span><br><span class="line">WHEN 978 THEN &#39;新内容4&#39;</span><br><span class="line">WHEN 979 THEN &#39;新内容5&#39;</span><br><span class="line">END </span><br><span class="line">WHERE id &lt;979;#必须限制，否则全部更新的</span><br></pre></td></tr></table></figure><p>批量更新log_alerted表，当id为975时更新title的值为‘aa’后面的值</p><p>注意最后的where ，必须，否则会更新全部；<br>CASE 条件<br>WHEN 【条件】THEN 【执行】<br>END ;跳出</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>欢迎来到我的博客</title>
+      <link href="/2019/08/27/welcome/"/>
+      <url>/2019/08/27/welcome/</url>
+      
+        <content type="html"><![CDATA[<h3 id="From-Kobe-Bryant"><a href="#From-Kobe-Bryant" class="headerlink" title="From Kobe Bryant"></a>From <code>Kobe Bryant</code></h3><blockquote><p>Somebody has to win,so why not be me !</p></blockquote><blockquote><p>The second place is the first loser.</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 生活 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> life </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>

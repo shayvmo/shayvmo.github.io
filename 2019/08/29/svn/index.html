@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Centos 搭建 svn 服务器 | 指尖改变世界</title><meta name="description" content="搭建好服务器之后，免不了需要搭建一个代码的版本控制，这里介绍如何在 Centos 服务器上搭建 svn 版本控制。 1、连接到远程服务器，并搭建 svn  yum install subversion   安装完成后，会在命令行界面显示Complete！ 2、安装好 svn 后，创建一个版本库。我个人比较习惯放在 &#x2F;opt&#x2F; 目录下 mkdir -p &#x2F;opt&#x2F;svn&amp;#x2F"><meta name="keywords" content="Linux,SVN"><meta name="author" content="沙屿沫"><meta name="copyright" content="沙屿沫"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Centos 搭建 svn 服务器"><meta name="twitter:description" content="搭建好服务器之后，免不了需要搭建一个代码的版本控制，这里介绍如何在 Centos 服务器上搭建 svn 版本控制。 1、连接到远程服务器，并搭建 svn  yum install subversion   安装完成后，会在命令行界面显示Complete！ 2、安装好 svn 后，创建一个版本库。我个人比较习惯放在 &#x2F;opt&#x2F; 目录下 mkdir -p &#x2F;opt&#x2F;svn&amp;#x2F"><meta name="twitter:image" content="http://oss.shayvmo.cn/blog/upload/78a80f0e4f7de58168cdbe0c7ee1ee8823.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Centos 搭建 svn 服务器"><meta property="og:url" content="http://blog.shayvmo.top/2019/08/29/svn/"><meta property="og:site_name" content="指尖改变世界"><meta property="og:description" content="搭建好服务器之后，免不了需要搭建一个代码的版本控制，这里介绍如何在 Centos 服务器上搭建 svn 版本控制。 1、连接到远程服务器，并搭建 svn  yum install subversion   安装完成后，会在命令行界面显示Complete！ 2、安装好 svn 后，创建一个版本库。我个人比较习惯放在 &#x2F;opt&#x2F; 目录下 mkdir -p &#x2F;opt&#x2F;svn&amp;#x2F"><meta property="og:image" content="http://oss.shayvmo.cn/blog/upload/78a80f0e4f7de58168cdbe0c7ee1ee8823.jpg"><meta property="article:published_time" content="2019-08-29T06:24:26.000Z"><meta property="article:modified_time" content="2020-09-21T10:43:54.322Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://blog.shayvmo.top/2019/08/29/svn/"><link rel="prev" title="如何把 Hexo 博客添加自己的域名" href="http://blog.shayvmo.top/2019/08/29/cname/"><link rel="next" title="Centos 安装 LAMP 环境" href="http://blog.shayvmo.top/2019/08/29/lamp/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: 沙屿沫","link":"链接: ","source":"来源: 指尖改变世界","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: {"text":"富強,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善","fontSize":"15px"},
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: false  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="http://oss.shayvmo.cn/blog/upload/6d86cdc9b338679bce51a944bc3c716066.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">43</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">34</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(http://oss.shayvmo.cn/blog/upload/78a80f0e4f7de58168cdbe0c7ee1ee8823.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">指尖改变世界</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Centos 搭建 svn 服务器</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2019-08-29 14:24:26"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-08-29</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-09-21 18:43:54"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-09-21</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/SVN/">SVN</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2019/08/29/svn/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2019/08/29/svn/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>搭建好服务器之后，免不了需要搭建一个代码的版本控制，这里介绍如何在 Centos 服务器上搭建 svn 版本控制。</p>
+<p>1、连接到远程服务器，并搭建 svn </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install subversion</span><br></pre></td></tr></table></figure> 
+
+<p>安装完成后，会在命令行界面显示Complete！</p>
+<p>2、安装好 svn 后，创建一个版本库。我个人比较习惯放在 /opt/ 目录下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir -p &#x2F;opt&#x2F;svn&#x2F;repos</span><br><span class="line">svnadmin create &#x2F;opt&#x2F;svn&#x2F;repos</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>【配置】</strong></p>
+<p>创建版本库后，需要修改仓库的权限控制配置。进入到刚刚创建好的仓库目录，conf 目录存放该仓库的配置信息。里面有3个文件，<br>authz,passwd,svnserve.conf</p>
+<p>passwd 表示用户的账号，密码<br>authz 表示有哪些用户，对当前仓库的目录访问权限<br>svnserve.conf 表示当前仓库的 svn 配置</p>
+<p>（1）先设置passwd，配置多个用户时，以换行的格式区分</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[users]</span><br><span class="line"># harry &#x3D; harryssecret</span><br><span class="line"># sally &#x3D; sallyssecret</span><br><span class="line">hello&#x3D;123</span><br><span class="line">#用户名&#x3D;密码</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>（2）设置authz</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[groups]</span><br><span class="line">admin&#x3D;hello</span><br><span class="line">[&#x2F;]</span><br><span class="line">hello&#x3D;rw</span><br><span class="line">* &#x3D; r</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>（3）配置svnserve.conf</p>
+<p>anon-access = none # 使非授权用户无法访问</p>
+<p>auth-access = write # 使授权用户有写权限</p>
+<p>password-db = passwd</p>
+<p>authz-db = authz # 访问控制文件</p>
+<p>realm = /opt/svn/repos #认证命名空间</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[general]</span><br><span class="line">anon-access &#x3D; none</span><br><span class="line">auth-access &#x3D; write</span><br><span class="line">password-db &#x3D; passwd</span><br><span class="line">authz-db &#x3D; authz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>【如何使用】</strong></p>
+<p>1、启动 svn 端口监听。这里监听的端口，要和服务器防火墙允许的端口一致。<br>另外，如果是使用阿里云服务器，除了服务器本身防火墙外，还需要在阿里云的防火墙进行端口开放。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">svnserve -d -r &#x2F;opt&#x2F;svn&#x2F;repos --listen-port 3391</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过监听不同的端口，一个服务器可以创建多个仓库。</p>
+<p>2、同步到 web 目录下。通过钩子文件，实现 svn 提交后，同步到 web 目录。</p>
+<p>（1）进入hooks目录下，复制post-commit.tmpl 到post-commit</p>
+<p>（2）编辑 post-commit 文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi post-commit</span><br></pre></td></tr></table></figure>
+
+
+<p>（3）并把内容修改成下面内容（ps：vi编辑器下，V + GG + D 删除文件全部内容）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">export LANG&#x3D;&quot;zh_CN.UTF-8&quot;</span><br><span class="line">svn update &#x2F;var&#x2F;www&#x2F;html  --username user --password user_pwd</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>（4）修改完成后，更改post-commit权限为755，使得文件有权限被执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod 755 post-commit</span><br></pre></td></tr></table></figure>
+
+<p>（5）设置好之后，在web目录先checkout一次svn才能同步过来。进入web目录下，过程会询问授权，按照操作输入yes 或者y 即可。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">svn checkout svn:&#x2F;&#x2F;服务器ip:端口 &#x2F;var&#x2F;www&#x2F;html --username username --password pwd</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">沙屿沫</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://blog.shayvmo.top/2019/08/29/svn/">http://blog.shayvmo.top/2019/08/29/svn/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://blog.shayvmo.top" target="_blank">指尖改变世界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/SVN/">SVN</a></div><div class="post_share"><div class="social-share" data-image="http://oss.shayvmo.cn/hexo/yii.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2019/08/29/cname/"><img class="prev_cover" src="http://oss.shayvmo.cn/hexo/cname.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">如何把 Hexo 博客添加自己的域名</div></div></a></div><div class="next-post pull_right"><a href="/2019/08/29/lamp/"><img class="next_cover" src="http://oss.shayvmo.cn/blog/upload/a2ec838e8a4d23751b990b00d52032d347.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Centos 安装 LAMP 环境</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2019/08/28/crontab/" title="Linux 定时任务配置"><img class="relatedPosts_cover" src="http://oss.shayvmo.cn/blog/upload/0f1155a5cd15f1b07b5430af1c33177328.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-08-28</div><div class="relatedPosts_title">Linux 定时任务配置</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'nick,mail,link')
+var requiredFields = requestSetting(['nick','mail','link'],'nick,mail')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'DBE28bcIeJQCLItbYBscAejl-gzGzoHsz',
+  appKey: 'JTbRWomnop8NNaTHoySeoLEC',
+  notify: false,
+  verify: false,
+  placeholder: 'Please leave your footprints',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'en',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: false,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" style="background-image: url(http://oss.shayvmo.cn/blog/upload/78a80f0e4f7de58168cdbe0c7ee1ee8823.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By 沙屿沫</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>粤ICP备18133330号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/ClickShowText.js"></script><script src="/js/search/local-search.js"></script></body></html>
