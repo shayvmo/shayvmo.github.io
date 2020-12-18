@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>网页登录《记住我》功能实现原理</title>
+      <link href="/2020/10/26/remember-me-login/"/>
+      <url>/2020/10/26/remember-me-login/</url>
+      
+        <content type="html"><![CDATA[<p>通常，在使用web系统时，无论是MVC，还是前后端分离的方式，都不可避免会使用到登录的功能。</p><p>为了提高用户体验，简化用户登录的操作，我们会加入一个《记住我》的功能，记录当前用户的登录状态，当下次再次进入系统时，无需进行登录。</p><p>那么这个功能的原理究竟是怎样的？</p><p>我们一起来理一下。</p><p>首先，这个功能的使用场景是登录，载体是浏览器，所以我们可以利用<code>cookie</code>的方式去处理。</p><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>1、登录 -&gt;</p><p>2、服务器进行校验 -&gt; </p><p>3、保存token到数据库，返回前端浏览器登录<code>token</code> -&gt; </p><p>4、前端保存<code>token</code>到<code>cookie</code> -&gt; </p><p>5、下次请求时，后端读取<code>cookie</code> 中的<code>token</code>, 并校验，通过即可快速登录</p><h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>1、浏览器禁用<code>cookie</code>怎么办？</p><p>在基于<code>cookie</code>的前提下，禁用了<code>cookie</code>则无法正常使用功能。 当然<code>session</code>有另外的解决方式，这个另说啦。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Yii 合集</title>
       <link href="/2020/09/29/yii-collection/"/>
       <url>/2020/09/29/yii-collection/</url>
