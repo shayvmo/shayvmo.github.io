@@ -1,0 +1,591 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/images/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="科技始终来源于人性">
+  <meta name="author" content="沙屿沫">
+  <meta name="keywords" content="沙屿沫个人博客,沙屿沫,shayvmo,php">
+  
+  <title>lnmp 环境搭建（基于CentOS7） - 指尖改变世界</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"blog.shayvmo.cn","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"DBE28bcIeJQCLItbYBscAejl-gzGzoHsz","app_key":"JTbRWomnop8NNaTHoySeoLEC","server_url":"https://dbe28bci.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>沙屿沫</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/images/bg/kobe2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="lnmp 环境搭建（基于CentOS7）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      沙屿沫
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-09-18 11:52" pubdate>
+        星期三, 九月 18日 2019, 11:52 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">lnmp 环境搭建（基于CentOS7）</h1>
+            
+            <div class="markdown-body">
+              <p>最近更新：2019年9月28日22:01:06</p>
+<hr>
+<p>一键安装包的方式就不作介绍了。本文主要说明如果手动安装配置LNMP。</p>
+<h3 id="【安装前准备】"><a href="#【安装前准备】" class="headerlink" title="【安装前准备】"></a>【安装前准备】</h3><p>1、查看是否已安装 wget<br><code>rpm -qa wget</code><br>如果显示版本，说明已经安装，否则运行命令进行安装 <code>yum install wget</code>。</p>
+<p>2、查看是否已安装编译器<br><code>rpm -qa gcc</code><br>如果显示版本，说明已经安装，否则运行命令进行安装 <code>yum install gcc gcc-c++</code>。</p>
+<h3 id="【安装Nginx】"><a href="#【安装Nginx】" class="headerlink" title="【安装Nginx】"></a>【安装Nginx】</h3><p>1、安装 nginx 依赖包<br>nginx的Rewrite模块和HTTP核心模块会使用到PCRE正则表达式语法：</p>
+<p><code>yum -y install pcre pcre-devel</code></p>
+<p>nginx的各种模块中需要使用gzip压缩：</p>
+<p><code>yum -y install zlib zlib-devel</code></p>
+<p>安全套接字层密码库：</p>
+<p><code>yum -y install openssl openssl-devel</code></p>
+<p>2、下载nginx包并解压（到/usr/local/src目录中）</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">cd</span> /usr/local/src<br><span class="hljs-attribute">wget</span> http://nginx.org/download/nginx-<span class="hljs-number">1</span>.<span class="hljs-number">17</span>.<span class="hljs-number">3</span>.tar.gz<br><span class="hljs-attribute">tar</span> -zxvf nginx-<span class="hljs-number">1</span>.<span class="hljs-number">17</span>.<span class="hljs-number">3</span>.tar.gz<br></code></pre></td></tr></table></figure>
+
+<p>3、编译安装（到/usr/local/nginx目录中）</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs awk"><br>cd nginx-<span class="hljs-number">1.1</span>.<span class="hljs-number">10</span><br><br>.<span class="hljs-regexp">/configure --prefix=/u</span>sr<span class="hljs-regexp">/local/</span>nginx<br><br>make<br><br>make install<br><br></code></pre></td></tr></table></figure>
+
+<p>4、创建并设置nginx运行账号：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk"><br>groupadd nginx<br><br>useradd -M -g nginx -s <span class="hljs-regexp">/sbin/</span>nologin nginx<br><br>cd <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/nginx/</span>conf<br><br>vim nginx.conf，设置user参数如下：<br><br>user nginx nginx<br><br><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/nginx/</span>sbin/nginx -t<br>  <br></code></pre></td></tr></table></figure>
+
+<p>5、启动nginx </p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk"><br><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/nginx/</span>sbin/nginx     <span class="hljs-comment"># 启动nginx</span><br>ps -ef | grep nginx    <span class="hljs-comment"># 查看进程</span><br><br></code></pre></td></tr></table></figure> 
+
+<p>6、访问站点IP，若出现<code>welcome to nginx</code> 则说明安装成。<br>如果访问失败，可能是防火墙原因，开放相应端口即可。</p>
+<h4 id="【nginx加入到开机自动启动】"><a href="#【nginx加入到开机自动启动】" class="headerlink" title="【nginx加入到开机自动启动】"></a>【nginx加入到开机自动启动】</h4><p>(1)编辑系统启动脚本<code>vim /etc/rc.local</code>  这个文件是系统启动后会自动执行的,因此就将启动命令加入到这个文件中。</p>
+<p>(2)在脚本后面加上 <code>/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf &amp;</code></p>
+<p>(3)更改脚本的权限，<code>chmod o+x /etc/rc.local</code> 或 <code>chmod 755 /etc/rc.local</code></p>
+<p>(4)重启后，<code>ps -e | grep nginx</code> 就能看 nginx 开机启动</p>
+<h4 id="【未找到-nginx-command-】"><a href="#【未找到-nginx-command-】" class="headerlink" title="【未找到 nginx command 】"></a>【未找到 nginx command 】</h4><p>解决： 添加nginx 到系统环境变量中<br><code>vim /etc/profile</code><br>在最后的 <code>done</code> 和 <code>unset i</code> 之间加上 <code>export PATH=&quot;$PATH:/usr/local/nginx/sbin:&quot;</code></p>
+<img src="http://oss.shayvmo.cn/hexo/LNMP/etc-profile.png" srcset="/img/loading.gif" lazyload class="" title="etc-profile配置">
+
+<p>随后更新环境变量</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">source</span> <span class="hljs-regexp">/etc/</span>profile<br>nginx -V<br></code></pre></td></tr></table></figure>
+
+<h4 id="【-PHP-文件-出现-File-not-found。】"><a href="#【-PHP-文件-出现-File-not-found。】" class="headerlink" title="【 PHP 文件 出现 File not found。】"></a>【 PHP 文件 出现 File not found。】</h4><p>解决：修改 nginx.conf </p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs autoit">fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name<span class="hljs-comment">;</span><br><span class="hljs-meta"># 改成</span><br>fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name<span class="hljs-comment">;</span><br>nginx -s reload <span class="hljs-meta">#重启即可</span><br></code></pre></td></tr></table></figure>
+
+
+<h3 id="【防火墙】"><a href="#【防火墙】" class="headerlink" title="【防火墙】"></a>【防火墙】</h3><p>相关命令参考，来源：<a href="https://www.cnblogs.com/xxoome/p/7115614.html" title="" target="">链接</a></p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">systemctl</span> <span class="hljs-string">status</span> <span class="hljs-string">firewalld</span>   <span class="hljs-comment">#查看防火墙服务状态</span><br><br><span class="hljs-string">firewalld-cmd</span> <span class="hljs-built_in">--state</span>   <span class="hljs-comment">#查看防火墙状态</span><br><br><span class="hljs-string">systemctl</span> <span class="hljs-string">start</span> <span class="hljs-string">firewalld</span>  <span class="hljs-comment"># 开启防火墙</span><br><br><span class="hljs-string">systemctl</span> <span class="hljs-string">restart</span> <span class="hljs-string">firewalld</span> <span class="hljs-comment"># 重启防火墙</span><br><br><span class="hljs-string">systemctl</span> <span class="hljs-string">stop</span> <span class="hljs-string">firewalld</span> <span class="hljs-comment"># 关闭防火墙</span><br><br><span class="hljs-string">firewall-cmd</span> <span class="hljs-built_in">--list-all</span> <span class="hljs-comment"># 查看防火墙规则</span><br><br><span class="hljs-string">firewall-cmd</span> <span class="hljs-built_in">--query-port=8080/tcp</span>  <span class="hljs-comment"># 查询端口是否开放</span><br><br><span class="hljs-string">firewall-cmd</span> <span class="hljs-built_in">--permanent</span> <span class="hljs-built_in">--add-port=80/tcp</span> <span class="hljs-comment"># 开放80端口</span><br><br><span class="hljs-string">firewall-cmd</span> <span class="hljs-built_in">--permanent</span> <span class="hljs-built_in">--remove-port=8080/tcp</span> <span class="hljs-comment"># 移除端口</span><br><br><span class="hljs-string">systemctl</span> <span class="hljs-string">restart</span> <span class="hljs-string">firewalld</span> <span class="hljs-comment">#重启防火墙(修改配置后要重启防火墙)</span><br><br></code></pre></td></tr></table></figure>
+
+<h4 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h4><p>1、firwall-cmd：是Linux提供的操作firewall的一个工具；<br>2、–permanent：表示设置为持久；<br>3、–add-port：标识添加的端口；</p>
+<h3 id="【安装PHP】"><a href="#【安装PHP】" class="headerlink" title="【安装PHP】"></a>【安装PHP】</h3><p>参考博客内的另外一篇文章：“Centos 安装 LAMP 环境”  <a href="http://blog.shayvmo.cn/2019/08/29/lamp/">http://blog.shayvmo.cn/2019/08/29/lamp/</a></p>
+<h3 id="【安装MySQL】"><a href="#【安装MySQL】" class="headerlink" title="【安装MySQL】"></a>【安装MySQL】</h3><p>参考链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qjoanven/p/7699382.html">https://www.cnblogs.com/qjoanven/p/7699382.html</a><br>(1) 下载rpm 文件。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">wget</span> https://dev.mysql.com/get/Downloads/MySQL-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>/mysql-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">16</span>-<span class="hljs-number">1</span>.el<span class="hljs-number">7</span>.x<span class="hljs-number">86</span>_<span class="hljs-number">64</span>.rpm-bundle.tar <br></code></pre></td></tr></table></figure>
+
+<p>(2)解压，并依次安装</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">tar</span> -xvf mysql-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">16</span>-<span class="hljs-number">1</span>.el<span class="hljs-number">7</span>.x<span class="hljs-number">86</span>_<span class="hljs-number">64</span>.rpm-bundle.tar<br></code></pre></td></tr></table></figure>
+
+<p>解压后依次执行安装</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">rpm</span> -ivh mysql-community-common-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">16</span>-<span class="hljs-number">1</span>.el<span class="hljs-number">7</span>.x<span class="hljs-number">86</span>_<span class="hljs-number">64</span>.rpm<br><span class="hljs-attribute">rpm</span> -ivh mysql-community-libs-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">16</span>-<span class="hljs-number">1</span>.el<span class="hljs-number">7</span>.x<span class="hljs-number">86</span>_<span class="hljs-number">64</span>.rpm<br><span class="hljs-attribute">rpm</span> -ivh mysql-community-client-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">16</span>-<span class="hljs-number">1</span>.el<span class="hljs-number">7</span>.x<span class="hljs-number">86</span>_<span class="hljs-number">64</span>.rpm<br><span class="hljs-attribute">rpm</span> -ivh mysql-community-server-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">16</span>-<span class="hljs-number">1</span>.el<span class="hljs-number">7</span>.x<span class="hljs-number">86</span>_<span class="hljs-number">64</span>.rpm<br></code></pre></td></tr></table></figure>
+
+<p>(3) 安装成功后，启动 MySQL service<br><code>systemctl start mysqld.service</code></p>
+<p>(4) 修改配置 /etc/my.cnf</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs routeros">vim /etc/my.cnf<br><span class="hljs-comment"># 插入以下</span><br>[mysqld]<br><span class="hljs-attribute">datadir</span>=/var/lib/mysql<br><span class="hljs-attribute">socket</span>=/var/lib/mysql/mysql.sock<br><span class="hljs-attribute">symbolic-links</span>=0<br><span class="hljs-attribute">log-error</span>=/var/log/mysqld.log<br><span class="hljs-attribute">pid-file</span>=/var/run/mysqld/mysqld.pid<br><span class="hljs-attribute">validate_password</span>=off<br><span class="hljs-attribute">default-storage-engine</span>=INNODB<br><span class="hljs-attribute">character-set-server</span>=utf8<br><span class="hljs-attribute">collation-server</span>=utf8_general_ci<br></code></pre></td></tr></table></figure>
+<p>注：validate_password=off 的意思是关闭密码验证插件（这一句必须加上，因为在修改密码的时候如果不加上会非常的麻烦）。</p>
+<p>(5) 重启服务<br><code>systemctl restart mysqld.service</code></p>
+<h4 id="【MySQL后续处理】"><a href="#【MySQL后续处理】" class="headerlink" title="【MySQL后续处理】"></a>【MySQL后续处理】</h4><p>1、修改 root 用户初始密码<br>生成临时密码，执行命令后，会看到生成的临时密码是多少。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">grep</span> <span class="hljs-string">&#x27;temporary password&#x27;</span> <span class="hljs-regexp">/var/</span>log/mysqld.log<br></code></pre></td></tr></table></figure>
+
+<p>使用临时密码，登录MySQL。<br><code>mysql -u root -p</code></p>
+<p>登录数据库之后，运行命令更改密码。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">mysql&gt; <span class="hljs-keyword">set</span> <span class="hljs-keyword">password</span>=<span class="hljs-keyword">password</span>(<span class="hljs-string">&#x27;新密码&#x27;</span>);<br>mysql&gt; flush <span class="hljs-keyword">privileges</span>; #刷新<br></code></pre></td></tr></table></figure>
+
+<p>更改密码后，添加root用户远程访问权限</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">#登录mysql<br>mysql&gt; use mysql<br>mysql&gt; <span class="hljs-keyword">update</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">set</span> host=<span class="hljs-string">&#x27;%&#x27;</span> <span class="hljs-keyword">where</span> <span class="hljs-keyword">user</span>=<span class="hljs-string">&#x27;root&#x27;</span>;<br>mysql&gt; <span class="hljs-keyword">select</span> host,<span class="hljs-keyword">user</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span>;<br>mysql&gt; flush <span class="hljs-keyword">privileges</span>;<br>#退出mysql，重启mysql服务生效<br></code></pre></td></tr></table></figure>
+
+<p>至此，LNMP 就安装完成了。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/LNMP/">LNMP</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/09/24/curl-77/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">php curl 请求 https 接口时，返回错误码：77</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/09/17/vmware-centos-1/">
+                        <span class="hidden-mobile">VMWare安装完CentOS 7后，出现 Couldn't resolve host</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"DBE28bcIeJQCLItbYBscAejl-gzGzoHsz","appKey":"JTbRWomnop8NNaTHoySeoLEC","placeholder":"说点什么","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

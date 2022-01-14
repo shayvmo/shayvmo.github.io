@@ -1,0 +1,660 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/images/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="科技始终来源于人性">
+  <meta name="author" content="沙屿沫">
+  <meta name="keywords" content="沙屿沫个人博客,沙屿沫,shayvmo,php">
+  
+  <title>Redis基础入门 - 指尖改变世界</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"blog.shayvmo.cn","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"DBE28bcIeJQCLItbYBscAejl-gzGzoHsz","app_key":"JTbRWomnop8NNaTHoySeoLEC","server_url":"https://dbe28bci.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>沙屿沫</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/images/bg/kobe2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Redis基础入门">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      沙屿沫
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-09-02 22:20" pubdate>
+        星期一, 九月 2日 2019, 10:20 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Redis基础入门</h1>
+            
+            <div class="markdown-body">
+              <h3 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h3><p>Redis是远程的，基于内存的，非关系型数据库</p>
+<hr>
+<h3 id="Redis-应用场景"><a href="#Redis-应用场景" class="headerlink" title="Redis 应用场景"></a>Redis 应用场景</h3><p>1、缓存<br>缓存数据</p>
+<p>2、队列<br>list 实现队列</p>
+<p>3、数据存储</p>
+<hr>
+<h3 id="Redis-安装"><a href="#Redis-安装" class="headerlink" title="Redis 安装"></a>Redis 安装</h3><p>1、服务器环境： Linux / Centos </p>
+<p>2、Redis</p>
+<p>3、预装 gcc tcl<br><code>yum install gcc-c++</code></p>
+<p>【安装步骤】<br>1、下载 Redis<br><code>wget http://download.redis.io/releases/redis-5.0.5.tar.gz</code></p>
+<img src="http://oss.shayvmo.cn/hexo/redis/ff9223e900dd1c663d613e1f671e17f.png" srcset="/img/loading.gif" lazyload class="" title="下载Redis">
+
+<p>2、解压 Redis<br><code>tar -xf redis-5.0.5.tar.gz</code><br>解压后，进入源码目录，执行 <code>make</code> 命令。<br>安装完后页面：</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/d138e2684b43882f924a5d17fef569e.png" srcset="/img/loading.gif" lazyload class="" title="安装redis完成">
+
+<p>3、将 <code> src</code> 目录下二进制文件安装到 <code>/usr/local/bin</code> 下。<br>执行命令 <code>sudo make install</code></p>
+<img src="http://oss.shayvmo.cn/hexo/redis/730f11238c5853d6e64bde5a413ec77.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>4、配置项<br>一般 redis 参考的默认配置文件为解压目录下的 redis.conf ,先把该文件复制到其他目录下，并对其进行配置项修改。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><br>daemonize no <span class="hljs-regexp">//</span>改为yes ,配置redis server 后台进程启动 <br><br>port <span class="hljs-number">6379</span> <span class="hljs-regexp">//</span>默认端口 <span class="hljs-number">7200</span> <br><br></code></pre></td></tr></table></figure>
+
+<p>5、启动 Redis server</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>redis-server <span class="hljs-regexp">/opt/</span>redis<span class="hljs-regexp">/config/</span>redis.conf <span class="hljs-regexp">//</span>以配置项启动redis-server<br>ps aux|grep redis-server <span class="hljs-regexp">//</span>查看进程是否开启成功<br>kill -<span class="hljs-number">9</span> XX  <span class="hljs-regexp">//</span>杀死进程<br></code></pre></td></tr></table></figure>
+<img src="http://oss.shayvmo.cn/hexo/redis/a9d31d4e367272e802470ab81a35cb1.png" srcset="/img/loading.gif" lazyload class="" title="启动服务">
+
+<hr>
+<p>Redis 客户端</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">#redis-cli --help <br>redis-cli -h <span class="hljs-number">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span> -p <span class="hljs-number">7200</span><br><br><span class="hljs-string">[root@izwz94ryybsa2lcqvewvzqz redis-5.0.5]</span># redis-cli -h <span class="hljs-number">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span> -p <span class="hljs-number">7200</span><br><span class="hljs-number">127.0.0.1:7200</span>&gt; info<br><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Redis-数据类型以及各数据类型的使用场景"><a href="#Redis-数据类型以及各数据类型的使用场景" class="headerlink" title="Redis 数据类型以及各数据类型的使用场景"></a>Redis 数据类型以及各数据类型的使用场景</h3><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>存储的值</th>
+<th>读写能力</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>String</td>
+<td>字符串、整数或浮点，统称为元素</td>
+<td>对字符串操作<br>对整数类型加减</td>
+</tr>
+<tr>
+<td>List</td>
+<td>序列集合且每个节点包含一个元素</td>
+<td>序列两端推入、或弹出元素<br>修建、查找或移除元素</td>
+</tr>
+<tr>
+<td>Set</td>
+<td>各不相同的元素</td>
+<td>从集合中插入或删除元素</td>
+</tr>
+<tr>
+<td>Hash</td>
+<td>有key-value 的散列组<br>key 是字符串，value 是元素</td>
+<td>按照key 进行增加删除</td>
+</tr>
+<tr>
+<td>Sort Set</td>
+<td>带分数的score-value有序集合<br>score 为浮点，value 是元素</td>
+<td>集合插入，按照分数范围查找</td>
+</tr>
+</tbody></table>
+<p>【String】<br>key | value(string/int/float)</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/4c58fc89b8ed8e31c9a2b1ebe9ac0ce.png" srcset="/img/loading.gif" lazyload class="" title="string 类型">
+
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:7200</span>&gt; set string1 eric<br>OK<br><span class="hljs-number">127.0.0.1:7200</span>&gt; get string1<br><span class="hljs-string">&quot;eric&quot;</span><br><span class="hljs-number">127.0.0.1:7200</span>&gt; set string2 <span class="hljs-number">4</span><br>OK<br><span class="hljs-number">127.0.0.1:7200</span>&gt; get string2<br><span class="hljs-string">&quot;4&quot;</span><br><span class="hljs-number">127.0.0.1:7200</span>&gt; incr string2<br>(integer) <span class="hljs-number">5</span><br><span class="hljs-number">127.0.0.1:7200</span>&gt; get string2<br><span class="hljs-string">&quot;5&quot;</span><br><span class="hljs-number">127.0.0.1:7200</span>&gt; decr string2<br>(integer) <span class="hljs-number">4</span><br><span class="hljs-number">127.0.0.1:7200</span>&gt; decrby string2 <span class="hljs-number">2</span><br>(integer) <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+
+<p>【List】<br>列表，元素不唯一</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/2d2704b069f92c9f0e89596b271c9ad.png" srcset="/img/loading.gif" lazyload class="" title="list 类型">
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">lpush</span> list<span class="hljs-number">1</span> <span class="hljs-number">12</span> // <span class="hljs-number">12</span><br><span class="hljs-attribute">lpush</span> list<span class="hljs-number">1</span> <span class="hljs-number">13</span> // <span class="hljs-number">13</span> <span class="hljs-number">12</span><br><br><span class="hljs-attribute">lindex</span> list<span class="hljs-number">1</span> <span class="hljs-number">0</span> // <span class="hljs-number">13</span><br><br><span class="hljs-attribute">rpop</span> list<span class="hljs-number">1</span> //<span class="hljs-number">12</span><br><span class="hljs-comment">#先进先出</span><br><br></code></pre></td></tr></table></figure>
+
+
+<p>【Set】<br>集合，元素唯一</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/632cac3d6180e19518df403091d6c89.png" srcset="/img/loading.gif" lazyload class="" title="set 类型">
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">sadd</span> set<span class="hljs-number">1</span> redis<br><span class="hljs-attribute">sadd</span> set<span class="hljs-number">1</span> memcached<br><span class="hljs-attribute">smembers</span> set<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+
+<p>【Hash】<br>哈希</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/befd56703b38b25cc721c3438da93f0.png" srcset="/img/loading.gif" lazyload class="" title="hash 类型">
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">hset</span> key <span class="hljs-meta">field</span> value # 将哈希表 key 中的字段 <span class="hljs-meta">field</span> 的值设为 value 。<br></code></pre></td></tr></table></figure>
+
+
+<p>【Sort Set】<br>有序集合</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/7d5febbd51ba8db7848c7bc7fd3b2f1.png" srcset="/img/loading.gif" lazyload class="" title="sort set 类型">
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">ZADD key <span class="hljs-keyword">score1 </span>member1 [<span class="hljs-keyword">score2 </span>member2]  <span class="hljs-comment"># 向有序集合添加一个或多个成员，或者更新已存在成员的分数</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="操作-Redis"><a href="#操作-Redis" class="headerlink" title="操作 Redis"></a>操作 Redis</h3><p><strong>【服务器安装要求】</strong></p>
+<p>1、Linux 服务器 （这里使用 Centos ）</p>
+<p>2、PHP 5.3 （phpize / php-config ） 以上，具体和下载的 redis 要求版本一致</p>
+<p>3、PHP redis 拓展</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/ed7a32accfa66e6070c2af2d33acfc5.png" srcset="/img/loading.gif" lazyload class="" title="系统要求">
+
+
+<p>下载php-redis 拓展</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">wget https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/phpredis/</span>phpredis<span class="hljs-regexp">/archive/</span>develop.zip<br></code></pre></td></tr></table></figure>
+
+<img src="http://oss.shayvmo.cn/hexo/redis/929c8c5d55edc8e56e6a93baba839e5.png" srcset="/img/loading.gif" lazyload class="" title="安装PHP-redis拓展">
+
+
+<p>make 出现错误</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@izwz94ryybsa2lcqvewvzqz phpredis-develop]# make<br><span class="hljs-regexp">/bin/</span>sh <span class="hljs-regexp">/opt/</span>phpredis-develop<span class="hljs-regexp">/libtool --mode=compile cc  -I. -I/</span>opt<span class="hljs-regexp">/phpredis-develop -DPHP_ATOM_INC -I/</span>opt<span class="hljs-regexp">/phpredis-develop/i</span>nclude -I<span class="hljs-regexp">/opt/</span>phpredis-develop<span class="hljs-regexp">/main -I/</span>opt<span class="hljs-regexp">/phpredis-develop -I/u</span>sr<span class="hljs-regexp">/include/</span>php -I<span class="hljs-regexp">/usr/i</span>nclude<span class="hljs-regexp">/php/m</span>ain -I<span class="hljs-regexp">/usr/i</span>nclude<span class="hljs-regexp">/php/</span>TSRM -I<span class="hljs-regexp">/usr/i</span>nclude<span class="hljs-regexp">/php/</span>Zend -I<span class="hljs-regexp">/usr/i</span>nclude<span class="hljs-regexp">/php/</span>ext -I<span class="hljs-regexp">/usr/i</span>nclude<span class="hljs-regexp">/php/</span>ext<span class="hljs-regexp">/date/</span>lib -I<span class="hljs-regexp">/usr/i</span>nclude<span class="hljs-regexp">/php/</span>ext  -DHAVE_CONFIG_H  -g -O2   -c <span class="hljs-regexp">/opt/</span>phpredis-develop/redis.c -o redis.lo<br>libtool: <span class="hljs-keyword">compile</span>:  cc -I. -I<span class="hljs-regexp">/opt/</span>phpredis-develop -DPHP_ATOM_INC -I<span class="hljs-regexp">/opt/</span>phpredis-develop<span class="hljs-regexp">/include -I/</span>opt<span class="hljs-regexp">/phpredis-develop/m</span>ain -I<span class="hljs-regexp">/opt/</span>phpredis-develop -I<span class="hljs-regexp">/usr/i</span>nclude<span class="hljs-regexp">/php -I/u</span>sr<span class="hljs-regexp">/include/</span>php<span class="hljs-regexp">/main -I/u</span>sr<span class="hljs-regexp">/include/</span>php<span class="hljs-regexp">/TSRM -I/u</span>sr<span class="hljs-regexp">/include/</span>php<span class="hljs-regexp">/Zend -I/u</span>sr<span class="hljs-regexp">/include/</span>php<span class="hljs-regexp">/ext -I/u</span>sr<span class="hljs-regexp">/include/</span>php<span class="hljs-regexp">/ext/</span>date<span class="hljs-regexp">/lib -I/u</span>sr<span class="hljs-regexp">/include/</span>php<span class="hljs-regexp">/ext -DHAVE_CONFIG_H -g -O2 -c /</span>opt<span class="hljs-regexp">/phpredis-develop/</span>redis.c  -fPIC -DPIC -o .libs/redis.o<br>In <span class="hljs-keyword">file</span> included <span class="hljs-keyword">from</span> <span class="hljs-regexp">/opt/</span>phpredis-develop/redis.c:<span class="hljs-number">27</span>:<span class="hljs-number">0</span>:<br><span class="hljs-regexp">/opt/</span>phpredis-develop/common.h:<span class="hljs-number">12</span>:<span class="hljs-number">28</span>: fatal error: zend_smart_str.h: No such <span class="hljs-keyword">file</span> or directory<br> #<span class="hljs-keyword">include</span> &lt;zend_smart_str.h&gt;<br>                            ^<br>compilation terminated.<br>make: *** [redis.lo] Error <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>make 出现错误，是因为下载的 redis 版本要求的PHP版本 和服务器的版本不一致导致的。最新版的redis，最低要求 PHP7.0 或以上。<br>原先服务器用的是php5.6，于是升级到php 7.1。首先卸载5.6 <code>yum remove php-common</code><br>然后再安装PHP7.1</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs smali">yum install -y php71w-fpm php71w-opcache php71w-cli php71w-gd php71w-imap <br>php71w-mysqlnd php71w-mbstring php71w-mcrypt php71w-pdo php71w-pecl-apcu php71w-pecl-mongodb <br>php71w-pecl-redis php71w-pgsql php71w-xml php71w-xmlrpc php71w-devel mod_php71w<br></code></pre></td></tr></table></figure>
+
+<p>make &amp;&amp; make install 成功</p>
+<img src="http://oss.shayvmo.cn/hexo/redis/7f14962bd924225f8e15b90068ec6a3.png" srcset="/img/loading.gif" lazyload class="" title="make &amp;&amp; make install">
+
+<p>下一步，更改 php.ini 文件，加载 redis.so 模块<br><code>extention=redis.so</code></p>
+<p>使用命令<code>php -m</code> 查看加载的模块，即可看到已经加载 redis</p>
+<hr>
+<p>【PHP 如何连接 redis 】<br>phpredis 文档<br><code>https://github.com/phpredis/phpredis</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$redis</span> = <span class="hljs-keyword">new</span> \Redis();<br><span class="hljs-variable">$redis</span>-&gt;connect(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">7200</span>);<br><br><span class="hljs-comment">//string 操作，保存json</span><br><span class="hljs-variable">$redis</span>-&gt;delete(<span class="hljs-string">&quot;string1&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;set(<span class="hljs-string">&quot;string1&quot;</span>,<span class="hljs-string">&quot;val1&quot;</span>);<br><br><span class="hljs-variable">$val</span> = <span class="hljs-variable">$redis</span>-&gt;get(<span class="hljs-string">&quot;string1&quot;</span>);<br><br>var_dump(<span class="hljs-variable">$val</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;set(<span class="hljs-string">&quot;string1&quot;</span>,<span class="hljs-number">4</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;incr(<span class="hljs-string">&quot;string1&quot;</span>,<span class="hljs-number">2</span>);<br><br><span class="hljs-variable">$val</span> = <span class="hljs-variable">$redis</span>-&gt;get(<span class="hljs-string">&quot;string1&quot;</span>);<br><br>var_dump(<span class="hljs-variable">$val</span>);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs php"><br><span class="hljs-comment">//list 实现队列，先进先出，异步行为</span><br><span class="hljs-variable">$redis</span>-&gt;delete(<span class="hljs-string">&quot;list1&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;lPush(<span class="hljs-string">&quot;list1&quot;</span>,<span class="hljs-string">&quot;A&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;lPush(<span class="hljs-string">&quot;list1&quot;</span>,<span class="hljs-string">&quot;B&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;lPush(<span class="hljs-string">&quot;list1&quot;</span>,<span class="hljs-string">&quot;C&quot;</span>);<br><br><span class="hljs-variable">$val</span> = <span class="hljs-variable">$redis</span>-&gt;rPop(<span class="hljs-string">&quot;list1&quot;</span>);<br><br>var_dump(<span class="hljs-variable">$val</span>);<span class="hljs-comment">//输出A</span><br><br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">//set 唯一集合</span><br><span class="hljs-variable">$redis</span>-&gt;delete(<span class="hljs-string">&quot;set1&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;sAdd(<span class="hljs-string">&quot;set1&quot;</span>,<span class="hljs-string">&quot;A&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;sAdd(<span class="hljs-string">&quot;set1&quot;</span>,<span class="hljs-string">&quot;B&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;sAdd(<span class="hljs-string">&quot;set1&quot;</span>,<span class="hljs-string">&quot;C&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;sAdd(<span class="hljs-string">&quot;set1&quot;</span>,<span class="hljs-string">&quot;C&quot;</span>);<br><br><span class="hljs-variable">$val</span> = <span class="hljs-variable">$redis</span>-&gt;sCard(<span class="hljs-string">&quot;set1&quot;</span>);<br>var_dump(<span class="hljs-variable">$val</span>);<br><br>var_dump(<span class="hljs-variable">$redis</span>-&gt;sMembers(<span class="hljs-string">&quot;set1&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">//hash 一般用于存储复杂属性</span><br><br><span class="hljs-variable">$redis</span>-&gt;delete(<span class="hljs-string">&quot;driver1&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;hSet(<span class="hljs-string">&quot;driver1&quot;</span>,<span class="hljs-string">&quot;name&quot;</span>,<span class="hljs-string">&quot;shayvmo&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;hSet(<span class="hljs-string">&quot;driver1&quot;</span>,<span class="hljs-string">&quot;age&quot;</span>,<span class="hljs-number">25</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;hSet(<span class="hljs-string">&quot;driver1&quot;</span>,<span class="hljs-string">&quot;gender&quot;</span>,<span class="hljs-number">1</span>);<br><br>var_dump(<span class="hljs-variable">$redis</span>-&gt;hGet(<span class="hljs-string">&quot;driver1&quot;</span>,<span class="hljs-string">&quot;name&quot;</span>);<br><br>var_dump(<span class="hljs-variable">$redis</span>-&gt;hMGet(<span class="hljs-string">&quot;driver1&quot;</span>,<span class="hljs-string">&quot;name&quot;</span>,<span class="hljs-string">&quot;age&quot;</span>);<br><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">// sort set 排行榜</span><br><span class="hljs-comment">// zAdd  zRange 分数低到高  zRevRange 高到低</span><br><br><span class="hljs-variable">$redis</span>-&gt;delete(<span class="hljs-string">&quot;zset1&quot;</span>);<br><br><span class="hljs-variable">$redis</span>-&gt;zAdd(<span class="hljs-string">&quot;zset1&quot;</span>,<span class="hljs-number">100</span>,<span class="hljs-string">&#x27;shayvmo&#x27;</span>);<br><span class="hljs-variable">$redis</span>-&gt;zAdd(<span class="hljs-string">&quot;zset1&quot;</span>,<span class="hljs-number">88</span>,<span class="hljs-string">&#x27;shayvmo88&#x27;</span>);<br><span class="hljs-variable">$redis</span>-&gt;zAdd(<span class="hljs-string">&quot;zset1&quot;</span>,<span class="hljs-number">97</span>,<span class="hljs-string">&#x27;shayvmo97&#x27;</span>);<br><span class="hljs-variable">$redis</span>-&gt;zAdd(<span class="hljs-string">&quot;zset1&quot;</span>,<span class="hljs-number">93</span>,<span class="hljs-string">&#x27;shayvmo93&#x27;</span>);<br><br>var_dump(<span class="hljs-variable">$redis</span>-&gt;zRange(<span class="hljs-string">&quot;zset1&quot;</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>));<span class="hljs-comment">//分数低到高全部返回</span><br><br>var_dump(<span class="hljs-variable">$redis</span>-&gt;zRevRange(<span class="hljs-string">&quot;zset1&quot;</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>));<span class="hljs-comment">//分数高到低全部返回</span><br><br>var_dump(<span class="hljs-variable">$redis</span>-&gt;zRevRange(<span class="hljs-string">&quot;zset1&quot;</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>,<span class="hljs-literal">true</span>));<span class="hljs-comment">//分数高到低全部返回，并返回分数</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>【注意事项】<br>运行PHP 文件时，出错</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">PHP Startup: Unable <span class="hljs-keyword">to</span> <span class="hljs-keyword">load</span> dynamic library <span class="hljs-string">&#x27;/usr/lib64/php/modules/redis.so&#x27;</span> <br>- /usr/lib64/php/modules/redis.so: undefined symbol: php_json_decode_ex <span class="hljs-keyword">in</span> <span class="hljs-type">Unknown</span> <span class="hljs-keyword">on</span> <span class="hljs-type">line</span> <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<p>解决方法： 去掉<code>php.ini</code> 中的 <code>extension=redis.so</code><br>来源链接：<a href="https://stackoverflow.com/questions/41052999/php-warning-unable-to-load-dynamic-library-usr-lib64-php-modules-solr-so-und" title="" target="">链接</a></p>
+<p>【最后更新时间】<br>2019年9月14日16:39:26</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Redis/">Redis</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Redis/">Redis</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/09/09/migrate/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hexo 迁移到另外一台电脑 【亲测】</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/30/memcache/">
+                        <span class="hidden-mobile">Centos 配置 PHP memcached 缓存【踩坑】</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"DBE28bcIeJQCLItbYBscAejl-gzGzoHsz","appKey":"JTbRWomnop8NNaTHoySeoLEC","placeholder":"说点什么","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
