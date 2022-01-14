@@ -1,1001 +1,270 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>指尖改变世界 - 科技始终来源于人性</title><meta name="keywords" content="沙屿沫个人博客,沙屿沫,shayvmo,php"><meta name="author" content="沙屿沫"><meta name="copyright" content="沙屿沫"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="科技始终来源于人性">
+<meta property="og:type" content="website">
+<meta property="og:title" content="指尖改变世界">
+<meta property="og:url" content="http://blog.shayvmo.cn/page/4/index.html">
+<meta property="og:site_name" content="指尖改变世界">
+<meta property="og:description" content="科技始终来源于人性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.shayvmo.cn/images/avatar.jpg">
+<meta property="article:author" content="沙屿沫">
+<meta property="article:tag" content="沙屿沫个人博客,沙屿沫,shayvmo,php">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.shayvmo.cn/images/avatar.jpg"><link rel="shortcut icon" href="/images/avatar.jpg"><link rel="canonical" href="http://blog.shayvmo.cn/page/4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '指尖改变世界',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-01-14 17:05:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-<!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
 
-
-<head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/images/avatar.jpg">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="科技始终来源于人性">
-  <meta name="author" content="沙屿沫">
-  <meta name="keywords" content="沙屿沫个人博客,沙屿沫,shayvmo,php">
-  
-  <title>指尖改变世界</title>
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-<!-- 自定义样式保持在最底部 -->
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"blog.shayvmo.cn","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"DBE28bcIeJQCLItbYBscAejl-gzGzoHsz","app_key":"JTbRWomnop8NNaTHoySeoLEC","server_url":"https://dbe28bci.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.4.0"></head>
-
-
-<body>
-  <header style="height: 100vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>沙屿沫</strong>&nbsp;</a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/">
-                <i class="iconfont icon-link-fill"></i>
-                友链
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;</a>
-          </li>
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/images/bg/kobe.jpg') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="生活就像海洋，只有意志坚强的人才能到达彼岸">
-              
-            </span>
-
-            
-          </div>
-
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
-          
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/10/25/php-array/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="php 遍历数组的几种方式">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/25/php-array/" target="_blank">
-          php 遍历数组的几种方式
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/25/php-array/" target="_blank">
-          
-          
-            
-          
-          最近恰好看到了 PHP 循环数组有多种方式，于是便总结一下这几种日常开发中，使用比较频繁的方式。
-  
-
-1、for只支持索引数组，不支持关联数组
-12345$array = [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;];for ($i=0;$i&lt;count($array);$i++)&#123;    echo $arr
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-25 17:38" pubdate>
-              2019-10-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/PHP/">PHP</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/PHP/">PHP</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/10/07/php-excel/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="php-excel、phpspreadsheet的封装类">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/07/php-excel/" target="_blank">
-          php-excel、phpspreadsheet的封装类
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/07/php-excel/" target="_blank">
-          
-          
-            
-          
-          最近项目遇到了经常性使用表格导出，之前使用的是PHPExcel，但是已经不更新了。于是开始使用PHPspreadsheet，并且在空闲时间写了一个封装类。如果有需要，可以在下载使用。遇到BUG问题，可以讨论完善。
-1、composer 加载包1composer require shayvmo/php-excel
-
-
-2、github 地址地址：https://github.com/shayvmo/
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-07 15:18" pubdate>
-              2019-10-07
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/PHP/">PHP</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/PHP/">PHP</a>
-            
-              <a href="/tags/phpspreadsheet/">phpspreadsheet</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/09/24/curl-77/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="php curl 请求 https 接口时，返回错误码：77">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/09/24/curl-77/" target="_blank">
-          php curl 请求 https 接口时，返回错误码：77
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/09/24/curl-77/" target="_blank">
-          
-          
-            
-          
-          错误情况php CURL 请求一个 https 的接口时，返回一个bool false，打印错误curl_error($ch)信息时没有返回错误内容
-查看错误码curl_errno($ch) 是 77 。
-根据 curl 错误码显示，77 代表 &#39;CURLE_SSL_CACERT_BADFILE&#39; ，本地 CA 证书有异常。
-解决方式1、服务器更新 CA 证书
-1yum updat
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-09-24 18:13" pubdate>
-              2019-09-24
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/PHP/">PHP</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/PHP/">PHP</a>
-            
-              <a href="/tags/CURL/">CURL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/09/18/lnmp/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="lnmp 环境搭建（基于CentOS7）">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/09/18/lnmp/" target="_blank">
-          lnmp 环境搭建（基于CentOS7）
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/09/18/lnmp/" target="_blank">
-          
-          
-            
-          
-          最近更新：2019年9月28日22:01:06
-
-一键安装包的方式就不作介绍了。本文主要说明如果手动安装配置LNMP。
-【安装前准备】1、查看是否已安装 wgetrpm -qa wget如果显示版本，说明已经安装，否则运行命令进行安装 yum install wget。
-2、查看是否已安装编译器rpm -qa gcc如果显示版本，说明已经安装，否则运行命令进行安装 yum install gcc 
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-09-18 11:52" pubdate>
-              2019-09-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Linux/">Linux</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/LNMP/">LNMP</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/09/17/vmware-centos-1/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="VMWare安装完CentOS 7后，出现 Couldn&#39;t resolve host">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/09/17/vmware-centos-1/" target="_blank">
-          VMWare安装完CentOS 7后，出现 Couldn&#39;t resolve host
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/09/17/vmware-centos-1/" target="_blank">
-          
-          
-            
-          
-          参考链接：https://blog.csdn.net/qq_31295171/article/details/80875653
-yum 时候遇到 Couldn’t resolve host在VMWare 虚拟机上，安装CentOS7 系统进行学习的时候，yum install 安装包时，遇到了 Couldn&#39;t resolve host 。查询后初步判断是网卡设置原因。解决方式：编辑网卡配
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-09-17 21:41" pubdate>
-              2019-09-17
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Linux/">Linux</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/VMWare/">VMWare</a>
-            
-              <a href="/tags/CentOS/">CentOS</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/09/09/migrate/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="Hexo 迁移到另外一台电脑 【亲测】">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/09/09/migrate/" target="_blank">
-          Hexo 迁移到另外一台电脑 【亲测】
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/09/09/migrate/" target="_blank">
-          
-          
-            
-          
-          最近想到一个问题，一开始 Hexo 是在我的手提电脑上安装，那怎么能在另外的电脑也能正常使用？于是在网上搜了一下，但是在实际操作的时候，发现好几个问题。
-1、npm install 的时候，提示某些组件没有安装。这时候需要按照提示缺少的插件进行安装即可。 例如：npm install eslint@^4
-2、使用 github 保存时，发现主题文件没有上传。这时候需要把 themes 下的主题目录
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-09-09 22:31" pubdate>
-              2019-09-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Hexo/">Hexo</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Hexo/">Hexo</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/09/02/redis-basic/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="Redis基础入门">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/09/02/redis-basic/" target="_blank">
-          Redis基础入门
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/09/02/redis-basic/" target="_blank">
-          
-          
-            
-          
-          什么是RedisRedis是远程的，基于内存的，非关系型数据库
-
-Redis 应用场景1、缓存缓存数据
-2、队列list 实现队列
-3、数据存储
-
-Redis 安装1、服务器环境： Linux / Centos 
-2、Redis
-3、预装 gcc tclyum install gcc-c++
-【安装步骤】1、下载 Rediswget http://download.redis.io/release
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-09-02 22:20" pubdate>
-              2019-09-02
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Redis/">Redis</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Redis/">Redis</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/08/30/memcache/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="Centos 配置 PHP memcached 缓存【踩坑】">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/08/30/memcache/" target="_blank">
-          Centos 配置 PHP memcached 缓存【踩坑】
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/08/30/memcache/" target="_blank">
-          
-          
-            
-          
-          最近项目中，刚好配置一个新的服务器 memcache 环境。项目中用到 memcache 缓存的时候，需要先在服务器上安装 memcache 环境，以及配置 PHP 的 memcache 拓展。目前接触到使用 memcache 缓存的场景是，多终端登录，前后端分离，设置登录 session 值。
-安装教程，可以参考阿里云官方文档。
-https://help.aliyun.com/document_
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-08-30 23:10" pubdate>
-              2019-08-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Memcached/">Memcached</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/memcache/">memcache</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/08/30/php-basic-1/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="php常量以及数据类型">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/08/30/php-basic-1/" target="_blank">
-          php常量以及数据类型
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/08/30/php-basic-1/" target="_blank">
-          
-          
-            
-          
-          PHP字符串定义方式及各自区别【定义方式】单引号双引号
-1234heredoc : &lt;&lt;&lt;EOThello worldEOT
-
-
-newdoc : 
-123&lt;&lt;&lt;&#x27;EOT&#x27;hello EricEOT
-
-
-【区别】
-单引号不解析变量，单引号不解析转义字符，只能解析单引号和反斜线本身
-双引号解析变量、所有转义符号变量可以使用特殊字符和{}包含
-同
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-08-30 08:45" pubdate>
-              2019-08-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/PHP/">PHP</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/PHP/">PHP</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2019/08/30/php-basic/" target="_blank">
-          <img src="/images/code.jpg" srcset="/img/loading.gif" lazyload alt="php引用变量">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/08/30/php-basic/" target="_blank">
-          php引用变量
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/08/30/php-basic/" target="_blank">
-          
-          
-            
-          
-          【概念】在PHP中使用不同的变量名称，访问同一个内容。
-【定义方式】&amp;
-【demo】12345678910111213//创建一个包含0-10的数组$a = range(0,10);//创建内存空间var_dump(memory_get_usage());//查看内存使用情况// COW Copy On Write$b = $a;   //$b指向$a 空间$a = range(0,2);
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-08-30 08:12" pubdate>
-              2019-08-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
-            
-              <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/PHP/">PHP</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/PHP/">PHP</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-
-
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
-
-
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    
-
-    
-      <a id="scroll-top-button" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-    
-
-    
-  </main>
-
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-  </div>
-  
-  <div class="statistics">
-    
-    
-
-    
-      
-        <!-- LeanCloud 统计PV -->
-        <span id="leancloud-site-pv-container" style="display: none">
-            总访问量 
-            <span id="leancloud-site-pv"></span>
-             次
-          </span>
-      
-      
-        <!-- LeanCloud 统计UV -->
-        <span id="leancloud-site-uv-container" style="display: none">
-            总访客数 
-            <span id="leancloud-site-uv"></span>
-             人
-          </span>
-      
-
-    
-  </div>
-
-
-  
-
-  
-</footer>
-
-
-  <!-- SCRIPTS -->
-  
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
     })
-  </script>
-
-
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-<!-- Plugins -->
-
-
   
-    <script  src="/js/img-lazyload.js" ></script>
-  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/images/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/images/bg/kobe.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">指尖改变世界</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">指尖改变世界</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/05/25/git-flow/" title="git-flow 在团队中的实践">     <img class="post_bg" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/hexo/git.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git-flow 在团队中的实践"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/05/25/git-flow/" title="git-flow 在团队中的实践">git-flow 在团队中的实践</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-25T07:43:29.000Z" title="发表于 2020-05-25 15:43:29">2020-05-25</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a></span></div><div class="content">文档规范在一个高效的团队里面必不可少。工作上，我们也从起初的 SVN 转到了 Git 工具上。
+Git 作为出色的项目版本管理工具，究竟有什么优点，该如何使用？下面我们来一一说明。
+【介绍】Git 是一个开源高效的分布式版本管理工具，相比 SVN 集中式工具，最大的特点是，Git 在每个本地都是一个完整的版本库，各自处理版本开发，开发完成后，再推送到远程的主库
+不同的开发人员，再分别拉取各自的更新即可。
+【常用分支】master: 主分支，也就是产品分支，这个分支保持和线上的代码完全一致。该分支最为稳定功能最为完整的随时可发布的代码
+develop : 开发分支，包含所有下一个版本的开发代码，也是团队人员需要保持最新版本的分支，也是功能最新最全的分支
+feature/* : 功能分支。基于 develop 分支，每个功能单独建立一个分支，例如：feature/user-add，完成时，合并到 develop 分支，合并完成后，删除或保留分支 
+bugfix/* : bug 修复分支，基于 develop 分支的修复不紧急的 bug 。对于一些完成的功能未上线且已经合并到了 develo ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/05/20/vagrant-box-1/" title="导入 vagrant-box 到 vagrant 里面">     <img class="post_bg" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/hexo/vagrant-box/1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="导入 vagrant-box 到 vagrant 里面"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/05/20/vagrant-box-1/" title="导入 vagrant-box 到 vagrant 里面">导入 vagrant-box 到 vagrant 里面</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-20T10:28:50.000Z" title="发表于 2020-05-20 18:28:50">2020-05-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Linux/">Linux</a></span></div><div class="content">vagrant安装好 vagrant ， 下载相应的 vagrant box 
+初次导入 box 到全局vagrant ，供创建 vagrant 新容器 时使用
+【步骤】
+1、下载安装 vagrant
+https://www.virtualbox.org/
+2、下载 vagrant box
+参考： http://blog.shayvmo.top/2020/05/20/vagrant-box/
+3、将 box 导入到 vagrant 
+vagrant box add 名称 box路径
+vagrant box add bbc/centos65 /data/vm/commerce_b2b2c-lnmp-with-prism-0.0.2.box
+4、创建新的 vagrant 容器
+vagrant init bbc/centos65
+启动 vagrant 容器
+vagrant up
+</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/05/20/vagrant-box/" title="vagrant的box哪里下？找不到镜像？教你如何优雅地下载各种box资源">     <img class="post_bg" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/hexo/vagrant-box/1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vagrant的box哪里下？找不到镜像？教你如何优雅地下载各种box资源"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/05/20/vagrant-box/" title="vagrant的box哪里下？找不到镜像？教你如何优雅地下载各种box资源">vagrant的box哪里下？找不到镜像？教你如何优雅地下载各种box资源</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-20T09:52:38.000Z" title="发表于 2020-05-20 17:52:38">2020-05-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Linux/">Linux</a></span></div><div class="content">每当有小伙伴搭建 vagrant 环境的时候，总是苦于 box 镜像怎么下载。（其实我一开始也找不到）
+各种度娘之后，终于找到了一种方式，可以优雅地下载需要的 box 镜像啦
+很感谢开源中国的 cxgphper  提供的方式
+话不多说进入主题
+【步骤】1、进入 vagrantup 官网，点击 Find Boxes ， 进入 box列表页
 
 
 
-  
+2、点击进入需要下载的box详情页
+
+
+3、点击选择版本
+4、 这时候网站地址栏会拼接上相应版本号，这时，不多说，开始拼接URL
+
+https://app.vagrantup.com/centos/boxes/7/versions/2004.01/providers/供应商名字.box
+【示例下载链接】https://app.vagrantup.com/centos/boxes/7/versions/2004.01/providers/virtualbox.box
+【链接解析】https://app.vagrantup.com/box名称前半部分/boxes/box名称后半部分/versions/版本号/providers/供应商名字.box
+</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2020/05/20/vue-admin-template/" title="基于 vue-element-admin 基础模板实现侧边栏菜单动态渲染">基于 vue-element-admin 基础模板实现侧边栏菜单动态渲染</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-20T07:02:09.000Z" title="发表于 2020-05-20 15:02:09">2020-05-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/%E5%89%8D%E7%AB%AF/">前端</a></span></div><div class="content">码云仓库地址： https://gitee.com/shayvmo/vue-element-template
+基于 vue-admin-template 基础模板实现动态生成侧边栏菜单
+【思路】获取用户信息的时候，把后端返回的路由保存在 store 里面，执行生成路由时，合并前端静态定义的路由以及后端获取回来的动态路由
+【主要修改文件】src/permission.js src/store/modules/permission.js utils/_import.js utils/router.js
+
+文件： src/permission.js
+获取用户信息，存储路由
+const &#123; roles &#125; = await store.dispatch(&#39;basic/getInfo&#39;)
+合并路由，渲染路由
+const accessRoutes = await store.dispatch(&#39;permission/generateRoutes&#39;, &#123; &#39;roles&#39;: roles, &#39;routers&#39;:  ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/05/19/postman-1/" title="postman 实用小技巧 - 登录设置token">     <img class="post_bg" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/hexo/postman/postman.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="postman 实用小技巧 - 登录设置token"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/05/19/postman-1/" title="postman 实用小技巧 - 登录设置token">postman 实用小技巧 - 登录设置token</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-19T01:39:00.000Z" title="发表于 2020-05-19 09:39:00">2020-05-19</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a></span></div><div class="content">日常在使用 postman 进行接口调试时，难免会先登录后，再附加 token 进行另外接口的调试。
+每次请求接口后，会有相应的数据返回；在某些场景需要用到另一个接口的返回值，比如API带token进行请求地址。
+在这种情况下，可以将最初请求接口返回的token数据，设置为环境变量或全局变量，便于下次直接调用，不用每次都请求一遍接口获取token
+而且获取新token后也不用每次都手动输入。
+【步骤】
+1、把返回来的json字符串转换成json对象。
+JsonData=JSON.parse(responseBody); 
+2、设置成变量名为token的环境变量
+pm.environment.set(&quot;token&quot;, JsonData.session_key); 
+设置环境变量，全局变量可以自由按照项目需求进行设置。
+一般情况下，有多个项目时，同一个项目的变量设置到同一个环境下，通用的变量设置到全局变量即可。
+在调用变量的时候，用  方式进行变量读取即可。图中的请求地址，就是直接调用环境变量中的 url_base 。
+
+</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/05/18/goland/" title="goland 下载与安装">     <img class="post_bg" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/hexo/goland.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="goland 下载与安装"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/05/18/goland/" title="goland 下载与安装">goland 下载与安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-18T10:15:52.000Z" title="发表于 2020-05-18 18:15:52">2020-05-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Golang/">Golang</a></span></div><div class="content">【原文链接】
+Goland 2019下载和安装
+</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/05/18/md5-file/" title="文件的md5和sha1值的用处">     <img class="post_bg" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/blog/upload/84d4f0153d8f39838898072a04acfcc812.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="文件的md5和sha1值的用处"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/05/18/md5-file/" title="文件的md5和sha1值的用处">文件的md5和sha1值的用处</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-18T03:51:44.000Z" title="发表于 2020-05-18 11:51:44">2020-05-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a></span></div><div class="content">熟悉公众号的小伙伴，应该知道里面后台素材库这个板块的内容。而我们在网站后台的开发时，也会用到资源库的概念。
+资源库，是指把所有用户上传的文件记录起来的地方，比如说文件类型，大小，存放位置等等；
+当我们需要避免用户重复上传，或者实现秒传，检验文件完整性等场景的时候，就要用到能够标识出这个文件的唯一标识，这个时候，就可以用到文件的md5值，或者哈希值。每个文件的每个状态都对应特定的值，我们可以通过比对这个值，来实现上述的3个场景
+【场景】避免重复上传
+同一个文件，用户可能在不同的场景下上传多次，如果我们不对此进行相应的检验、去重，服务器的文件数量会越来越多，同时一些无效的文件也会保存在服务器上，造成空间浪费
+实现秒传
+秒传，实际上是和第一个场景提到的问题延伸。当用户不同场景上传同一个文件时，我们可以先检验资源库里面是否有这个文件，有则直接返回相对的资源路径，减少客户端等待的时间
+校验文件完整性
+在某些场景下，比如文档状态记录时，可能会需要比对当前文件是否无改动，这时候，就可以采用检验前后文件加密值的方式来进行区分文件是否未被修改
+【实现思路】1、建立资源表，用于保存文件相关信息，如文件类型 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/05/18/checkbox/" title="jQuery全选和反选CheckBox">     <img class="post_bg" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/blog/upload/edaab092aef93e8a9e83920408c1381321.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="jQuery全选和反选CheckBox"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/05/18/checkbox/" title="jQuery全选和反选CheckBox">jQuery全选和反选CheckBox</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-18T03:51:19.000Z" title="发表于 2020-05-18 11:51:19">2020-05-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/%E5%89%8D%E7%AB%AF/">前端</a></span></div><div class="content">近日在项目维护中，前端页面涉及到了复选框，于是记录一下如何使用 jQuery 实现 CheckBox 的全选和反选。
+1、checkBox&lt;input type=&#x27;checkbox&#x27; onclick=&#x27;checkAll(this)&#x27; /&gt;&lt;input type=&#x27;checkbox&#x27; name=&#x27;expense_cate&#x27; value=&#x27;&#x27; /&gt;;
+
+2、javascript 部分//全选和反选function checkAll(obj) &#123;     let check_status = obj.checked;     $(&#x27;[name=expense_cate]:checkbox&#x27;).each(function()&#123;        this.checked = check_status;     &#125;);&#125;//选中的复选框值function get_expense_cate() &#123;    var ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/05/18/sitemap/" title="什么是sitemap?究竟有什么作用呢？">     <img class="post_bg" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/blog/upload/bbc6ca6787814e546dc969f5d07f764f79.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="什么是sitemap?究竟有什么作用呢？"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/05/18/sitemap/" title="什么是sitemap?究竟有什么作用呢？">什么是sitemap?究竟有什么作用呢？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-18T03:47:52.000Z" title="发表于 2020-05-18 11:47:52">2020-05-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a></span></div><div class="content">sitemap即网站地图，存储网站所有网址url的索引，用于通知搜索引擎网站上有哪些可供抓取的网页。
+【sitemap.xml】即网站地图，存储网站所有网址url的索引，用于通知搜索引擎网站上有哪些可供抓取的网页。
+一般放置在网站根目录，通过域名 + sitemap.xml的形式访问，如http://www.shayvmo.top/sitemap.xml
+常见的sitemap文件格式有xml、txt，一般使用xml即可，百度、谷歌等主流搜索引擎都是使用xml文件
+网站地图的主要作用是告诉搜索引擎网站可供访问的url链接，以及最近更新网页信息，便于搜索引擎抓取收录，因此对于网站的排名具有积极意义。
+【sitemap 生成】参考以下链接：
+http://www.sitemap-xml.org/
+【robots.txt】搜索引擎使用spider程序自动范文互联网上的网页并获取网页信息。
+robots.txt 这个文件用于指定spider在您网站上的抓取范围，可以 定义哪些目录抓取，哪些目录禁止抓取。
+【用法】User-agent：定义进制搜索引擎名字，比如说：百度（Baiduspider）、 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/05/18/baidu-static/" title="为自己的网站添加百度统计">     <img class="post_bg" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/blog/upload/95a27239b3ecf215308856745f54066414.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="为自己的网站添加百度统计"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/05/18/baidu-static/" title="为自己的网站添加百度统计">为自己的网站添加百度统计</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-05-18T03:43:41.000Z" title="发表于 2020-05-18 11:43:41">2020-05-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a></span></div><div class="content">网站上线后，往往需要统计网站的访问情况，SEO效果等等。
+我们可以通过百度统计，来查看我们的网站在百度引擎的SEO情况。
+那如何网站怎样才能引入百度统计呢？
+【步骤】1、首先进入百度统计网站，注册或登录账号。
+https://tongji.baidu.com/web/welcome/login
+2、添加待统计的网站，安装统计代码到网站中需要统计的页面
 
 
 
 
 
+3、一般情况下，20分钟后自动生效，也可以根据提示，进行手动代码检查，检测是否安装成功。
+【注意】如果需要把统计数据公开，则可以通过以下方式进行开放。
 
 
+</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/3/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#content-inner">5</a><a class="page-number" href="/page/6/#content-inner">6</a><a class="extend next" rel="next" href="/page/5/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">沙屿沫</div><div class="author-info__description">科技始终来源于人性</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/shayvmo"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">生活就像海洋，只有意志坚强的人才能到达彼岸。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2021/09/28/paypal/" title="PayPal支付对接">PayPal支付对接</a><time datetime="2021-09-28T03:59:12.000Z" title="发表于 2021-09-28 11:59:12">2021-09-28</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/09/27/phpstorm-set-bg-img/" title="PHPstorm设置背景图片">PHPstorm设置背景图片</a><time datetime="2021-09-27T01:58:31.000Z" title="发表于 2021-09-27 09:58:31">2021-09-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/03/php-sort-function-analyze/" title="PHP 数组排序函数 sort 底层实现分析"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://oss.shayvmo.cn/blog/upload/11911e435b1decbb1f504d0d52570e6378.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PHP 数组排序函数 sort 底层实现分析"/></a><div class="content"><a class="title" href="/2021/08/03/php-sort-function-analyze/" title="PHP 数组排序函数 sort 底层实现分析">PHP 数组排序函数 sort 底层实现分析</a><time datetime="2021-08-03T09:54:26.000Z" title="发表于 2021-08-03 17:54:26">2021-08-03</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/07/29/quick-sort/" title="排序算法 - 快速排序">排序算法 - 快速排序</a><time datetime="2021-07-29T03:14:52.000Z" title="发表于 2021-07-29 11:14:52">2021-07-29</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/07/28/migrate-to-github-gitee/" title="博客内容更新迁移到 github、gitee">博客内容更新迁移到 github、gitee</a><time datetime="2021-07-28T02:32:31.000Z" title="发表于 2021-07-28 10:32:31">2021-07-28</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/"><span class="card-category-list-name">生活</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/"><span class="card-category-list-name">程序人生</span><span class="card-category-list-count">57</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Golang/"><span class="card-category-list-name">Golang</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Hexo/"><span class="card-category-list-name">Hexo</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Linux/"><span class="card-category-list-name">Linux</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/Memcached/"><span class="card-category-list-name">Memcached</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/MySQL/"><span class="card-category-list-name">MySQL</span><span class="card-category-list-count">3</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Apache/" style="font-size: 1.1em; color: #999">Apache</a> <a href="/tags/CURL/" style="font-size: 1.1em; color: #999">CURL</a> <a href="/tags/CentOS/" style="font-size: 1.1em; color: #999">CentOS</a> <a href="/tags/Crontab/" style="font-size: 1.1em; color: #999">Crontab</a> <a href="/tags/Hexo/" style="font-size: 1.37em; color: #99a4b2">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 1.1em; color: #999">JavaScript</a> <a href="/tags/LAMP/" style="font-size: 1.1em; color: #999">LAMP</a> <a href="/tags/LNMP/" style="font-size: 1.1em; color: #999">LNMP</a> <a href="/tags/Laravel/" style="font-size: 1.1em; color: #999">Laravel</a> <a href="/tags/Linux/" style="font-size: 1.23em; color: #999ea6">Linux</a> <a href="/tags/MD5/" style="font-size: 1.1em; color: #999">MD5</a> <a href="/tags/MySQL/" style="font-size: 1.23em; color: #999ea6">MySQL</a> <a href="/tags/PHP/" style="font-size: 1.5em; color: #99a9bf">PHP</a> <a href="/tags/PhpStorm/" style="font-size: 1.1em; color: #999">PhpStorm</a> <a href="/tags/Python/" style="font-size: 1.1em; color: #999">Python</a> <a href="/tags/Redis/" style="font-size: 1.1em; color: #999">Redis</a> <a href="/tags/SVN/" style="font-size: 1.1em; color: #999">SVN</a> <a href="/tags/Ubuntu/" style="font-size: 1.37em; color: #99a4b2">Ubuntu</a> <a href="/tags/VMWare/" style="font-size: 1.1em; color: #999">VMWare</a> <a href="/tags/Vagrant/" style="font-size: 1.23em; color: #999ea6">Vagrant</a> <a href="/tags/Yii/" style="font-size: 1.1em; color: #999">Yii</a> <a href="/tags/composer/" style="font-size: 1.1em; color: #999">composer</a> <a href="/tags/element/" style="font-size: 1.23em; color: #999ea6">element</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/goland/" style="font-size: 1.1em; color: #999">goland</a> <a href="/tags/jquery/" style="font-size: 1.1em; color: #999">jquery</a> <a href="/tags/life/" style="font-size: 1.1em; color: #999">life</a> <a href="/tags/memcache/" style="font-size: 1.1em; color: #999">memcache</a> <a href="/tags/phpspreadsheet/" style="font-size: 1.1em; color: #999">phpspreadsheet</a> <a href="/tags/postman/" style="font-size: 1.1em; color: #999">postman</a> <a href="/tags/sitemap/" style="font-size: 1.1em; color: #999">sitemap</a> <a href="/tags/vue/" style="font-size: 1.37em; color: #99a4b2">vue</a> <a href="/tags/webhooks/" style="font-size: 1.1em; color: #999">webhooks</a> <a href="/tags/%E5%85%AC%E4%BC%97%E5%8F%B7%E8%B0%83%E8%AF%95%E5%99%A8/" style="font-size: 1.1em; color: #999">公众号调试器</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/" style="font-size: 1.1em; color: #999">博客迁移</a> <a href="/tags/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" style="font-size: 1.23em; color: #999ea6">排序算法</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 1.1em; color: #999">泛型</a> <a href="/tags/%E7%99%BE%E5%BA%A6%E7%BB%9F%E8%AE%A1/" style="font-size: 1.1em; color: #999">百度统计</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">网络</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/09/"><span class="card-archive-list-date">九月 2021</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/08/"><span class="card-archive-list-date">八月 2021</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/07/"><span class="card-archive-list-date">七月 2021</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/06/"><span class="card-archive-list-date">六月 2021</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/05/"><span class="card-archive-list-date">五月 2021</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/04/"><span class="card-archive-list-date">四月 2021</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/12/"><span class="card-archive-list-date">十二月 2020</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/10/"><span class="card-archive-list-date">十月 2020</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">60</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2019-08-27T16:00:00.000Z"></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">24.7k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2022-01-14T09:05:19.944Z"></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/images/bg/kobe.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By 沙屿沫</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/images/icp.png"><span>粤ICP备18133330号</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function subtitleType () {
+  if (true) { 
+    var typed = new Typed("#subtitle", {
+      strings: "生活就像海洋，只有意志坚强的人才能到达彼岸".split(","),
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50
+    })
+  } else {
+    document.getElementById("subtitle").innerHTML = '生'
+  }
+}
 
-
-  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-  <script defer src="/js/leancloud.js" ></script>
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
-      
-      typing(title)
-      
-    })(window, document);
-  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-
-
-<!-- 主题的启动项 保持在最底部 -->
-<script  src="/js/boot.js" ></script>
-
-
-</body>
-</html>
+if (true) {
+  if (typeof Typed === 'function') {
+    subtitleType()
+  } else {
+    getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
+  }
+} else {
+  subtitleType()
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="富强,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
