@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>传入图片地址，把图片转成base64返回</title>
+      <link href="/2022/05/18/img-2-base64/"/>
+      <url>/2022/05/18/img-2-base64/</url>
+      
+        <content type="html"><![CDATA[<p>传入图片地址，把图片转成base64返回。</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!function_exists(<span class="string">&#x27;image2base64&#x27;</span>)) &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> 图片转base64</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $img_url 图片地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">image2base64</span>(<span class="params"><span class="keyword">string</span> <span class="variable">$img_url</span></span>): <span class="title">string</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable">$img_info</span> = getimagesize(<span class="variable">$img_url</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$img_info</span> === <span class="literal">false</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sprintf(<span class="string">&quot;data:%s;base64,%s&quot;</span>, <span class="variable">$img_info</span>[<span class="string">&#x27;mime&#x27;</span>], chunk_split(base64_encode(file_get_contents(<span class="variable">$img_url</span>)), <span class="number">76</span>, <span class="string">&#x27;&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 图片转base64 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ThinkPHP6接收图片base64进行文件上传</title>
       <link href="/2022/05/18/img-base64-2-file-in-tp/"/>
       <url>/2022/05/18/img-base64-2-file-in-tp/</url>
