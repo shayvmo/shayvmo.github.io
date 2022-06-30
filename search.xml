@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Bitvise SSH Client 一款超好用的免费linux服务器管理工具，ftp、shh、终端等操作</title>
+      <link href="/2022/06/30/ssh-client/"/>
+      <url>/2022/06/30/ssh-client/</url>
+      
+        <content type="html"><![CDATA[<p>Bitvise SSH Client 一款超好用的免费linux服务器管理工具，ftp、shh、终端等操作。</p><p><img src="/images/ssh-client/1.png" alt=""></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 工具 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>传入图片地址，把图片转成base64返回</title>
       <link href="/2022/05/18/img-2-base64/"/>
       <url>/2022/05/18/img-2-base64/</url>
