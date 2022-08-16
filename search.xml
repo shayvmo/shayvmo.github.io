@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Yar拓展，实现PHP的RPC服务</title>
+      <link href="/2022/08/16/yar-demo/"/>
+      <url>/2022/08/16/yar-demo/</url>
+      
+        <content type="html"><![CDATA[<p>Yar 是一个轻量级, 高效的RPC框架，它提供了一种简单方法来让PHP项目之间可以互相远程调用对方的本地方法。</p><p>并且Yar也提供了并行调用的能力。可以支持同时调用多个远程服务的方法。</p><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>参照手册进行 Yar 拓展安装，这里不赘述。</p><p><code>php -m</code>查看是否开启相应模块。</p><h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>访问入口</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">declare</span> (strict_types=<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为了方便使用原先项目框架相关类以及composer包</span></span><br><span class="line"><span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">&#x27;/vendor/autoload.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> testA</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $str</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testA</span>(<span class="params"><span class="keyword">string</span> <span class="variable">$str</span> = <span class="string">&#x27;yar-a&#x27;</span></span>)</span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$str</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Description</span> testB</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span> false|string</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testB</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> json_encode([<span class="string">&#x27;yar-b&#x27;</span>]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$service</span> = <span class="keyword">new</span> Yar_Server(<span class="keyword">new</span> A());</span><br><span class="line"><span class="variable">$service</span>-&gt;handle();</span><br></pre></td></tr></table></figure><p>get 方式访问 <a href="http://xxx.com/yar.php">http://xxx.com/yar.php</a> ，就可以看到RPC服务文档。</p><p><img src="/images/yar/yar-1.png" alt=""></p><h3 id="客户端访问示例"><a href="#客户端访问示例" class="headerlink" title="客户端访问示例"></a>客户端访问示例</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$client</span> = <span class="keyword">new</span> \Yar_Client(<span class="string">&quot;http://xxx.com/yar.php&quot;</span>);</span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$client</span>-&gt;testA(<span class="string">&quot;Hello World!&quot;</span>);</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> RPC </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>线上日志系统</title>
       <link href="/2022/08/15/my-online-log/"/>
       <url>/2022/08/15/my-online-log/</url>
