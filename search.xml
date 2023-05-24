@@ -448,7 +448,7 @@
       <link href="/2021/07/28/migrate-to-github-gitee/"/>
       <url>/2021/07/28/migrate-to-github-gitee/</url>
       
-        <content type="html"><![CDATA[<p>本博客内容更新迁移到<code>gitee</code>上，当前博客定期更新。</p><p><code>gitee</code>地址： <a href="https://gitee.com/shayvmo/my-book">https://gitee.com/shayvmo/my-book</a></p><blockquote><p>总结性的记录会放在<code>gitee</code>上，博客会定期更新。</p></blockquote><h3 id="博客地址"><a href="#博客地址" class="headerlink" title="博客地址"></a>博客地址</h3><p>github 地址：<a href="https://shayvmo.github.io/">https://shayvmo.github.io/</a></p><p>gitee 地址：<a href="https://shayvmo.gitee.io/">https://shayvmo.gitee.io/</a></p><p>注：gitee 需要手动触发重新部署 pages, 通常不是最新的</p><p>可以访问 github 地址，每次推送实时更新</p>]]></content>
+        <content type="html"><![CDATA[<h3 id="博客地址"><a href="#博客地址" class="headerlink" title="博客地址"></a>博客地址</h3><p>github 地址：<a href="https://shayvmo.github.io/">https://shayvmo.github.io/</a></p><p>gitee 地址：<a href="https://shayvmo.gitee.io/">https://shayvmo.gitee.io/</a></p><p>注：gitee 需要手动触发重新部署 pages, 通常不是最新的</p><p>可以访问 github 地址，每次推送实时更新</p>]]></content>
       
       
       <categories>
