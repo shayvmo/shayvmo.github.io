@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>windows服务器重载nginx配置无效</title>
+      <link href="/2023/05/29/nginx-reload-not-effect/"/>
+      <url>/2023/05/29/nginx-reload-not-effect/</url>
+      
+        <content type="html"><![CDATA[<p>今天同事问我，项目部署后，配置好了Nginx，网站访问不了，一直报的“No input files.”。</p><p>一开始的思路方向是查看Nginx日志，确定一下配置有没有问题。查看日志后，显示的是这个项目目录forbidden了，但是实际上这个目录是存在。</p><p>于是就去查看了这个目录的相关权限问题，也没有找到原因。</p><p>在经过了大半小时的排查下，突然想到，看一下Nginx进程有没有正常启动。</p><p>打开任务管理器之后，发现启动了很多个 Nginx 服务，猜测在重载reload配置的时候，有些Nginx子进程是并没有真正重载到配置。</p><p><img src="/images/nginx-reload-not-effect/1.png" alt=""></p><p>这时候解决方案就显而易见了。先把启动的进程全部结束掉，再重新启动Nginx服务，这样就恢复正常了。</p><p>这次也得出一个结论就是，在windows环境中，修改了Nginx配置之后，不需要再次启动，只需要重载一下配置就可以了；多次启动Nginx，会造成在配置重载时，没有把全部子进程配置给重载完成，从而访问失败的结果。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Nginx </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>前后端接口传输AES加密</title>
       <link href="/2023/05/24/php-aes/"/>
       <url>/2023/05/24/php-aes/</url>
